@@ -8,7 +8,7 @@
   <AuMainContainer as |container|>
     <container.content>
       <AuContent class="au-u-padding-large au-u-padding-top">
-        <h2>Overzicht websites</h2>
+        <h2>Overview Publications</h2>
         <form class="au-c-form">
           <AuFormRow @alignment="default">
             <AuLabel for="input" @required={{true}} @requiredLabel="Required">
@@ -29,6 +29,13 @@
             >Generate Overview</AuButton>
           </AuFormRow>
         </form>
+        <div>
+          <h2>{{this.amountOfRelevantPublications}} relevant publications</h2>
+          <pre>
+            {{this.resolvedPublication}}
+          </pre>
+        </div>
+
       </AuContent>
     </container.content>
   </AuMainContainer>

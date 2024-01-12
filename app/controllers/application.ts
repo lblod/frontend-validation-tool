@@ -9,18 +9,18 @@ import { tracked } from '@glimmer/tracking';
 import ENV from '../config/environment';
 
 export default class ApplicationController extends Controller {
-  @tracked publication = '';
+  @tracked resolvedPublication = '';
+  @tracked amountOfRelevantPublications = 0;
   get proxy(): string {
     return ENV.APP['PROXY_URL'] as string;
   }
 
   @action handleChange(event: Event) {
-    console.log(this.proxy);
-    this.publication = (event.target as HTMLInputElement).value;
+    this.resolvedPublication = (event.target as HTMLInputElement).value;
   }
 
   @action async validatePublication() {
-    const publications = [this.publication];
+    const publications = [this.resolvedPublication];
     const start = '2020-01-01T00:00:00';
     const eind = '2020-12-31T00:00:00';
     const relevantPublications = await getRelevantPublicationsValue({
@@ -28,14 +28,21 @@ export default class ApplicationController extends Controller {
       publications: publications,
     });
 
-    // const relevantPublications =
-    //   await getRelevantPublicationsWithinTimeInterval({
-    //     publications: publications,
-    //     proxy: this.proxy,
-    //     start: start,
-    //     eind: eind,
-    //   });
-    console.log(relevantPublications);
+    const AmountOfRelevantPublications: any =
+      await getRelevantPublicationsWithinTimeInterval({
+        publications: publications,
+        proxy: this.proxy,
+        start: start,
+        eind: eind,
+      });
+
+    this.amountOfRelevantPublications = AmountOfRelevantPublications.length;
+
+    relevantPublications.on('data', (data: any) => {
+      console.log();
+      this.resolvedPublication = data.get('o').value;
+      // return data.toString();
+    });
   }
 }
 
@@ -57,13 +64,14 @@ export function getRelevantPublicationsWithinTimeInterval({
   return new Promise(async (resolve, _reject) => {
     console.log('Filtering on relevant publications');
 
-    const relevantPublications = {};
+    const relevantPublications = [];
     for (const p of publications) {
       console.log(
         'Checking for publication ' + p + ' whether in time interval',
       );
-      const bindingsStream = await engine.queryBindings(
-        `
+      relevantPublications.push(
+        await engine.queryBindings(
+          `
             PREFIX org: <http://www.w3.org/ns/org#>
             PREFIX prov: <http://www.w3.org/ns/prov#>
             PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -99,17 +107,18 @@ export function getRelevantPublicationsWithinTimeInterval({
         }
         `,
 
-        //   BIND (if(?startZitting > "${start}"^^xsd:dateTime && ?startZitting < "${eind}"^^xsd:dateTime, "true"^^xsd:boolean, "false"^^xsd:boolean) AS ?withinTimeInterval)
-        // FILTER (?withinTimeInterval = "true"^^xsd:boolean)
-        {
-          lenient: true,
-          httpProxyHandler: new ProxyHandlerStatic(proxy),
-          sources: [p],
-          httpRetryCount: NUMBER_OF_RETRY_COUNTS,
-          httpTimeout: 2_000,
-          httpRetryDelay: 50,
-          httpRetryOnServerError: false,
-        },
+          //   BIND (if(?startZitting > "${start}"^^xsd:dateTime && ?startZitting < "${eind}"^^xsd:dateTime, "true"^^xsd:boolean, "false"^^xsd:boolean) AS ?withinTimeInterval)
+          // FILTER (?withinTimeInterval = "true"^^xsd:boolean)
+          {
+            lenient: true,
+            httpProxyHandler: new ProxyHandlerStatic(proxy),
+            sources: [p],
+            httpRetryCount: NUMBER_OF_RETRY_COUNTS,
+            httpTimeout: 2_000,
+            httpRetryDelay: 50,
+            httpRetryOnServerError: false,
+          },
+        ),
       );
     }
     resolve(Object.keys(relevantPublications));
