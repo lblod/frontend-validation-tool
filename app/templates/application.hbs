@@ -1,7 +1,35 @@
 {{page-title "Validation Tool"}}
 <AuApp>
-  <AuContent>
-    <h1>Overzicht websites</h1>
-    <AuForm />
-  </AuContent>
+  <AuMainHeader
+    @brandLink="https://www.vlaanderen.be/nl"
+    @homeRoute="application"
+    @appTitle="Validation Tool"
+  />
+  <AuMainContainer as |container|>
+    <container.content>
+      <AuContent class="au-u-padding-large au-u-padding-top">
+        <h2>Overzicht websites</h2>
+        <form class="au-c-form">
+          <AuFormRow @alignment="default">
+            <AuLabel for="input" @required={{true}} @requiredLabel="Required">
+              Publication Title
+            </AuLabel>
+            <AuInput
+              placeholder="https://bertem.meetingburger.net/gr/dc9ea4bf-f3f3-4556-8836-216c0de6d702/agenda"
+              {{on "input" this.handleChange}}
+              @value={{this.publication}}
+              id="input"
+              @width="block"
+            />
+          </AuFormRow>
+          <AuFormRow>
+            <AuButton
+              {{on "click" this.validatePublication}}
+              @variant="primary"
+            >Generate Overview</AuButton>
+          </AuFormRow>
+        </form>
+      </AuContent>
+    </container.content>
+  </AuMainContainer>
 </AuApp>

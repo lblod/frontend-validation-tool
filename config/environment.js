@@ -15,6 +15,7 @@ module.exports = function (environment) {
     },
 
     APP: {
+      PROXY_URL: process.env.EMBER_APP_PROXY || 'http://localhost:3000',
       // Here you can pass flags/options to your application instance
       // when it is created
     },
