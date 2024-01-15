@@ -1,52 +1,61 @@
-# poc-decision-source-harvester
-Proof of concept that harvests local decision using linked traversal
+# Validation Monitoring Tool
+Concept for a tool to validate publications for harvesting.
+When multiple publishers are publishing data to a triple store, this tool can be used to validate the data against a blueprint of said data.
 
-# Install
+## Ember Frontend
 
-We use the NPM package `http-server` to run the harvester application:
-```
-npm install
-npm install --global http-server
-```
-## Hot reloading
-To run with hot reloading. Install the following:
-```
-npm install --save-dev webpack-dev-server
-```
+### Prerequisites
 
-# Build
+You will need the following things properly installed on your computer.
 
-```
-npm run build
-```
+* [Git](https://git-scm.com/)
+* [Node.js](https://nodejs.org/) (with npm)
+* [Ember CLI](https://cli.emberjs.com/release/)
+* [Google Chrome](https://google.com/chrome/)
 
-Now, you need to rebuild the app each time you want to test a specific `interestedMunicipality`.
+### Installation
 
-# Proxy
+* `git clone git@github.com:lblod/validation-monitoring-tool.git`
+* `cd validation-monitoring-tool`
+* `npm install`
 
-To increase the performance, we created an HTTP proxy that sets the Cache-Control header to immutable for every publication. Run following commands in a separate terminal to setup the proxy on localhost:8080:
+### Running / Development
 
-```
+* `npm run dev:proxy:local` [(with local proxy)](#local-proxy)
+* `npm run dev:proxy` [(with remote proxy)](#linked-data-proxy)
+
+
+
+## Proxy
+
+<h3 id="local-proxy">Local Proxy</h3>
+
+
+To increase the performance, we created an HTTP proxy that sets the Cache-Control header to immutable for every publication. Run following commands in a separate terminal to setup the proxy on ```localhost:8080```:
+
+```bash
 cd proxy
 npm install
 node server.js
 ```
 
-# Run
+Then run the ember frontend with the following command:
 
-```
-http-server --cors
-```
-
-Go to `http://127.0.0.1:8081/dist/` and check out the console where you should see the harvesting progress
-
-## Hot-reloading
-Hot-reloading with webpack-dev-server is implemented. You can run using the following:
-```
-npm run start:dev
+```bash
+npm install
+npm run dev:proxy:local
 ```
 
-# Link traversal client
+<h3 id="linked-data-proxy">Linked Data Fragment Proxy</h3>
+
+To run the application with the remote [Linked Data Fragments proxy](https://linkeddatafragments.org/) you can just run the ember frontend with the following command:
+
+```bash
+npm install
+npm run dev:proxy
+```
+
+## Link traversal client
 
 The browser-build version of Comunica link traversal must be added as Javascript file in the index.html.
 If you want to adapt to another Comunica config, build an engine with your config + webpack to a browser js:
@@ -62,4 +71,3 @@ Requirements:
   - notulenlijst
 
 - Each publication must have a title and description of type string.
--
