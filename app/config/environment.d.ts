@@ -1,6 +1,6 @@
 /**
  * Type declarations for
- *    import config from 'poc-ember-validation-tool/config/environment'
+ *    import config from 'validation-monitoring-tool/config/environment'
  */
 declare const config: {
   environment: string;

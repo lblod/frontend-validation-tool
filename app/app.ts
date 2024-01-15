@@ -1,7 +1,7 @@
 import Application from '@ember/application';
-import Resolver from 'ember-resolver';
 import loadInitializers from 'ember-load-initializers';
-import config from 'poc-ember-validation-tool/config/environment';
+import Resolver from 'ember-resolver';
+import config from 'validation-monitoring-tool/config/environment';
 
 export default class App extends Application {
   modulePrefix = config.modulePrefix;

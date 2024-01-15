@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { setupTest } from 'poc-ember-validation-tool/tests/helpers';
+import { setupTest } from 'validation-monitoring-tool/tests/helpers';
 
 module('Unit | Controller | application', function (hooks) {
   setupTest(hooks);
