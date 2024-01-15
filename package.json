@@ -28,6 +28,7 @@
     "test:ember": "ember test"
   },
   "devDependencies": {
+    "cors-anywhere": "github:brechtvdv/cors-anywhere",
     "@appuniversum/ember-appuniversum": "^2.18.0",
     "@babel/core": "^7.22.10",
     "@ember/optional-features": "^2.0.0",
