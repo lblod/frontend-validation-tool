@@ -10,10 +10,15 @@ module.exports = function (defaults) {
     '@appuniversum/ember-appuniversum': {
       disableWormholeElement: true,
     },
+    autoImport: {
+      watchDependencies: [
+        'validation-monitoring-module',
+        ...Object.keys(require('./package').dependencies || {}),
+      ],
+    },
     sassOptions: {
       includePaths: ['node_modules/@appuniversum/ember-appuniversum'], // just "node_modules" would also work, but it seems to slow (re)builds down a lot
     },
-    // Add options here
   });
 
   return app.toTree();

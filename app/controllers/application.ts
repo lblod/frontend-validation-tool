@@ -5,19 +5,16 @@ import { tracked } from '@glimmer/tracking';
 import {
   getRelevantPublicationsValue,
   getRelevantPublicationsWithinTimeInterval,
-} from '../lib/util';
-
-import ENV from '../config/environment';
+  lmao,
+} from '../../validation-monitoring-module/src/index';
 
 export default class ApplicationController extends Controller {
   @tracked resolvedPublication: any = [];
   @tracked publicationURL = '';
   @tracked amountOfRelevantPublications = 0;
-  get proxy(): string {
-    return ENV.APP['PROXY_URL'] as string;
-  }
 
   @action handleChange(event: Event) {
+    lmao();
     this.publicationURL = (event.target as HTMLInputElement).value;
   }
 
@@ -26,14 +23,12 @@ export default class ApplicationController extends Controller {
     const start = '2020-01-01T00:00:00';
     const eind = '2020-12-31T00:00:00';
     const relevantPublications = await getRelevantPublicationsValue({
-      proxy: this.proxy,
       publications: publications,
     });
 
     const AmountOfRelevantPublications =
       await getRelevantPublicationsWithinTimeInterval({
         publications: publications,
-        proxy: this.proxy,
         start: start,
         eind: eind,
       });

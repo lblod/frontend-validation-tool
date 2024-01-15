@@ -12,6 +12,22 @@ A publication can have several requirements in order to make structural sense. T
 
 2. **Title**: Each publication must have a title. The title should be a string.
 
+## NPM Package
+
+In order for the functionality of this tool to be used by other instances, an NPM package was created. This does mean that when developing this tool, you will have to clone the NPM package as well, and link it to the main project.
+
+To make this easier, a script was created that will do this for you. Run the following command in the root of the project:
+
+```bash
+sh ./initProject.sh
+```
+
+In order for the changes made in the NPM package to be reflected in the main project, you will have to run the following command in the root of the NPM package:
+
+```bash
+npm run watch-module
+```
+
 ## Ember Frontend
 
 ### Prerequisites
