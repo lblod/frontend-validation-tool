@@ -31,9 +31,11 @@
         </form>
         <div>
           <h2>{{this.amountOfRelevantPublications}} relevant publications</h2>
-          <pre>
-            {{this.resolvedPublication}}
-          </pre>
+          {{#each this.resolvedPublication as |publication|}}
+            <p>
+              {{publication}}
+            </p>
+          {{/each}}
         </div>
 
       </AuContent>

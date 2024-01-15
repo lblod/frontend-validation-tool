@@ -9,18 +9,19 @@ import { tracked } from '@glimmer/tracking';
 import ENV from '../config/environment';
 
 export default class ApplicationController extends Controller {
-  @tracked resolvedPublication = '';
+  @tracked resolvedPublication: any = [];
+  @tracked publicationURL = '';
   @tracked amountOfRelevantPublications = 0;
   get proxy(): string {
     return ENV.APP['PROXY_URL'] as string;
   }
 
   @action handleChange(event: Event) {
-    this.resolvedPublication = (event.target as HTMLInputElement).value;
+    this.publicationURL = (event.target as HTMLInputElement).value;
   }
 
   @action async validatePublication() {
-    const publications = [this.resolvedPublication];
+    const publications = [this.publicationURL];
     const start = '2020-01-01T00:00:00';
     const eind = '2020-12-31T00:00:00';
     const relevantPublications = await getRelevantPublicationsValue({
@@ -39,8 +40,8 @@ export default class ApplicationController extends Controller {
     this.amountOfRelevantPublications = AmountOfRelevantPublications.length;
 
     relevantPublications.on('data', (data: any) => {
-      console.log();
-      this.resolvedPublication = data.get('o').value;
+      console.log(data.get('o').value);
+      this.resolvedPublication.push(data.get('o').value);
       // return data.toString();
     });
   }
