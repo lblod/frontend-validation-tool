@@ -1,8 +1,8 @@
-import cors_proxy from 'cors-anywhere';
-import ENV from '../config/environment';
+const HOST = process.env['EMBER_APP_HOST'] || '0.0.0.0';
+const PORT = process.env['PROXY_PORT'] || 8085;
 
-const HOST = ENV.APP['HOST_URL'] || '0.0.0.0';
-const PORT = ENV.APP['PROXY_URL'] || 8085;
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const cors_proxy = require('cors-anywhere');
 
 cors_proxy
   .createServer({

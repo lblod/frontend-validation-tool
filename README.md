@@ -1,16 +1,16 @@
 # Validation Monitoring Tool
+
 Concept for a tool to validate publications for harvesting.
 When multiple publishers are publishing data to a triple store, this tool can be used to validate the data against a blueprint of said data.
 
 A publication can have several requirements in order to make structural sense. These are the type of requirements that can be checked by this tool:
 
 1. **Document Type**: This can be one of the following:
-    - `besluit`
-    - `notulenlijst`
+
+   - `besluit`
+   - `notulenlijst`
 
 2. **Title**: Each publication must have a title. The title should be a string.
-
-
 
 ## Ember Frontend
 
@@ -18,41 +18,35 @@ A publication can have several requirements in order to make structural sense. T
 
 You will need the following things properly installed on your computer.
 
-* [Git](https://git-scm.com/)
-* [Node.js](https://nodejs.org/) (with npm)
-* [Ember CLI](https://cli.emberjs.com/release/)
-* [Google Chrome](https://google.com/chrome/)
+- [Git](https://git-scm.com/)
+- [Node.js](https://nodejs.org/) (with npm)
+- [Ember CLI](https://cli.emberjs.com/release/)
+- [Google Chrome](https://google.com/chrome/)
 
 ### Installation
 
-* `git clone git@github.com:lblod/validation-monitoring-tool.git`
-* `cd validation-monitoring-tool`
-* `npm install`
+- `git clone git@github.com:lblod/validation-monitoring-tool.git`
+- `cd validation-monitoring-tool`
+- `npm install`
 
 ### Running / Development
 
-* `npm run dev:proxy:local` [(with local proxy)](#local-proxy)
-* `npm run dev:proxy` [(with remote proxy)](#linked-data-proxy)
-
-
+- `npm run dev:proxy:local` [(with local proxy)](#local-proxy)
+- `npm run dev:proxy` [(with remote proxy)](#linked-data-proxy)
 
 ## Proxy
 
 <h3 id="local-proxy">Local Proxy</h3>
 
-
-To increase the performance, we created an HTTP proxy that sets the Cache-Control header to immutable for every publication. Run following commands in a separate terminal to setup the proxy on ```localhost:8080```:
+To increase the performance, we created an HTTP proxy that sets the Cache-Control header to immutable for every publication. Run following commands in a separate terminal to setup the proxy on `localhost:8080`:
 
 ```bash
-cd proxy
-npm install
-node server.js
+npm run init:proxy
 ```
 
 Then run the ember frontend with the following command:
 
 ```bash
-npm install
 npm run dev:proxy:local
 ```
 
@@ -61,7 +55,6 @@ npm run dev:proxy:local
 To run the application with the remote [Linked Data Fragments proxy](https://linkeddatafragments.org/) you can just run the ember frontend with the following command:
 
 ```bash
-npm install
 npm run dev:proxy
 ```
 

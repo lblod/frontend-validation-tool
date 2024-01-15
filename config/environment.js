@@ -2,7 +2,7 @@
 
 module.exports = function (environment) {
   const ENV = {
-    modulePrefix: 'poc-ember-validation-tool',
+    modulePrefix: 'validation-monitoring-tool',
     environment,
     rootURL: '/',
     locationType: 'history',
