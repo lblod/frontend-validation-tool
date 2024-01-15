@@ -1,56 +1,65 @@
-# poc-ember-validation-tool
+# poc-decision-source-harvester
+Proof of concept that harvests local decision using linked traversal
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+# Install
 
-## Prerequisites
+We use the NPM package `http-server` to run the harvester application:
+```
+npm install
+npm install --global http-server
+```
+## Hot reloading
+To run with hot reloading. Install the following:
+```
+npm install --save-dev webpack-dev-server
+```
 
-You will need the following things properly installed on your computer.
+# Build
 
-* [Git](https://git-scm.com/)
-* [Node.js](https://nodejs.org/) (with npm)
-* [Ember CLI](https://cli.emberjs.com/release/)
-* [Google Chrome](https://google.com/chrome/)
+```
+npm run build
+```
 
-## Installation
+Now, you need to rebuild the app each time you want to test a specific `interestedMunicipality`.
 
-* `git clone <repository-url>` this repository
-* `cd poc-ember-validation-tool`
-* `npm install`
+# Proxy
 
-## Running / Development
+To increase the performance, we created an HTTP proxy that sets the Cache-Control header to immutable for every publication. Run following commands in a separate terminal to setup the proxy on localhost:8080:
 
-* `ember serve`
-* Visit your app at [http://localhost:4200](http://localhost:4200).
-* Visit your tests at [http://localhost:4200/tests](http://localhost:4200/tests).
+```
+cd proxy
+npm install
+node server.js
+```
 
-### Code Generators
+# Run
 
-Make use of the many generators for code, try `ember help generate` for more details
+```
+http-server --cors
+```
 
-### Running Tests
+Go to `http://127.0.0.1:8081/dist/` and check out the console where you should see the harvesting progress
 
-* `ember test`
-* `ember test --server`
+## Hot-reloading
+Hot-reloading with webpack-dev-server is implemented. You can run using the following:
+```
+npm run start:dev
+```
 
-### Linting
+# Link traversal client
 
-* `npm run lint`
-* `npm run lint:fix`
+The browser-build version of Comunica link traversal must be added as Javascript file in the index.html.
+If you want to adapt to another Comunica config, build an engine with your config + webpack to a browser js:
+https://github.com/brechtvdv/comunica-feature-link-traversal/commit/c42d57e6d9328de962de66f28413660454319efe
 
-### Building
+## What does it do?
 
-* `ember build` (development)
-* `ember build --environment production` (production)
+This project means to achieve a tool in which publications can be validated for harvesting. A publication can have several requirements in order to make structural sense. Thus this tool can be useful for checking these sort of mistakes.
 
-### Deploying
+Requirements:
+- Each publication has a document type. This document type can be one of the following:
+  - besluit
+  - notulenlijst
 
-Specify what it takes to deploy your app.
-
-## Further Reading / Useful Links
-
-* [ember.js](https://emberjs.com/)
-* [ember-cli](https://cli.emberjs.com/release/)
-* Development Browser Extensions
-  * [ember inspector for chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
-  * [ember inspector for firefox](https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/)
+- Each publication must have a title and description of type string.
+-
