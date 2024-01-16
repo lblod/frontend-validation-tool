@@ -1,32 +1,25 @@
-{{page-title "Lokaal Beslist"}}
+{{page-title "Validatie Tool"}}
 <AuApp>
   <AuToaster />
   <AuMainHeader
     @brandLink="https://www.vlaanderen.be/nl"
     @homeRoute="application"
-    @appTitle="Lokaal Beslist"
+    @appTitle="Validatie Tool"
   />
   <AuMainContainer as |container|>
     <container.content class="au-u-flex au-u-flex--center">
       <AuContent
         class="au-u-padding-small au-u-padding-large@medium au-u-padding-top au-u-1-2@large"
       >
-        <h2>Validatie van een agenda,besluitenlijst of notulen</h2>
-        <p class="au-u-margin-top-tiny">Hieronder kunt u de link naar het
-          document plakken of een HTML-bestand uploaden.</p>
+        <span class="au-u-text-center">
+          <h2>Validatie van een agenda, besluitenlijst of notulen</h2>
+          <p class="au-u-margin-top-tiny">Hieronder kunt u de link naar het
+            document plakken of een HTML-bestand uploaden.</p>
+        </span>
         <form class="au-c-form">
           <AuFormRow @alignment="default">
-            <AuLabel
-              class="au-u-margin-bottom-tiny"
-              for="input"
-              @required={{true}}
-              @inline={{true}}
-              @error={{this.labelError}}
-            >
-              Link naar het document
-            </AuLabel>
             <AuInput
-              placeholder="https://bertem.meetingburger.net/gr/dc9ea4bf-f3f3-4556-8836-216c0de6d702/agenda"
+              placeholder="Link naar het document"
               {{on "input" this.handleChange}}
               @value={{this.publication}}
               id="input"
@@ -57,7 +50,7 @@
   </AuMainContainer>
   <AuMainFooter>
     <AuHeading @level="3" @skin="4">
-      lokaalbeslist.vlaanderen.be is een officiële website van de Vlaamse
+      validatetool.vlaanderen.be is een officiële website van de Vlaamse
       overheid
     </AuHeading>
     <AuContent @skin="small">

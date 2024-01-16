@@ -13,7 +13,6 @@ export default class ApplicationController extends Controller {
   @tracked currentToast: any = null;
 
   // input
-  @tracked labelError = false;
   @tracked publicationURL = '';
   @action handleChange(event: Event) {
     const target = event.target as HTMLInputElement;
@@ -25,11 +24,9 @@ export default class ApplicationController extends Controller {
     const validUrl = url.match(/^(ftp|http|https):\/\/[^ "]+$/);
     console.log(validUrl);
     if (validUrl) {
-      this.labelError = false;
       console.log('valid');
       return true;
     } else {
-      this.labelError = true;
       console.log('invalid');
       return false;
     }
@@ -41,7 +38,7 @@ export default class ApplicationController extends Controller {
   @tracked loadingMessage = '';
 
   @action async handleButton() {
-    this.currentToast = null;
+    this.toaster.close(this.currentToast);
     this.loadingMessage = 'Publicatie laden...';
     this.loading = true;
     const valid = await this.validateURL({ url: this.publicationURL });
