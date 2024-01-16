@@ -1,44 +1,61 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
+import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import {
-  getRelevantPublicationsValue,
-  getRelevantPublicationsWithinTimeInterval,
-  lmao,
-} from '../../validation-monitoring-module/src/index';
 
 export default class ApplicationController extends Controller {
   @tracked resolvedPublication: any = [];
-  @tracked publicationURL = '';
   @tracked amountOfRelevantPublications = 0;
 
+  //toaster
+  @service declare toaster: any;
+  @tracked currentToast: any = null;
+
+  // input
+  @tracked labelError = false;
+  @tracked publicationURL = '';
   @action handleChange(event: Event) {
-    lmao();
-    this.publicationURL = (event.target as HTMLInputElement).value;
+    const target = event.target as HTMLInputElement;
+    this.publicationURL = target.value;
+    this.validateURL({ url: target.value });
   }
 
-  @action async validatePublication() {
-    const publications = [this.publicationURL];
-    const start = '2020-01-01T00:00:00';
-    const eind = '2020-12-31T00:00:00';
-    const relevantPublications = await getRelevantPublicationsValue({
-      publications: publications,
-    });
+  @action async validateURL({ url }: { url: string }) {
+    const validUrl = url.match(/^(ftp|http|https):\/\/[^ "]+$/);
+    console.log(validUrl);
+    if (validUrl) {
+      this.labelError = false;
+      console.log('valid');
+      return true;
+    } else {
+      this.labelError = true;
+      console.log('invalid');
+      return false;
+    }
+  }
 
-    const AmountOfRelevantPublications =
-      await getRelevantPublicationsWithinTimeInterval({
-        publications: publications,
-        start: start,
-        eind: eind,
-      });
+  // button
+  @tracked buttonDisabled = true;
+  @tracked loading = false;
+  @tracked loadingMessage = '';
 
-    this.amountOfRelevantPublications = AmountOfRelevantPublications.length;
-
-    relevantPublications.on('data', (data: any) => {
-      console.log(data.get('o').value);
-      this.resolvedPublication.push(data.get('o').value);
-      // return data.toString();
-    });
+  @action async handleButton() {
+    this.currentToast = null;
+    this.loadingMessage = 'Publicatie laden...';
+    this.loading = true;
+    const valid = await this.validateURL({ url: this.publicationURL });
+    if (valid) {
+      this.currentToast = this.toaster.success(
+        'Correcte URL',
+        'Publicatie wordt geladen',
+      );
+    } else {
+      this.currentToast = this.toaster.error(
+        'Foute URL',
+        'Geef een correcte URL in',
+      );
+    }
+    this.loading = false;
   }
 }

@@ -1,18 +1,29 @@
-{{page-title "Validation Tool"}}
+{{page-title "Lokaal Beslist"}}
 <AuApp>
+  <AuToaster />
   <AuMainHeader
     @brandLink="https://www.vlaanderen.be/nl"
     @homeRoute="application"
-    @appTitle="Validation Tool"
+    @appTitle="Lokaal Beslist"
   />
   <AuMainContainer as |container|>
-    <container.content>
-      <AuContent class="au-u-padding-large au-u-padding-top">
-        <h2>Overview Publications</h2>
+    <container.content class="au-u-flex au-u-flex--center">
+      <AuContent
+        class="au-u-padding-small au-u-padding-large@medium au-u-padding-top au-u-1-2@large"
+      >
+        <h2>Validatie van een agenda,besluitenlijst of notulen</h2>
+        <p class="au-u-margin-top-tiny">Hieronder kunt u de link naar het
+          document plakken of een HTML-bestand uploaden.</p>
         <form class="au-c-form">
           <AuFormRow @alignment="default">
-            <AuLabel for="input" @required={{true}} @requiredLabel="Required">
-              Publication Title
+            <AuLabel
+              class="au-u-margin-bottom-tiny"
+              for="input"
+              @required={{true}}
+              @inline={{true}}
+              @error={{this.labelError}}
+            >
+              Link naar het document
             </AuLabel>
             <AuInput
               placeholder="https://bertem.meetingburger.net/gr/dc9ea4bf-f3f3-4556-8836-216c0de6d702/agenda"
@@ -22,23 +33,47 @@
               @width="block"
             />
           </AuFormRow>
-          <AuFormRow>
-            <AuButton
-              {{on "click" this.validatePublication}}
-              @variant="primary"
-            >Generate Overview</AuButton>
-          </AuFormRow>
+          <AuButton
+            @loading={{this.loading}}
+            @loadingMessage={{this.loadingMessage}}
+            @disabled={{not this.publicationURL}}
+            @width="block"
+            {{on "click" this.handleButton}}
+            @variant="primary"
+          >Volgende</AuButton>
+          <AuFormRow />
         </form>
-        <div>
+        {{!-- <div>
           <h2>{{this.amountOfRelevantPublications}} relevant publications</h2>
           {{#each this.resolvedPublication as |publication|}}
             <p>
               {{publication}}
             </p>
           {{/each}}
-        </div>
+        </div> --}}
 
       </AuContent>
     </container.content>
   </AuMainContainer>
+  <AuMainFooter>
+    <AuHeading @level="3" @skin="4">
+      lokaalbeslist.vlaanderen.be is een officiële website van de Vlaamse
+      overheid
+    </AuHeading>
+    <AuContent @skin="small">
+      <p>Uitgegeven door
+        <a
+          class="au-c-link"
+          href="https://www.vlaanderen.be/organisaties/administratieve-diensten-van-de-vlaamse-overheid/beleidsdomein-kanselarij-en-bestuur/agentschap-binnenlands-bestuur"
+        >Agentschap Binnenlands Bestuur</a></p>
+      <ul class="au-c-list-horizontal">
+        <li class="au-c-list-horizontal__item">
+          <AuLink @route="index" @skin="secondary">Disclaimer</AuLink>
+        </li>
+        <li class="au-c-list-horizontal__item">
+          <AuLink @route="index" @skin="secondary">Cookieverklaring</AuLink>
+        </li>
+      </ul>
+    </AuContent>
+  </AuMainFooter>
 </AuApp>
