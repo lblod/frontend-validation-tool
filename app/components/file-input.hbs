@@ -38,10 +38,12 @@
         </span>
       </label>
     {{/if}}
-    <div
-      class="{{if this.uploadedFiles 'au-u-padding au-u-margin'}} page-bg"
-      id="output"
-    ></div>
+    {{#if (is-feature-enabled "html-viewer")}}
+      <div
+        class="{{if this.uploadedFiles 'au-u-padding au-u-margin'}} page-bg"
+        id="output"
+      ></div>
+    {{/if}}
   </FileDropzone>
 {{/let}}
 
