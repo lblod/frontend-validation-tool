@@ -3,6 +3,7 @@ import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
+import type { UploadFile } from 'ember-file-upload/upload-file';
 
 export default class ApplicationController extends Controller {
   @tracked resolvedPublication: any = [];
@@ -17,6 +18,11 @@ export default class ApplicationController extends Controller {
   @action handleChange(event: Event) {
     const target = event.target as HTMLInputElement;
     this.publicationURL = target.value;
+    if (this.publicationURL) {
+      this.buttonDisabled = false;
+    } else {
+      this.buttonDisabled = true;
+    }
     this.validateURL({ url: target.value });
   }
 
@@ -35,7 +41,7 @@ export default class ApplicationController extends Controller {
   // file upload
   @tracked fileUpload = false;
 
-  @action onFinishUpload(uploadedFile: any) {
+  @action onFinishUpload(uploadedFile: UploadFile) {
     this.toaster.close(this.currentToast);
     this.loadingMessage = 'Bestand verwerken...';
     this.loading = true;
@@ -52,9 +58,10 @@ export default class ApplicationController extends Controller {
       );
     }
     this.loading = false;
+    this.buttonDisabled = false;
   }
 
-  @action validateFile(file: any) {
+  @action validateFile(file: UploadFile) {
     console.log(file);
     return true;
   }

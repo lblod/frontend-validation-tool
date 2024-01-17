@@ -41,7 +41,7 @@
           <AuButton
             @loading={{this.loading}}
             @loadingMessage={{this.loadingMessage}}
-            @disabled={{not this.publicationURL}}
+            @disabled={{this.buttonDisabled}}
             @width="block"
             {{on "click" this.handleButton}}
             @variant="primary"
