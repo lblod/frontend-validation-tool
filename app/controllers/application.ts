@@ -32,6 +32,33 @@ export default class ApplicationController extends Controller {
     }
   }
 
+  // file upload
+  @tracked fileUpload = false;
+
+  @action onFinishUpload(uploadedFile: any) {
+    this.toaster.close(this.currentToast);
+    this.loadingMessage = 'Bestand verwerken...';
+    this.loading = true;
+    const valid = this.validateFile(uploadedFile);
+    if (valid) {
+      this.currentToast = this.toaster.success(
+        'Correct bestand',
+        'Publicatie wordt geladen',
+      );
+    } else {
+      this.currentToast = this.toaster.error(
+        'Fout bestand',
+        'Geef een correcte URL in',
+      );
+    }
+    this.loading = false;
+  }
+
+  @action validateFile(file: any) {
+    console.log(file);
+    return true;
+  }
+
   // button
   @tracked buttonDisabled = true;
   @tracked loading = false;

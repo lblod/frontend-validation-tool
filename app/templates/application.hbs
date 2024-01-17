@@ -9,7 +9,7 @@
   <AuMainContainer as |container|>
     <container.content class="au-u-flex au-u-flex--center">
       <AuContent
-        class="au-u-padding-small au-u-padding-large@medium au-u-padding-top au-u-1-2@large"
+        class="au-u-padding-top-large au-u-padding-small au-u-padding-large@medium au-u-1-2@large"
       >
         <span class="au-u-text-center">
           <h2>Validatie van een agenda, besluitenlijst of notulen</h2>
@@ -24,6 +24,18 @@
               @value={{this.publication}}
               id="input"
               @width="block"
+            />
+          </AuFormRow>
+          <h4 class="au-u-text-center">OF</h4>
+          <AuFormRow>
+            <FileInput
+              class="au-u-1-1"
+              @accept={{"text/html"}}
+              @title={{"Upload een HTML-bestand"}}
+              @endPoint={{"/file-handling"}}
+              @helpTextDragDrop={{"Sleep het bestand naar hier om toe te voegen"}}
+              @helpTextFileNotSupported={{"Dit bestandstype wordt niet ondersteund"}}
+              @onFinishUpload={{this.onFinishUpload}}
             />
           </AuFormRow>
           <AuButton
