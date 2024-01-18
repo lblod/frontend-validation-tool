@@ -1,0 +1,52 @@
+{{page-title "Document Review"}}
+
+<span class="au-u-text-center">
+  <h2>Documenttype selecteren</h2>
+  <p class="au-u-margin-top-tiny">Hieronder kunt u de link naar het document
+    Indien het automatisch toegewezen documenttype niet overeenkomt met uw
+    verwachtingen, kunt u dit aanpassen door een andere keuze te maken
+    hieronder.
+  </p>
+  <AuLinkExternal
+    @href={{this.document.documentURL}}
+  >{{this.document.documentURL}}</AuLinkExternal>
+</span>
+<div class="au-u-flex au-u-flex--center">
+  <form class="au-c-form au-u-2-3">
+    <AuFormRow class="au-u-flex">
+      <AuLabel
+        class="au-u-hidden-visually"
+        @for="documentTypeSelect"
+      >Documenttype</AuLabel>
+      <select
+        id="documentTypeSelect"
+        {{on "change" this.document.handleDocumentTypeChange}}
+        class="au-c-input au-u-1-1"
+      >
+        {{#each this.selectOptions as |documentType|}}
+          <option value={{documentType.value}}>{{documentType.label}}</option>
+        {{/each}}
+      </select>
+    </AuFormRow>
+    <AuFormRow>
+      <AuButtonGroup class="au-u-1-1 au-u-flex--no-wrap">
+        <AuButton @width="block" @skin="secondary">
+          Terug
+        </AuButton>
+
+        <AuButton @width="block">
+          Validatie Starten
+        </AuButton>
+      </AuButtonGroup>
+    </AuFormRow>
+    {{!-- <div>
+    <h2>{{this.amountOfRelevantPublications}} relevant publications</h2>
+    {{#each this.resolvedPublication as |publication|}}
+      <p>
+        {{publication}}
+      </p>
+    {{/each}}
+  </div> --}}
+
+  </form>
+</div>

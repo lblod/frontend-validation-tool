@@ -9,42 +9,9 @@
   <AuMainContainer as |container|>
     <container.content class="au-u-flex au-u-flex--center">
       <AuContent
-        class="au-u-padding-small au-u-padding-large@medium au-u-padding-top au-u-1-2@large"
+        class="au-u-padding-small au-u-padding-large@medium au-u-padding-top au-u-1-2"
       >
-        <span class="au-u-text-center">
-          <h2>Validatie van een agenda, besluitenlijst of notulen</h2>
-          <p class="au-u-margin-top-tiny">Hieronder kunt u de link naar het
-            document plakken of een HTML-bestand uploaden.</p>
-        </span>
-        <form class="au-c-form">
-          <AuFormRow @alignment="default">
-            <AuInput
-              placeholder="Link naar het document"
-              {{on "input" this.handleChange}}
-              @value={{this.publication}}
-              id="input"
-              @width="block"
-            />
-          </AuFormRow>
-          <AuButton
-            @loading={{this.loading}}
-            @loadingMessage={{this.loadingMessage}}
-            @disabled={{not this.publicationURL}}
-            @width="block"
-            {{on "click" this.handleButton}}
-            @variant="primary"
-          >Volgende</AuButton>
-          <AuFormRow />
-        </form>
-        {{!-- <div>
-          <h2>{{this.amountOfRelevantPublications}} relevant publications</h2>
-          {{#each this.resolvedPublication as |publication|}}
-            <p>
-              {{publication}}
-            </p>
-          {{/each}}
-        </div> --}}
-
+        {{outlet}}
       </AuContent>
     </container.content>
   </AuMainContainer>
@@ -61,10 +28,13 @@
         >Agentschap Binnenlands Bestuur</a></p>
       <ul class="au-c-list-horizontal">
         <li class="au-c-list-horizontal__item">
-          <AuLink @route="index" @skin="secondary">Disclaimer</AuLink>
+          <AuLink @route="application" @skin="secondary">Disclaimer</AuLink>
         </li>
         <li class="au-c-list-horizontal__item">
-          <AuLink @route="index" @skin="secondary">Cookieverklaring</AuLink>
+          <AuLink
+            @route="application"
+            @skin="secondary"
+          >Cookieverklaring</AuLink>
         </li>
       </ul>
     </AuContent>
