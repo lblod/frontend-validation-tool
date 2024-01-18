@@ -31,10 +31,13 @@
     <AuFormRow>
       <AuButtonGroup class="au-u-1-1 au-u-flex--no-wrap">
         <AuButton @width="block" @skin="secondary">
-          Terug
+          <AuLink @route="document-upload">
+            Terug
+          </AuLink>
         </AuButton>
 
         <AuButton @width="block">
+          {{! TODO: Add functionality }}
           Validatie Starten
         </AuButton>
       </AuButtonGroup>
