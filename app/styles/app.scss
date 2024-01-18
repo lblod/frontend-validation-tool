@@ -3,3 +3,11 @@
 .page-bg {
   background-color: $au-page-bg;
 }
+
+.au-c-file-upload-disabled {
+  * {
+    color: var(--au-gray-700);
+    text-decoration: none;
+    pointer-events: none;
+  }
+}

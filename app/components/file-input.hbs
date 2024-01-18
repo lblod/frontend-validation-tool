@@ -5,7 +5,8 @@
   <FileDropzone
     @queue={{queue}}
     @filter={{this.filter}}
-    class="au-c-file-upload au-u-background-gray-100"
+    class="{{if @disabled 'au-c-file-upload-disabled'}}
+      au-c-file-upload au-u-background-gray-100"
     ...attributes
     as |dropzone|
   >

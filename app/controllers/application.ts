@@ -13,15 +13,50 @@ export default class ApplicationController extends Controller {
   @service declare toaster: any;
   @tracked currentToast: any = null;
 
+  // file upload
+  @tracked fileInputDisabled = false;
+  @tracked fileUpload = false;
+
+  @action onFinishUpload(uploadedFile: UploadFile) {
+    this.inputDisabled = true;
+    this.toaster.close(this.currentToast);
+    this.loadingMessage = 'Bestand verwerken...';
+    this.loading = true;
+    const valid = this.validateFile(uploadedFile);
+    if (valid) {
+      this.fileUpload = true;
+      this.currentToast = this.toaster.success(
+        'Correct bestand',
+        'Publicatie wordt geladen',
+      );
+    } else {
+      this.fileUpload = false;
+      this.currentToast = this.toaster.error(
+        'Fout bestand',
+        'Geef een correcte URL in',
+      );
+    }
+    this.loading = false;
+    this.buttonDisabled = false;
+  }
+
+  @action validateFile(file: UploadFile) {
+    console.log(file);
+    return true;
+  }
+
   // input
+  @tracked inputDisabled = false;
   @tracked publicationURL = '';
   @action handleChange(event: Event) {
     const target = event.target as HTMLInputElement;
     this.publicationURL = target.value;
     if (this.publicationURL) {
+      this.fileInputDisabled = true;
       this.buttonDisabled = false;
     } else {
       this.buttonDisabled = true;
+      this.fileInputDisabled = false;
     }
     this.validateURL({ url: target.value });
   }
@@ -38,34 +73,6 @@ export default class ApplicationController extends Controller {
     }
   }
 
-  // file upload
-  @tracked fileUpload = false;
-
-  @action onFinishUpload(uploadedFile: UploadFile) {
-    this.toaster.close(this.currentToast);
-    this.loadingMessage = 'Bestand verwerken...';
-    this.loading = true;
-    const valid = this.validateFile(uploadedFile);
-    if (valid) {
-      this.currentToast = this.toaster.success(
-        'Correct bestand',
-        'Publicatie wordt geladen',
-      );
-    } else {
-      this.currentToast = this.toaster.error(
-        'Fout bestand',
-        'Geef een correcte URL in',
-      );
-    }
-    this.loading = false;
-    this.buttonDisabled = false;
-  }
-
-  @action validateFile(file: UploadFile) {
-    console.log(file);
-    return true;
-  }
-
   // button
   @tracked buttonDisabled = true;
   @tracked loading = false;
@@ -75,17 +82,24 @@ export default class ApplicationController extends Controller {
     this.toaster.close(this.currentToast);
     this.loadingMessage = 'Publicatie laden...';
     this.loading = true;
-    const valid = await this.validateURL({ url: this.publicationURL });
-    if (valid) {
+    if (this.fileUpload) {
       this.currentToast = this.toaster.success(
-        'Correcte URL',
+        'Correct bestand',
         'Publicatie wordt geladen',
       );
     } else {
-      this.currentToast = this.toaster.error(
-        'Foute URL',
-        'Geef een correcte URL in',
-      );
+      const valid = await this.validateURL({ url: this.publicationURL });
+      if (valid) {
+        this.currentToast = this.toaster.success(
+          'Correcte URL',
+          'Publicatie wordt geladen',
+        );
+      } else {
+        this.currentToast = this.toaster.error(
+          'Foute URL',
+          'Geef een correcte URL in',
+        );
+      }
     }
     this.loading = false;
   }

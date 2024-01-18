@@ -19,6 +19,7 @@
         <form class="au-c-form">
           <AuFormRow @alignment="default">
             <AuInput
+              @disabled={{this.inputDisabled}}
               placeholder="Link naar het document"
               {{on "input" this.handleChange}}
               @value={{this.publication}}
@@ -29,6 +30,7 @@
           <h4 class="au-u-text-center">OF</h4>
           <AuFormRow>
             <FileInput
+              @disabled={{this.fileInputDisabled}}
               class="au-u-1-1"
               @accept={{"text/html"}}
               @title={{"Upload een HTML-bestand"}}
