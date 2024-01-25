@@ -1,0 +1,25 @@
+<span class="au-u-text-center">
+  <h2>Validatie van een agenda, besluitenlijst of notulen</h2>
+  <p class="au-u-margin-top-tiny">Hieronder kunt u de link naar het document
+    plakken of een HTML-bestand uploaden.</p>
+</span>
+<form class="au-c-form">
+  <AuFormRow @alignment="default">
+    <AuInput
+      placeholder="Link naar het document"
+      {{on "input" this.handleChange}}
+      @value={{this.publication}}
+      id="input"
+      @width="block"
+    />
+  </AuFormRow>
+  <AuButton
+    @loading={{this.loading}}
+    @loadingMessage={{this.loadingMessage}}
+    @disabled={{not this.publicationURL}}
+    @width="block"
+    {{on "click" this.handleButton}}
+    @variant="primary"
+  >Volgende</AuButton>
+  <AuFormRow />
+</form>
