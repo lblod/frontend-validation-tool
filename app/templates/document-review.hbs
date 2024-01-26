@@ -26,15 +26,18 @@
         placeholder="Documenttype"
         class="au-c-input au-u-1-1"
       >
+        {{#unless this.document.documentType}}
+          <option value="" selected disabled hidden>
+            Selecteer een documenttype
+          </option>
+        {{/unless}}
+
         {{#each this.selectOptions as |documentType|}}
           {{#if (eq documentType.value this.document.documentType)}}
             <option value={{documentType.value}} selected>
               {{documentType.label}}
             </option>
           {{else}}
-            <option value="" selected disabled hidden>
-              Selecteer een documenttype
-            </option>
             <option value={{documentType.value}}>
               {{documentType.label}}
             </option>
