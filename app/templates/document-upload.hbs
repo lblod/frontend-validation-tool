@@ -3,7 +3,8 @@
   <p class="au-u-margin-top-tiny">Hieronder kunt u de link naar het document
     plakken of een HTML-bestand uploaden.</p>
 </span>
-<form class="au-c-form">
+
+<form class="au-c-form" {{on "submit" this.handleSubmit}}>
   <AuFormRow @alignment="default">
     <AuInput
       placeholder="Link naar het document"
@@ -29,11 +30,11 @@
   </AuFormRow>
 
   <AuButton
+    type="submit"
     @loading={{this.loading}}
     @loadingMessage={{this.loadingMessage}}
     @disabled={{this.buttonDisabled}}
     @width="block"
-    {{on "click" this.handleButton}}
     @variant="primary"
   >Volgende</AuButton>
   <AuFormRow />

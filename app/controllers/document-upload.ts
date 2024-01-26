@@ -5,9 +5,20 @@ import type RouterService from '@ember/routing/router-service';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import type { UploadFile } from 'ember-file-upload/upload-file';
+import { fetchDocument } from 'validation-monitoring-module/src';
 import type DocumentService from 'validation-monitoring-tool/services/document';
 
 export default class DocumentUploadController extends Controller {
+  @action reset() {
+    this.fileUpload = false;
+    this.fileInputDisabled = false;
+    this.inputDisabled = false;
+    this.buttonDisabled = true;
+    this.loading = false;
+    this.loadingMessage = '';
+    this.publicationURL = '';
+    this.uploadedFile = null;
+  }
   @tracked resolvedPublication: any = [];
   @tracked amountOfRelevantPublications = 0;
 
@@ -30,16 +41,36 @@ export default class DocumentUploadController extends Controller {
       this.buttonDisabled = true;
       this.fileInputDisabled = false;
     }
-    this.validateURL({ url: target.value });
   }
   @action async validateURL({ url }: { url: string }) {
     const validUrl = url.match(/^(ftp|http|https):\/\/[^ "]+$/);
-    console.log(validUrl);
     if (validUrl) {
-      console.log('valid');
-      return true;
+      const [data] = await Promise.all([
+        fetchDocument(url),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error('Timeout')), 5000),
+        ),
+      ]);
+      if (data) {
+        this.currentToast = this.toaster.success(
+          'Correcte URL',
+          'Publicatie wordt geladen',
+        );
+        await this.document.processDocumentURL(this.publicationURL);
+        this.router.transitionTo('document-review');
+
+        return true;
+      }
+      this.currentToast = this.toaster.error(
+        'Geen publicatie gevonden',
+        'Geef een correcte URL in',
+      );
+      return false;
     } else {
-      console.log('invalid');
+      this.currentToast = this.toaster.error(
+        'Geen publicatie gevonden',
+        'Geef een correcte URL in',
+      );
       return false;
     }
   }
@@ -50,32 +81,20 @@ export default class DocumentUploadController extends Controller {
   @tracked uploadedFile: File | null = null;
 
   @action onFinishUpload(uploadedFile: UploadFile) {
+    this.loading = true;
     this.inputDisabled = true;
     this.toaster.close(this.currentToast);
     this.loadingMessage = 'Bestand verwerken...';
-    this.loading = true;
     this.uploadedFile = uploadedFile.file;
-    const valid = this.validateFile(uploadedFile);
-    if (valid) {
-      this.fileUpload = true;
-      this.currentToast = this.toaster.success(
-        'Correct bestand',
-        'Publicatie wordt geladen',
-      );
-    } else {
-      this.fileUpload = false;
-      this.currentToast = this.toaster.error(
-        'Fout bestand',
-        'Geef een correcte URL in',
-      );
-    }
+
+    this.fileUpload = true;
+    this.currentToast = this.toaster.success(
+      'Correct bestand',
+      'Publicatie wordt geladen',
+    );
+
     this.loading = false;
     this.buttonDisabled = false;
-  }
-
-  @action validateFile(file: UploadFile) {
-    console.log(file);
-    return true;
   }
 
   // button
@@ -83,7 +102,8 @@ export default class DocumentUploadController extends Controller {
   @tracked loading = false;
   @tracked loadingMessage = '';
 
-  @action async handleButton() {
+  @action async handleSubmit(e: Event) {
+    e.preventDefault();
     this.toaster.close(this.currentToast);
     this.loadingMessage = 'Publicatie laden...';
     this.loading = true;
@@ -95,27 +115,8 @@ export default class DocumentUploadController extends Controller {
         'Publicatie wordt geladen',
       );
     } else {
-      const valid = await this.validateURL({ url: this.publicationURL });
-      if (valid) {
-        this.currentToast = this.toaster.success(
-          'Correcte URL',
-          'Publicatie wordt geladen',
-        );
-        const isPublication = await this.document.processDocumentURL(
-          this.publicationURL,
-        );
-
-        if (isPublication) {
-          this.document.processDocumentURL(this.publicationURL);
-          this.router.transitionTo('document-review');
-        } else {
-          this.currentToast = this.toaster.error(
-            'Geen publicatie gevonden',
-            'Geef een correcte URL in',
-          );
-        }
-      }
+      await this.validateURL({ url: this.publicationURL });
     }
-    this.loading = false;
+    this.reset();
   }
 }
