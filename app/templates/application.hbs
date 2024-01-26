@@ -11,54 +11,7 @@
       <AuContent
         class="au-u-padding-top-large au-u-padding-small au-u-padding-large@medium au-u-1-2@large"
       >
-        <span class="au-u-text-center">
-          <h2>Validatie van een agenda, besluitenlijst of notulen</h2>
-          <p class="au-u-margin-top-tiny">Hieronder kunt u de link naar het
-            document plakken of een HTML-bestand uploaden.</p>
-        </span>
-        <form class="au-c-form">
-          <AuFormRow @alignment="default">
-            <AuInput
-              @disabled={{this.inputDisabled}}
-              placeholder="Link naar het document"
-              {{on "input" this.handleChange}}
-              @value={{this.publication}}
-              id="input"
-              @width="block"
-            />
-          </AuFormRow>
-          <h4 class="au-u-text-center">OF</h4>
-          <AuFormRow>
-            <FileInput
-              @disabled={{this.fileInputDisabled}}
-              class="au-u-1-1"
-              @accept={{"text/html"}}
-              @title={{"Upload een HTML-bestand"}}
-              @endPoint={{"/file-handling"}}
-              @helpTextDragDrop={{"Sleep het bestand naar hier om toe te voegen"}}
-              @helpTextFileNotSupported={{"Dit bestandstype wordt niet ondersteund"}}
-              @onFinishUpload={{this.onFinishUpload}}
-            />
-          </AuFormRow>
-          <AuButton
-            @loading={{this.loading}}
-            @loadingMessage={{this.loadingMessage}}
-            @disabled={{this.buttonDisabled}}
-            @width="block"
-            {{on "click" this.handleButton}}
-            @variant="primary"
-          >Volgende</AuButton>
-          <AuFormRow />
-        </form>
-        {{!-- <div>
-          <h2>{{this.amountOfRelevantPublications}} relevant publications</h2>
-          {{#each this.resolvedPublication as |publication|}}
-            <p>
-              {{publication}}
-            </p>
-          {{/each}}
-        </div> --}}
-
+        {{outlet}}
       </AuContent>
     </container.content>
   </AuMainContainer>
@@ -75,10 +28,13 @@
         >Agentschap Binnenlands Bestuur</a></p>
       <ul class="au-c-list-horizontal">
         <li class="au-c-list-horizontal__item">
-          <AuLink @route="index" @skin="secondary">Disclaimer</AuLink>
+          <AuLink @route="application" @skin="secondary">Disclaimer</AuLink>
         </li>
         <li class="au-c-list-horizontal__item">
-          <AuLink @route="index" @skin="secondary">Cookieverklaring</AuLink>
+          <AuLink
+            @route="application"
+            @skin="secondary"
+          >Cookieverklaring</AuLink>
         </li>
       </ul>
     </AuContent>
