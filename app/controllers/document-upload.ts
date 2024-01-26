@@ -96,6 +96,7 @@ export default class DocumentUploadController extends Controller {
       );
 
       if (isPublication) {
+        this.document.processDocumentURL(this.publicationURL);
         this.router.transitionTo('document-review');
       } else {
         this.currentToast = this.toaster.error(

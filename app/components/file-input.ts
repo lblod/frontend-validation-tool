@@ -7,7 +7,6 @@ import { tracked } from '@glimmer/tracking';
 import type { File } from 'buffer';
 import { task } from 'ember-concurrency';
 import type { UploadFile } from 'ember-file-upload/upload-file';
-import type FeaturesService from 'validation-monitoring-tool/services/features';
 import FileQueueService from '../../types/ember-file-upload/index';
 
 interface Args {
@@ -26,7 +25,6 @@ export default class FileUpload extends Component<Args> {
   @tracked uploadErrorData: Array<{ fileName: string; errorMessage: string }> =
     [];
   @tracked uploadedFiles: Array<UploadFile> = [];
-  @service declare features: FeaturesService;
 
   get uploadingMsg() {
     return this.uploadedFiles
@@ -70,20 +68,6 @@ export default class FileUpload extends Component<Args> {
     return this.uploadErrorData.length > 0;
   }
 
-  @action viewHTMLFile() {
-    const outputDiv = document.getElementById('output');
-    const reader = new FileReader();
-
-    if (this.uploadedFiles.length > 0) {
-      this.uploadedFiles.forEach((uploadFile) => {
-        reader.onload = (e) => {
-          outputDiv!.innerHTML = (e.target as any).result;
-        };
-        reader.readAsText(uploadFile.file);
-      });
-    }
-  }
-
   @task
   *upload(file: File): Generator<
     File,
@@ -101,9 +85,6 @@ export default class FileUpload extends Component<Args> {
     if (uploadedFile && this.args.onFinishUpload)
       this.args.onFinishUpload(uploadedFile, this.calculateQueueInfo());
     this.uploadedFiles = [uploadedFile as any, ...this.uploadedFiles];
-    if (this.features.isEnabled('html-viewer')) {
-      this.viewHTMLFile();
-    }
   }
   @action
   filter(file: File, files: Array<File>, index: number) {

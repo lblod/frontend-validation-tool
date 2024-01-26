@@ -15,10 +15,6 @@ module.exports = function (environment) {
       // Here you can pass flags/options to your application instance
       // when it is created
     },
-    features: {
-      // define feature flags here
-      'html-viewer': false,
-    },
   };
 
   if (environment === 'development') {
