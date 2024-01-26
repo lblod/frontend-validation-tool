@@ -45,12 +45,7 @@ export default class DocumentUploadController extends Controller {
   @action async validateURL({ url }: { url: string }) {
     const validUrl = url.match(/^(ftp|http|https):\/\/[^ "]+$/);
     if (validUrl) {
-      const [data] = await Promise.all([
-        fetchDocument(url),
-        new Promise((_, reject) =>
-          setTimeout(() => reject(new Error('Timeout')), 5000),
-        ),
-      ]);
+      const data = await fetchDocument(url);
       if (data) {
         this.currentToast = this.toaster.success(
           'Correcte URL',
