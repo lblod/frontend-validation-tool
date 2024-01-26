@@ -9,14 +9,29 @@
       placeholder="Link naar het document"
       {{on "input" this.handleChange}}
       @value={{this.publication}}
+      @disabled={{this.inputDisabled}}
       id="input"
       @width="block"
     />
   </AuFormRow>
+  <h4 class="au-u-text-center">OF</h4>
+  <AuFormRow>
+    <FileInput
+      @disabled={{this.fileInputDisabled}}
+      class="au-u-1-1"
+      @accept={{"text/html"}}
+      @title={{"Upload een HTML-bestand"}}
+      @endPoint={{"/file-handling"}}
+      @helpTextDragDrop={{"Sleep het bestand naar hier om toe te voegen"}}
+      @helpTextFileNotSupported={{"Dit bestandstype wordt niet ondersteund"}}
+      @onFinishUpload={{this.onFinishUpload}}
+    />
+  </AuFormRow>
+
   <AuButton
     @loading={{this.loading}}
     @loadingMessage={{this.loadingMessage}}
-    @disabled={{not this.publicationURL}}
+    @disabled={{this.buttonDisabled}}
     @width="block"
     {{on "click" this.handleButton}}
     @variant="primary"
