@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { action } from '@ember/object';
-import Service from '@ember/service';
+import Service, { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import type { Bindings } from 'rdf-js';
 import { getPublicationFromFileContent } from 'validation-monitoring-module/src/index';
@@ -14,6 +14,8 @@ export default class DocumentService extends Service {
   @tracked documentURL: string = '';
   @tracked documentType: string = '';
   @tracked documentFile: File | null = null;
+
+  @service declare toaster: any;
 
   @action async handleDocumentTypeChange(event: Event) {
     const target = event.target as HTMLInputElement;
@@ -31,9 +33,14 @@ export default class DocumentService extends Service {
     const html = await file.text();
     const document = await getPublicationFromFileContent(html);
     this.documentType = determineDocumentType(document);
-    if (this.documentType) {
+    if (this.documentType && this.documentType !== 'unknown document type') {
       return true;
     } else {
+      this.documentType = '';
+      this.toaster.error(
+        'Deze publicatie heeft geen documenttype',
+        'Kies een type uit de lijst',
+      );
       return false;
     }
   }
@@ -42,10 +49,15 @@ export default class DocumentService extends Service {
     this.documentURL = fileUrl;
     this.documentType =
       (await this.processPublication({ fileUrl: fileUrl })) || '';
-
-    if (this.documentType) {
+    console.log(this.documentType);
+    if (this.documentType && this.documentType !== 'unknown document type') {
       return true;
     } else {
+      this.documentType = '';
+      this.toaster.error(
+        'Deze publicatie heeft geen documenttype',
+        'Kies een type uit de lijst',
+      );
       return false;
     }
   }

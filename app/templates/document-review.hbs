@@ -13,7 +13,6 @@
   >{{this.document.documentURL}}</AuLinkExternal>
 </span>
 <div class="au-u-flex au-u-flex--center">
-
   <form class="au-c-form au-u-2-3">
     <AuFormRow class="au-u-flex">
       <AuLabel
@@ -53,7 +52,7 @@
           </AuLink>
         </AuButton>
 
-        <AuButton @width="block">
+        <AuButton @width="block" @disabled={{not this.documentType}}>
           {{! TODO: Add functionality }}
           Validatie Starten
         </AuButton>

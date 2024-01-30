@@ -53,7 +53,6 @@ export default class DocumentUploadController extends Controller {
         );
         await this.document.processDocumentURL(this.publicationURL);
         this.router.transitionTo('document-review');
-
         return true;
       }
       this.currentToast = this.toaster.error(
