@@ -9,4 +9,5 @@ export default class Router extends EmberRouter {
 Router.map(function () {
   this.route('document-upload', { path: '/' });
   this.route('document-review');
+  this.route('validation-results');
 });
