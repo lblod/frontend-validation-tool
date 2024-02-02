@@ -52,7 +52,11 @@
           </AuLink>
         </AuButton>
 
-        <AuButton @width="block" @disabled={{not this.documentType}}>
+        <AuButton
+          @width="block"
+          @disabled={{not this.document.documentType}}
+          {{on "click" this.handleValidation}}
+        >
           {{! TODO: Add functionality }}
           Validatie Starten
         </AuButton>

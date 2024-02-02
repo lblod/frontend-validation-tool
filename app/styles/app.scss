@@ -12,8 +12,9 @@
   }
 }
 
-.publication-link {
-  width: 100%;
+.au-c-link.publication-link {
+  display: flex;
+  justify-content: center;
   line-break: anywhere;
 }
 
@@ -24,5 +25,20 @@
     display: flex !important;
     width: 100%;
     justify-content: center;
+  }
+}
+
+.au-c-accordion {
+  .au-c-toolbar {
+    border-bottom: var(--au-border) solid var(--au-divider-color);
+    padding-bottom: calc(var(--au-border) * 3);
+
+    .au-c-button.au-c-button--link,
+    .au-c-icon {
+      font-size: var(--au-h2);
+      font-weight: var(--au-regular);
+      text-decoration: none;
+      color: var(--au-select-text-color);
+    }
   }
 }

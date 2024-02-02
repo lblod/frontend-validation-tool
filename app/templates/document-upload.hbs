@@ -6,6 +6,7 @@
 
 <form class="au-c-form" {{on "submit" this.handleSubmit}}>
   <AuFormRow @alignment="default">
+    {{! template-lint-disable no-autofocus-attribute }}
     <AuInput
       placeholder="Link naar het document"
       {{on "input" this.handleChange}}
@@ -13,6 +14,7 @@
       @disabled={{this.inputDisabled}}
       id="input"
       @width="block"
+      autofocus
     />
   </AuFormRow>
   <h4 class="au-u-text-center">OF</h4>

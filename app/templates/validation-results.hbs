@@ -1,0 +1,59 @@
+{{page-title "Validation Results"}}
+
+<span class="au-u-text-center">
+  <h2>Validatie resultaten</h2>
+  <p class="au-u-margin-top-tiny">Resultaat van de validatie van het document:
+  </p>
+  <AuLinkExternal
+    class="publication-link"
+    @href={{this.document.documentURL}}
+  >{{this.document.documentURL}}</AuLinkExternal>
+</span>
+<div class="au-u-flex au-u-flex--column au-u-flex--center au-u-1-1">
+  {{#each this.validatedDocument as |targetClass|}}
+    <Accordion
+      class="au-u-1-1"
+      @sideLabel={{concat
+        targetClass.validAmountOfProperties
+        "/"
+        targetClass.amountOfProperties
+      }}
+      @defaultOpen={{false}}
+      @iconOpen="nav-down"
+      @iconClosed="nav-up"
+      @buttonLabel={{targetClass.targetClass}}
+    >
+      {{#each targetClass.properties as |validatedDocument|}}
+        <AuAlert
+          @skin={{if validatedDocument.valid "success" "warning"}}
+          @icon={{if validatedDocument.valid "check" "cross"}}
+          @title={{validatedDocument.name}}
+          class="au-u-margin-bottom-none"
+        >
+          <p>{{validatedDocument.description}}</p>
+          <section class="au-u-flex">
+            <span class="au-u-flex au-u-margin-right-small">
+              <p>Aantal gevonden:&nbsp;</p><p
+              >{{validatedDocument.amountFound}}</p>
+            </span>
+            {{#if validatedDocument.minCount}}
+              <span class="au-u-flex au-u-margin-right-small">
+                <p>Aantal min. vereist:&nbsp;</p><p
+                >{{validatedDocument.minCount}}</p>
+              </span>
+            {{/if}}
+            {{#if validatedDocument.maxCount}}
+              <span class="au-u-flex au-u-margin-right">
+                <p>Aantal max. vereist:&nbsp;</p><p
+                >{{validatedDocument.maxCount}}</p>
+              </span>
+            {{/if}}
+          </section>
+        </AuAlert>
+      {{/each}}
+    </Accordion>
+  {{/each}}
+
+</div>
+
+{{! QUESTION: do the accordions have to be open by default }}
