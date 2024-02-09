@@ -39,9 +39,7 @@ export default class ValidationResultsController extends Controller {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(...args: any[]) {
     super(...args);
-    this.validateDocument().then((validatedDocument) => {
-      this.validatedDocument = validatedDocument;
-    });
+    this.validateDocument();
   }
 
   @action async getDocument() {
@@ -71,124 +69,60 @@ export default class ValidationResultsController extends Controller {
       ],
     };
   }
-
   @action async validateDocument() {
-    // const document = await this.getDocument();
+    const document = await this.getDocument();
     const blueprint = await this.getBlueprint();
+    console.log('bluepint', blueprint);
+    const documentType = this.document.documentType;
+    const validatedDocument: RDFShape[] = await validatePublication(
+      this.document.document,
+      blueprint,
+    );
 
-    console.log(this.document.documentType);
-    console.log(this.document.document);
-    console.log(blueprint);
-    await validatePublication(this.document.document, blueprint)
-      .then((result) => {
-        console.log(result);
-        return result;
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    for (const shape of blueprint) {
+      const validatedShape: RDFShape = {
+        type: shape.type,
+        targetClass: shape.targetClass,
+        properties: [],
+        closed: shape.closed,
+      };
 
-    // const documentType = document.documentType;
-    // const validatedDocument: RDFShape[] = [];
+      for (const property of shape.properties) {
+        const foundProperty = document.properties.find(
+          (p) => p.name === property.name,
+        );
 
-    // for (const shape of blueprint) {
-    //   const validatedShape: RDFShape = {
-    //     type: shape.type,
-    //     targetClass: shape.targetClass,
-    //     properties: [],
-    //     closed: shape.closed,
-    //   };
+        const validatedProperty = {
+          name: property.name,
+          description: property.description,
+          minCount: property.minCount || 0,
+          maxCount: property.maxCount || 0,
+          valid: false,
+          amountFound: foundProperty?.found || 0,
+        };
 
-    //   for (const property of shape.properties) {
-    //     const foundProperty = document.properties.find(
-    //       (p) => p.name === property.name,
-    //     );
+        if (
+          (!validatedProperty.minCount && !validatedProperty.maxCount) ||
+          validatedProperty.amountFound >= validatedProperty.minCount
+        ) {
+          validatedProperty.valid = true;
+        }
 
-    //     const validatedProperty = {
-    //       name: property.name,
-    //       description: property.description,
-    //       minCount: property.minCount || 0,
-    //       maxCount: property.maxCount || 0,
-    //       valid: false,
-    //       amountFound: foundProperty?.found || 0,
-    //     };
+        validatedShape.properties.push(validatedProperty);
+      }
 
-    //     if (
-    //       (!validatedProperty.minCount && !validatedProperty.maxCount) ||
-    //       validatedProperty.amountFound >= validatedProperty.minCount
-    //     ) {
-    //       validatedProperty.valid = true;
-    //     }
+      validatedShape.amountOfProperties = validatedShape.properties.length;
+      validatedShape.validAmountOfProperties = validatedShape.properties.filter(
+        (p) => p.valid,
+      ).length;
 
-    //     validatedShape.properties.push(validatedProperty);
-    //   }
+      validatedDocument.push(validatedShape);
+    }
 
-    //   validatedShape.amountOfProperties = validatedShape.properties.length;
-    //   validatedShape.validAmountOfProperties = validatedShape.properties.filter(
-    //     (p) => p.valid,
-    //   ).length;
-
-    //   validatedDocument.push(validatedShape);
-    // }
-
-    // return validatedDocument;
+    return validatedDocument;
   }
 
   @action async getBlueprint(): Promise<Bindings[]> {
     return getBlueprintOfDocumentType(this.document.documentType);
-
-    // return [
-    //   {
-    //     type: 'Shape',
-    //     targetClass: 'Zitting',
-    //     closed: false,
-    //     properties: [
-    //       {
-    //         name: 'Behandelt',
-    //         description: 'Een formeel vastgelegd agendapunt van de zitting.',
-    //       },
-    //       {
-    //         name: 'Start',
-    //         description: 'Het begin van de zitting.',
-    //         minCount: 1,
-    //         maxCount: 1,
-    //       },
-    //       {
-    //         name: 'Einde',
-    //         description: 'Het einde van de zitting.',
-    //         minCount: 1,
-    //         maxCount: 1,
-    //       },
-    //       {
-    //         name: 'Geplande Start',
-    //         description: 'De geplande start van de zitting.',
-    //         minCount: 1,
-    //         maxCount: 1,
-    //       },
-    //       {
-    //         name: 'Heeft Notulen',
-    //         description: 'De formele notulen van de zitting.',
-    //         minCount: 1,
-    //         maxCount: 1,
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     type: 'Shape',
-    //     targetClass: 'Agendapunt',
-    //     closed: false,
-    //     properties: [
-    //       {
-    //         name: 'Aangebracht Na',
-    //         description:
-    //           'Het agendapunt dat op de agenda direct dit agendapunt voorafging.',
-    //       },
-    //       {
-    //         name: 'Beschrijving',
-    //         description: 'Korte beschrijving van het agendapunt.',
-    //       },
-    //     ],
-    //   },
-    // ];
   }
 }

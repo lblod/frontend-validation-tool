@@ -10,7 +10,7 @@ import {
 } from 'validation-monitoring-module/src/index';
 
 export default class DocumentService extends Service {
-  @tracked document: any = null;
+  @tracked document: Bindings[] = [];
   @tracked documentURL: string = '';
   @tracked documentType: string = '';
   @tracked documentFile: File | null = null;
@@ -35,7 +35,7 @@ export default class DocumentService extends Service {
   }
 
   @action async processPublication({ fileUrl }: { fileUrl: string }) {
-    const document: Bindings[] = await fetchDocument(fileUrl);
+    const document = await fetchDocument(fileUrl);
     const actual: string = determineDocumentType(document);
     this.document = document;
 
