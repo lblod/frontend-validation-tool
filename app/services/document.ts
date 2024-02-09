@@ -17,14 +17,31 @@ export default class DocumentService extends Service {
 
   @service declare toaster: any;
 
+  constructor() {
+    // eslint-disable-next-line prefer-rest-params
+    super(...arguments);
+
+    // Load data from local storage on initialization
+    this.loadFromLocalStorage();
+  }
+
   @action async handleDocumentTypeChange(event: Event) {
     const target = event.target as HTMLInputElement;
-    console.log(target.value);
+    this.documentType = target.value;
+    console.log(this.documentType);
+
+    // Save to local storage
+    this.saveToLocalStorage();
   }
 
   @action async processPublication({ fileUrl }: { fileUrl: string }) {
     const document: Bindings[] = await fetchDocument(fileUrl);
     const actual: string = determineDocumentType(document);
+    this.document = document;
+
+    // Save to local storage
+    this.saveToLocalStorage();
+
     return actual;
   }
 
@@ -32,8 +49,12 @@ export default class DocumentService extends Service {
     this.documentFile = file;
     const html = await file.text();
     const document = await getPublicationFromFileContent(html);
+    this.document = document;
     this.documentType = determineDocumentType(document);
+
     if (this.documentType && this.documentType !== 'unknown document type') {
+      // Save to local storage
+      this.saveToLocalStorage();
       return true;
     } else {
       this.documentType = '';
@@ -50,7 +71,10 @@ export default class DocumentService extends Service {
     this.documentType =
       (await this.processPublication({ fileUrl: fileUrl })) || '';
     console.log(this.documentType);
+
     if (this.documentType && this.documentType !== 'unknown document type') {
+      // Save to local storage
+      this.saveToLocalStorage();
       return true;
     } else {
       this.documentType = '';
@@ -59,6 +83,32 @@ export default class DocumentService extends Service {
         'Kies een type uit de lijst',
       );
       return false;
+    }
+  }
+
+  // Function to save data to local storage
+  saveToLocalStorage() {
+    localStorage.setItem(
+      'documentServiceData',
+      JSON.stringify({
+        document: this.document,
+        documentURL: this.documentURL,
+        documentType: this.documentType,
+        documentFile: this.documentFile,
+      }),
+    );
+  }
+
+  // Function to load data from local storage
+  loadFromLocalStorage() {
+    const data = localStorage.getItem('documentServiceData');
+    if (data) {
+      const { document, documentURL, documentType, documentFile } =
+        JSON.parse(data);
+      this.document = document;
+      this.documentURL = documentURL;
+      this.documentType = documentType;
+      this.documentFile = documentFile;
     }
   }
 }

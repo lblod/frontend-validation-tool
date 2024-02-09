@@ -1,7 +1,12 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
+import type { Bindings } from 'rdf-js';
 import { tracked } from 'tracked-built-ins';
+import {
+  getBlueprintOfDocumentType,
+  validatePublication,
+} from 'validation-monitoring-module/src';
 import type DocumentService from 'validation-monitoring-tool/services/document';
 
 export type RDFShape = {
@@ -68,106 +73,122 @@ export default class ValidationResultsController extends Controller {
   }
 
   @action async validateDocument() {
-    const document = await this.getDocument();
+    // const document = await this.getDocument();
     const blueprint = await this.getBlueprint();
-    const validatedDocument: RDFShape[] = [];
 
-    for (const shape of blueprint) {
-      const validatedShape: RDFShape = {
-        type: shape.type,
-        targetClass: shape.targetClass,
-        properties: [],
-        closed: shape.closed,
-      };
+    console.log(this.document.documentType);
+    console.log(this.document.document);
+    console.log(blueprint);
+    await validatePublication(this.document.document, blueprint)
+      .then((result) => {
+        console.log(result);
+        return result;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
 
-      for (const property of shape.properties) {
-        const foundProperty = document.properties.find(
-          (p) => p.name === property.name,
-        );
+    // const documentType = document.documentType;
+    // const validatedDocument: RDFShape[] = [];
 
-        const validatedProperty = {
-          name: property.name,
-          description: property.description,
-          minCount: property.minCount || 0,
-          maxCount: property.maxCount || 0,
-          valid: false,
-          amountFound: foundProperty?.found || 0,
-        };
+    // for (const shape of blueprint) {
+    //   const validatedShape: RDFShape = {
+    //     type: shape.type,
+    //     targetClass: shape.targetClass,
+    //     properties: [],
+    //     closed: shape.closed,
+    //   };
 
-        if (
-          (!validatedProperty.minCount && !validatedProperty.maxCount) ||
-          validatedProperty.amountFound >= validatedProperty.minCount
-        ) {
-          validatedProperty.valid = true;
-        }
+    //   for (const property of shape.properties) {
+    //     const foundProperty = document.properties.find(
+    //       (p) => p.name === property.name,
+    //     );
 
-        validatedShape.properties.push(validatedProperty);
-      }
+    //     const validatedProperty = {
+    //       name: property.name,
+    //       description: property.description,
+    //       minCount: property.minCount || 0,
+    //       maxCount: property.maxCount || 0,
+    //       valid: false,
+    //       amountFound: foundProperty?.found || 0,
+    //     };
 
-      validatedShape.amountOfProperties = validatedShape.properties.length;
-      validatedShape.validAmountOfProperties = validatedShape.properties.filter(
-        (p) => p.valid,
-      ).length;
+    //     if (
+    //       (!validatedProperty.minCount && !validatedProperty.maxCount) ||
+    //       validatedProperty.amountFound >= validatedProperty.minCount
+    //     ) {
+    //       validatedProperty.valid = true;
+    //     }
 
-      validatedDocument.push(validatedShape);
-    }
+    //     validatedShape.properties.push(validatedProperty);
+    //   }
 
-    return validatedDocument;
+    //   validatedShape.amountOfProperties = validatedShape.properties.length;
+    //   validatedShape.validAmountOfProperties = validatedShape.properties.filter(
+    //     (p) => p.valid,
+    //   ).length;
+
+    //   validatedDocument.push(validatedShape);
+    // }
+
+    // return validatedDocument;
   }
 
-  @action async getBlueprint(): Promise<RDFShape[]> {
-    return [
-      {
-        type: 'Shape',
-        targetClass: 'Zitting',
-        closed: false,
-        properties: [
-          {
-            name: 'Behandelt',
-            description: 'Een formeel vastgelegd agendapunt van de zitting.',
-          },
-          {
-            name: 'Start',
-            description: 'Het begin van de zitting.',
-            minCount: 1,
-            maxCount: 1,
-          },
-          {
-            name: 'Einde',
-            description: 'Het einde van de zitting.',
-            minCount: 1,
-            maxCount: 1,
-          },
-          {
-            name: 'Geplande Start',
-            description: 'De geplande start van de zitting.',
-            minCount: 1,
-            maxCount: 1,
-          },
-          {
-            name: 'Heeft Notulen',
-            description: 'De formele notulen van de zitting.',
-            minCount: 1,
-            maxCount: 1,
-          },
-        ],
-      },
-      {
-        type: 'Shape',
-        targetClass: 'Agendapunt',
-        closed: false,
-        properties: [
-          {
-            name: 'Aangebracht Na',
-            description:
-              'Het agendapunt dat op de agenda direct dit agendapunt voorafging.',
-          },
-          {
-            name: 'Beschrijving',
-            description: 'Korte beschrijving van het agendapunt.',
-          },
-        ],
-      },
-    ];
+  @action async getBlueprint(): Promise<Bindings[]> {
+    return getBlueprintOfDocumentType(this.document.documentType);
+
+    // return [
+    //   {
+    //     type: 'Shape',
+    //     targetClass: 'Zitting',
+    //     closed: false,
+    //     properties: [
+    //       {
+    //         name: 'Behandelt',
+    //         description: 'Een formeel vastgelegd agendapunt van de zitting.',
+    //       },
+    //       {
+    //         name: 'Start',
+    //         description: 'Het begin van de zitting.',
+    //         minCount: 1,
+    //         maxCount: 1,
+    //       },
+    //       {
+    //         name: 'Einde',
+    //         description: 'Het einde van de zitting.',
+    //         minCount: 1,
+    //         maxCount: 1,
+    //       },
+    //       {
+    //         name: 'Geplande Start',
+    //         description: 'De geplande start van de zitting.',
+    //         minCount: 1,
+    //         maxCount: 1,
+    //       },
+    //       {
+    //         name: 'Heeft Notulen',
+    //         description: 'De formele notulen van de zitting.',
+    //         minCount: 1,
+    //         maxCount: 1,
+    //       },
+    //     ],
+    //   },
+    //   {
+    //     type: 'Shape',
+    //     targetClass: 'Agendapunt',
+    //     closed: false,
+    //     properties: [
+    //       {
+    //         name: 'Aangebracht Na',
+    //         description:
+    //           'Het agendapunt dat op de agenda direct dit agendapunt voorafging.',
+    //       },
+    //       {
+    //         name: 'Beschrijving',
+    //         description: 'Korte beschrijving van het agendapunt.',
+    //       },
+    //     ],
+    //   },
+    // ];
   }
 }
