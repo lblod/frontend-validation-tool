@@ -13,17 +13,13 @@
   {{#each this.validatedDocument as |targetClass|}}
     <Accordion
       class="au-u-1-1"
-      @sideLabel={{concat
-        targetClass.validAmountOfProperties
-        "/"
-        targetClass.amountOfProperties
-      }}
+      @sideLabel={{targetClass.url}}
       @defaultOpen={{false}}
       @iconOpen="nav-down"
       @iconClosed="nav-up"
-      @buttonLabel={{targetClass.targetClass}}
+      @buttonLabel={{targetClass.url}}
     >
-      {{#each targetClass.properties as |validatedDocument|}}
+      {{!-- {{#each targetClass.properties as |validatedDocument|}}
         <AuAlert
           @skin={{if validatedDocument.valid "success" "warning"}}
           @icon={{if validatedDocument.valid "check" "cross"}}
@@ -50,7 +46,7 @@
             {{/if}}
           </section>
         </AuAlert>
-      {{/each}}
+      {{/each}} --}}
     </Accordion>
   {{/each}}
 

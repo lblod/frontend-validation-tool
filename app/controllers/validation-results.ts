@@ -4,6 +4,7 @@ import { service } from '@ember/service';
 import type { Bindings } from 'rdf-js';
 import { tracked } from 'tracked-built-ins';
 import {
+  fetchDocument,
   getBlueprintOfDocumentType,
   validatePublication,
 } from 'validation-monitoring-module/src';
@@ -70,56 +71,19 @@ export default class ValidationResultsController extends Controller {
     };
   }
   @action async validateDocument() {
-    const document = await this.getDocument();
     const blueprint = await this.getBlueprint();
-    console.log('bluepint', blueprint);
-    const documentType = this.document.documentType;
-    const validatedDocument: RDFShape[] = await validatePublication(
-      this.document.document,
-      blueprint,
+    const document = await fetchDocument(
+      'https://drogenbos.meetingburger.net/gr/482e87a0-1463-4e55-b5aa-2082feb3dff5/agenda',
     );
-
-    for (const shape of blueprint) {
-      const validatedShape: RDFShape = {
-        type: shape.type,
-        targetClass: shape.targetClass,
-        properties: [],
-        closed: shape.closed,
-      };
-
-      for (const property of shape.properties) {
-        const foundProperty = document.properties.find(
-          (p) => p.name === property.name,
-        );
-
-        const validatedProperty = {
-          name: property.name,
-          description: property.description,
-          minCount: property.minCount || 0,
-          maxCount: property.maxCount || 0,
-          valid: false,
-          amountFound: foundProperty?.found || 0,
-        };
-
-        if (
-          (!validatedProperty.minCount && !validatedProperty.maxCount) ||
-          validatedProperty.amountFound >= validatedProperty.minCount
-        ) {
-          validatedProperty.valid = true;
-        }
-
-        validatedShape.properties.push(validatedProperty);
-      }
-
-      validatedShape.amountOfProperties = validatedShape.properties.length;
-      validatedShape.validAmountOfProperties = validatedShape.properties.filter(
-        (p) => p.valid,
-      ).length;
-
-      validatedDocument.push(validatedShape);
-    }
-
-    return validatedDocument;
+    console.log(blueprint);
+    await validatePublication(document, blueprint)
+      .then((result) => {
+        console.log('result', result);
+        this.validatedDocument = result;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   @action async getBlueprint(): Promise<Bindings[]> {
