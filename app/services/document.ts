@@ -3,11 +3,11 @@ import { action } from '@ember/object';
 import Service, { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import type { Bindings } from 'rdf-js';
-import { getPublicationFromFileContent } from 'validation-monitoring-module/src/index';
 import {
   determineDocumentType,
   fetchDocument,
-} from '../../validation-monitoring-module/src';
+  getPublicationFromFileContent,
+} from 'validation-monitoring-module/src/index';
 
 export default class DocumentService extends Service {
   @tracked document: any = null;

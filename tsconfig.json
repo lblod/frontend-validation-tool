@@ -1,8 +1,5 @@
 {
   "extends": "@tsconfig/ember/tsconfig.json",
-  "paths": {
-    // "validation-monitoring-module": ["validation-monitoring-module/*"]
-  },
   "compilerOptions": {
     "types": ["node"],
     // The combination of `baseUrl` with `paths` allows Ember's classic package
