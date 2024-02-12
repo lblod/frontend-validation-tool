@@ -36,13 +36,13 @@ export default class DocumentService extends Service {
 
   @action async processPublication({ fileUrl }: { fileUrl: string }) {
     const document = await fetchDocument(fileUrl);
-    const actual: string = determineDocumentType(document);
+    const documentType: string = determineDocumentType(document);
     this.document = document;
 
     // Save to local storage
     this.saveToLocalStorage();
 
-    return actual;
+    return documentType;
   }
 
   @action async processDocumentFile(file: File) {
