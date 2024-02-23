@@ -3,14 +3,9 @@ import { action } from '@ember/object';
 import Service, { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import type { Bindings } from 'rdf-js';
-import {
-  determineDocumentType,
-} from './validation';
+import { determineDocumentType } from './validation';
 
-import {
-  fetchDocument,
-  getPublicationFromFileContent
-} from './queries'
+import { fetchDocument, getPublicationFromFileContent } from './queries';
 
 export default class DocumentService extends Service {
   @tracked document: Bindings[] = [];
@@ -38,10 +33,23 @@ export default class DocumentService extends Service {
   }
 
   @action async processPublication({ fileUrl }: { fileUrl: string }) {
-    const document = await fetchDocument(fileUrl);
-    const documentType: string = determineDocumentType(document);
+    const document: any = await fetchDocument(fileUrl)
+      .then((resp) => {
+        return resp;
+      })
+      .catch(() => {
+        console.log('error at fetchDocument');
+      });
+    const documentType: any = await determineDocumentType(document)
+      .then((resp) => {
+        return resp;
+      })
+      .catch(() => {
+        console.log('error at determineDocumentType');
+      });
     this.document = document;
-
+    console.log(documentType);
+    console.log(document);
     // Save to local storage
     this.saveToLocalStorage();
 

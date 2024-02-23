@@ -1,10 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ProxyHandlerStatic } from '@comunica/actor-http-proxy';
 import { QueryEngine } from '@comunica/query-sparql';
 import type { Bindings, BindingsStream } from '@comunica/types';
 
 const engine = new QueryEngine();
-
-const NUMBER_OF_RETRY_COUNTS = 2;
 
 export async function getPublicationFromFileContent(
   content: string,
@@ -33,8 +32,12 @@ export async function getPublicationFromFileContent(
 
 export async function fetchDocument(
   publicationLink: string,
-  proxyURL?: string,
 ): Promise<Bindings[]> {
+  console.log(
+    'fetchDocument',
+    publicationLink,
+    new ProxyHandlerStatic('https://proxy.linkeddatafragments.org/'),
+  );
   const bindingsStream: BindingsStream = await engine.queryBindings(
     `
         SELECT ?s ?p ?o
@@ -44,9 +47,11 @@ export async function fetchDocument(
     `,
     {
       sources: [publicationLink],
-      ...(proxyURL && { proxy: new ProxyHandlerStatic(proxyURL) }),
+      proxy: new ProxyHandlerStatic('https://proxy.linkeddatafragments.org/'),
     },
   );
+
+  console.log(bindingsStream);
   return bindingsStream.toArray();
 }
 
@@ -54,24 +59,26 @@ export async function getBlueprintOfDocumentType(
   documentType: string,
 ): Promise<Bindings[]> {
   const blueprintLink: any = {
-    Notulen:
+    NOTULEN:
       'https://raw.githubusercontent.com/lblod/notulen-prepublish-service/master/test/shapes/meeting.ttl',
-    BesluitenLijst:
+    BESLUITENLIJST:
       'https://raw.githubusercontent.com/lblod/notulen-prepublish-service/master/test/shapes/decision-list.ttl',
-    Agenda:
+    AGENDA:
       'https://raw.githubusercontent.com/lblod/notulen-prepublish-service/master/test/shapes/basic-agenda.ttl',
   };
   const bindingsStream: BindingsStream = await engine.queryBindings(
     `
-        SELECT ?s ?p ?o
+        SELECT ?s ?p ?o 
         WHERE {
             ?s ?p ?o .
         }
         `,
     {
-      sources: [blueprintLink[documentType]],
+      sources: [blueprintLink[documentType.toUpperCase()]],
     },
   );
+
+  console.log(bindingsStream);
 
   return bindingsStream.toArray();
 }

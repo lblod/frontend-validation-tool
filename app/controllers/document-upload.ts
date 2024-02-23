@@ -5,8 +5,8 @@ import type RouterService from '@ember/routing/router-service';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import type { UploadFile } from 'ember-file-upload/upload-file';
-import { fetchDocument } from 'validation-monitoring-module/src';
 import type DocumentService from 'validation-monitoring-tool/services/document';
+import { fetchDocument } from 'validation-monitoring-tool/services/queries';
 
 export default class DocumentUploadController extends Controller {
   @action reset() {
