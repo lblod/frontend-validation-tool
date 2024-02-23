@@ -5,9 +5,12 @@ import { tracked } from '@glimmer/tracking';
 import type { Bindings } from 'rdf-js';
 import {
   determineDocumentType,
+} from './validation';
+
+import {
   fetchDocument,
-  getPublicationFromFileContent,
-} from 'validation-monitoring-module/src/index';
+  getPublicationFromFileContent
+} from './queries'
 
 export default class DocumentService extends Service {
   @tracked document: Bindings[] = [];
