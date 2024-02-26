@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ProxyHandlerStatic } from '@comunica/actor-http-proxy';
+
 import { QueryEngine } from '@comunica/query-sparql';
 import type { Bindings, BindingsStream } from '@comunica/types';
 
@@ -33,11 +34,6 @@ export async function getPublicationFromFileContent(
 export async function fetchDocument(
   publicationLink: string,
 ): Promise<Bindings[]> {
-  console.log(
-    'fetchDocument',
-    publicationLink,
-    new ProxyHandlerStatic('https://proxy.linkeddatafragments.org/'),
-  );
   const bindingsStream: BindingsStream = await engine.queryBindings(
     `
         SELECT ?s ?p ?o
