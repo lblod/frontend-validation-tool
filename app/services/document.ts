@@ -26,31 +26,21 @@ export default class DocumentService extends Service {
   @action async handleDocumentTypeChange(event: Event) {
     const target = event.target as HTMLInputElement;
     this.documentType = target.value;
-    console.log(this.documentType);
 
     // Save to local storage
     this.saveToLocalStorage();
   }
 
   @action async processPublication({ fileUrl }: { fileUrl: string }) {
-    const document: any = await fetchDocument(fileUrl)
-      .then((resp) => {
+    const document: any = await fetchDocument(fileUrl).then((resp) => {
+      return resp;
+    });
+    const documentType: any = await determineDocumentType(document).then(
+      (resp) => {
         return resp;
-      })
-      .catch(() => {
-        console.log('error at fetchDocument');
-      });
-    const documentType: any = await determineDocumentType(document)
-      .then((resp) => {
-        return resp;
-      })
-      .catch(() => {
-        console.log('error at determineDocumentType');
-      });
+      },
+    );
     this.document = document;
-    console.log(documentType);
-    console.log(document);
-    // Save to local storage
     this.saveToLocalStorage();
 
     return documentType;
@@ -81,7 +71,6 @@ export default class DocumentService extends Service {
     this.documentURL = fileUrl;
     this.documentType =
       (await this.processPublication({ fileUrl: fileUrl })) || '';
-    console.log(this.documentType);
 
     if (this.documentType && this.documentType !== 'unknown document type') {
       // Save to local storage

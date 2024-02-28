@@ -41,7 +41,6 @@ export default class ApplicationController extends Controller {
   }
 
   @action validateFile(file: UploadFile) {
-    console.log(file);
     return true;
   }
 
@@ -63,12 +62,9 @@ export default class ApplicationController extends Controller {
 
   @action async validateURL({ url }: { url: string }) {
     const validUrl = url.match(/^(ftp|http|https):\/\/[^ "]+$/);
-    console.log(validUrl);
     if (validUrl) {
-      console.log('valid');
       return true;
     } else {
-      console.log('invalid');
       return false;
     }
   }

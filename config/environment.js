@@ -8,6 +8,8 @@ module.exports = function (environment) {
     locationType: 'history',
     EmberENV: {
       EXTEND_PROTOTYPES: false,
+      PROXY_HOST: process.env.PROXY_HOST,
+      PROXY_PORT: process.env.PROXY_PORT,
     },
 
     APP: {

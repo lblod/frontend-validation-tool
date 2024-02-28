@@ -109,6 +109,7 @@ export default class DocumentUploadController extends Controller {
         'Publicatie wordt geladen',
       );
     } else {
+      console.log('validating URL...');
       await this.validateURL({ url: this.publicationURL });
     }
     this.reset();

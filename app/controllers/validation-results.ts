@@ -41,25 +41,17 @@ export default class ValidationResultsController extends Controller {
   constructor(...args: any[]) {
     super(...args);
     this.validateDocument().then((resp) => {
-      console.log('validatedDocument', this.validatedDocument);
       this.validatedDocument = resp;
     });
   }
 
   @action async validateDocument() {
-    console.log('document', this.document.documentType);
     const blueprint = await getBlueprintOfDocumentType(
       this.document.documentType,
     );
-    console.log('blueprint', blueprint);
     const document = await fetchDocument(this.document.documentURL);
-    return await validatePublication(document, blueprint)
-      .then((result) => {
-        console.log('result', result);
-        return result;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    return await validatePublication(document, blueprint).then((result) => {
+      return result;
+    });
   }
 }

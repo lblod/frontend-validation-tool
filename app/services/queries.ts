@@ -1,10 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ProxyHandlerStatic } from '@comunica/actor-http-proxy';
+// import { QueryEngine } from '@comunica/query-sparql';
+
+// const engine = new QueryEngine();
 
 import { QueryEngine } from '@comunica/query-sparql';
+
+// Create a new instance of QueryEngine
+const engine = new QueryEngine();
+
+// Export the engine instance if needed
+export default engine;
+
 import type { Bindings, BindingsStream } from '@comunica/types';
 
-const engine = new QueryEngine();
+const proxyUrl = 'http://localhost:8085/'; // CORS Anywhere proxy
 
 export async function getPublicationFromFileContent(
   content: string,
@@ -34,20 +44,24 @@ export async function getPublicationFromFileContent(
 export async function fetchDocument(
   publicationLink: string,
 ): Promise<Bindings[]> {
-  const bindingsStream: BindingsStream = await engine.queryBindings(
-    `
+  const bindingsStream: BindingsStream = await engine
+    .queryBindings(
+      `
         SELECT ?s ?p ?o
         WHERE {
             ?s ?p ?o .
         }
     `,
-    {
-      sources: [publicationLink],
-      proxy: new ProxyHandlerStatic('https://proxy.linkeddatafragments.org/'),
-    },
-  );
+      {
+        sources: [publicationLink],
+        httpProxyHandler: new ProxyHandlerStatic(proxyUrl),
+      },
+    )
+    .catch((error) => {
+      console.error('Error fetching data:', error);
+      throw error;
+    });
 
-  console.log(bindingsStream);
   return bindingsStream.toArray();
 }
 
@@ -73,8 +87,6 @@ export async function getBlueprintOfDocumentType(
       sources: [blueprintLink[documentType.toUpperCase()]],
     },
   );
-
-  console.log(bindingsStream);
 
   return bindingsStream.toArray();
 }
