@@ -38,7 +38,7 @@ export async function getPublicationFromFileContent(
     },
   );
 
-  return bindingsStream.toArray();
+  return (bindingsStream as any).toArray();
 }
 
 export async function fetchDocument(
@@ -62,7 +62,7 @@ export async function fetchDocument(
       throw error;
     });
 
-  return bindingsStream.toArray();
+  return (bindingsStream as any).toArray();
 }
 
 export async function getBlueprintOfDocumentType(
@@ -88,5 +88,5 @@ export async function getBlueprintOfDocumentType(
     },
   );
 
-  return bindingsStream.toArray();
+  return (bindingsStream as any).toArray();
 }
