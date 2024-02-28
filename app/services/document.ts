@@ -51,7 +51,7 @@ export default class DocumentService extends Service {
     const html = await file.text();
     const document = await getPublicationFromFileContent(html);
     this.document = document;
-    this.documentType = determineDocumentType(document);
+    this.documentType = await determineDocumentType(document);
 
     if (this.documentType && this.documentType !== 'unknown document type') {
       // Save to local storage
