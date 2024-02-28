@@ -1,20 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ProxyHandlerStatic } from '@comunica/actor-http-proxy';
-// import { QueryEngine } from '@comunica/query-sparql';
-
-// const engine = new QueryEngine();
-
 import { QueryEngine } from '@comunica/query-sparql';
 
-// Create a new instance of QueryEngine
 const engine = new QueryEngine();
 
-// Export the engine instance if needed
 export default engine;
 
 import type { Bindings, BindingsStream } from '@comunica/types';
 
-const proxyUrl = 'http://localhost:8085/'; // CORS Anywhere proxy
+const proxyUrl = 'https://corsproxy.io/?'; // CORS Anywhere proxy
 
 export async function getPublicationFromFileContent(
   content: string,
