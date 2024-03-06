@@ -12,21 +12,9 @@ A publication can have several requirements in order to make structural sense. T
 
 2. **Title**: Each publication must have a title. The title should be a string.
 
-## NPM Package
+## CORS
 
-In order for the functionality of this tool to be used by other instances, an NPM package was created. This does mean that when developing this tool, you will have to clone the NPM package as well, and link it to the main project.
-
-To make this easier, a script was created that will do this for you. Run the following command in the root of the project:
-
-```bash
-sh ./initProject.sh
-```
-
-In order for the changes made in the NPM package to be reflected in the main project, you will have to run the following command in the root of the NPM package:
-
-```bash
-npm run watch-module
-```
+Due to issues with CORS for publications published by vendors other than Gelinkt Notuleren changes needed to be made to the way the app proxies. Either we host a CORS-anywhere service alongside the app or we resort to using a third party. We currently chose the latter and are using [CORS proxy](https://corsproxy.io/). In the future we might want to host our own CORS-anywhere service to avoid the need for a third party.
 
 ## Ember Frontend
 
