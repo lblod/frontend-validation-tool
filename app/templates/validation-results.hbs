@@ -2,8 +2,13 @@
 
 <span class="au-u-text-center">
   <h2>Validatie resultaten</h2>
-  <p class="au-u-margin-top-tiny">Resultaat van de validatie van het document:
-  </p>
+  <span class="au-u-margin-top-tiny publication-link">
+    <p>Resultaat van de validatie van het document met type
+      <p class="au-u-medium">
+        {{this.document.documentType}}
+      </p>
+    </p>
+  </span>
   <AuLinkExternal
     class="publication-link"
     @href={{this.document.documentURL}}
@@ -17,7 +22,7 @@
       @defaultOpen={{false}}
       @iconOpen="nav-down"
       @iconClosed="nav-up"
-      @buttonLabel={{documentType.name}}
+      @buttonLabel={{documentType.typeName}}
     >
       {{#each documentType.validatedProperties as |property|}}
         <AuAlert
