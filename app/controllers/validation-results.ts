@@ -6,8 +6,12 @@ import type DocumentService from 'validation-monitoring-tool/services/document';
 import {
   fetchDocument,
   getBlueprintOfDocumentType,
+  getMaturityProperties,
 } from 'validation-monitoring-tool/services/queries';
-import { validatePublication } from 'validation-monitoring-tool/services/validation';
+import {
+  validatePublication,
+  checkMaturity,
+} from 'validation-monitoring-tool/services/validation';
 
 export type RDFShape = {
   type: string;
@@ -51,7 +55,24 @@ export default class ValidationResultsController extends Controller {
     );
     const document = await fetchDocument(this.document.documentURL);
     return await validatePublication(document, blueprint).then((result) => {
-      return result;
+      let maturity = 'beja';
+      if (this.document.documentType === 'Notulen') {
+        const levels: string[] = ['Niveau 1', 'Niveau 2', 'Niveau 3'];
+        levels.map(async (level) => {
+          const properties = await getMaturityProperties(level);
+          console.log("MATUR:", checkMaturity(result, properties));
+          console.log('LEVEL:', level);
+
+          if (checkMaturity(result, properties)) {
+            maturity = level;
+            console.log(maturity);
+          }
+        });
+      }
+      return {
+        maturity: maturity,
+        publication: result
+      };
     });
   }
 }

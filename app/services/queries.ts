@@ -72,13 +72,36 @@ export async function getBlueprintOfDocumentType(
   };
   const bindingsStream: BindingsStream = await engine.queryBindings(
     `
-        SELECT ?s ?p ?o 
+        SELECT ?s ?p ?o
         WHERE {
             ?s ?p ?o .
         }
         `,
     {
       sources: [blueprintLink[documentType.toUpperCase()]],
+    },
+  );
+
+  return (bindingsStream as any).toArray();
+}
+
+
+export async function getMaturityProperties(maturityLevel: string) {
+  const source: string =
+    'https://raw.githubusercontent.com/snenenenenenene/validation-monitoring-module/master/files/notulen.ttl';
+
+  const bindingsStream: BindingsStream = await engine.queryBindings(
+    `
+      PREFIX lblodBesluit: <http://lblod.data.gift/vocabularies/besluit/>
+      PREFIX sh: <http://www.w3.org/ns/shacl#>
+      SELECT ?path
+      WHERE {
+          ?s lblodBesluit:maturiteitsniveau "${maturityLevel}" ;
+            sh:path ?path .
+      }
+      `,
+    {
+      sources: [source],
     },
   );
 

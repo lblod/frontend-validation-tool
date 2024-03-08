@@ -161,3 +161,19 @@ export async function validatePublication(
   });
   return result;
 }
+
+
+export function checkMaturity(result: any[], properties: void | Bindings[]) {
+  let valid: boolean = true;
+  (properties as Bindings[]).forEach((property) => {
+    return result.forEach((subject) => {
+      const found = subject.validatedProperties.find(
+        (p) => p.path === property.get('path')!.value,
+      );
+      if (found && !found.valid) {
+        valid = false;
+      }
+    });
+  });
+  return valid;
+}
