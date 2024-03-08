@@ -37,6 +37,8 @@ export default class ValidationResultsController extends Controller {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @tracked validatedDocument: any = [];
 
+  @tracked isLoading = false;
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(...args: any[]) {
     super(...args);
@@ -46,14 +48,17 @@ export default class ValidationResultsController extends Controller {
   }
 
   @action async validateDocument() {
+    this.isLoading = true;
     const blueprint = await getBlueprintOfDocumentType(
       this.document.documentType,
     );
     const document = await fetchDocument(this.document.documentURL);
-    return await validatePublication(document, blueprint).then((result) => {
-      console.log(this.document.documentType);
-      this.document.getMaturity(result);
-      return result;
-    });
+    return await validatePublication(document, blueprint).then(
+      async (result) => {
+        await this.document.getMaturity(result);
+        this.isLoading = false;
+        return result;
+      },
+    );
   }
 }

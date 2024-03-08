@@ -36,7 +36,7 @@ export default class DocumentService extends Service {
     this.saveToLocalStorage();
   }
 
-  @action getMaturity(result: any) {
+  @action async getMaturity(result: any) {
     this.maturity = '';
     if (this.documentType === 'Notulen') {
       const levels: string[] = ['Niveau 1', 'Niveau 2', 'Niveau 3'];
