@@ -3,15 +3,20 @@ import { action } from '@ember/object';
 import Service, { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import type { Bindings } from 'rdf-js';
-import { determineDocumentType } from './validation';
+import { checkMaturity, determineDocumentType } from './validation';
 
-import { fetchDocument, getPublicationFromFileContent } from './queries';
+import {
+  fetchDocument,
+  getMaturityProperties,
+  getPublicationFromFileContent,
+} from './queries';
 
 export default class DocumentService extends Service {
   @tracked document: Bindings[] = [];
   @tracked documentURL: string = '';
   @tracked documentType: string = '';
   @tracked documentFile: File | null = null;
+  @tracked maturity: string = '';
 
   @service declare toaster: any;
 
@@ -29,6 +34,20 @@ export default class DocumentService extends Service {
 
     // Save to local storage
     this.saveToLocalStorage();
+  }
+
+  @action getMaturity(result: any) {
+    this.maturity = '';
+    if (this.documentType === 'Notulen') {
+      const levels: string[] = ['Niveau 1', 'Niveau 2', 'Niveau 3'];
+      levels.forEach(async (level) => {
+        const properties = await getMaturityProperties(level);
+        if (checkMaturity(result, properties)) {
+          this.maturity = level;
+          this.saveToLocalStorage();
+        }
+      });
+    }
   }
 
   @action async processPublication({ fileUrl }: { fileUrl: string }) {
@@ -95,6 +114,7 @@ export default class DocumentService extends Service {
         documentURL: this.documentURL,
         documentType: this.documentType,
         documentFile: this.documentFile,
+        maturity: this.maturity, // Add this line
       }),
     );
   }
@@ -103,12 +123,13 @@ export default class DocumentService extends Service {
   loadFromLocalStorage() {
     const data = localStorage.getItem('documentServiceData');
     if (data) {
-      const { document, documentURL, documentType, documentFile } =
-        JSON.parse(data);
+      const { document, documentURL, documentType, documentFile, maturity } =
+        JSON.parse(data); // Add maturity here
       this.document = document;
       this.documentURL = documentURL;
       this.documentType = documentType;
       this.documentFile = documentFile;
+      this.maturity = maturity; // And add this line
     }
   }
 }

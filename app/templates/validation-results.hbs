@@ -2,7 +2,6 @@
 
 <span class="au-u-text-center">
   <h2>Validatie resultaten</h2>
-  <h3>Maturiteit: {{this.validatedDocument.maturity}}</h3>
 
   <span class="au-u-margin-top-tiny publication-link">
     <p>Resultaat van de validatie van het document met type
@@ -11,13 +10,16 @@
       </p>
     </p>
   </span>
+  {{#if this.document.maturity}}
+    <h3>Maturiteit: {{this.document.maturity}}</h3>
+  {{/if}}
   <AuLinkExternal
     class="publication-link"
     @href={{this.document.documentURL}}
   >{{this.document.documentURL}}</AuLinkExternal>
 </span>
 <div class="au-u-flex au-u-flex--column au-u-flex--center au-u-1-1">
-  {{#each this.validatedDocument.publication as |documentType|}}
+  {{#each this.validatedDocument as |documentType|}}
     <Accordion
       class="au-u-1-1"
       @sideLabel={{concat documentType.validCount "/" documentType.totalCount}}
