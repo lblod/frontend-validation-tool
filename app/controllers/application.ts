@@ -40,6 +40,7 @@ export default class ApplicationController extends Controller {
     this.buttonDisabled = false;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @action validateFile(file: UploadFile) {
     return true;
   }

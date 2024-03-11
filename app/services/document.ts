@@ -3,13 +3,13 @@ import { action } from '@ember/object';
 import Service, { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import type { Bindings } from 'rdf-js';
-import { checkMaturity, determineDocumentType } from './validation';
-
 import {
+  determineDocumentType,
   fetchDocument,
-  getMaturityProperties,
   getPublicationFromFileContent,
-} from './queries';
+} from 'validation-monitoring-module';
+import { getMaturityProperties } from 'validation-monitoring-module/dist/queries';
+import { checkMaturity } from 'validation-monitoring-module/dist/validation';
 
 export default class DocumentService extends Service {
   @tracked document: Bindings[] = [];
@@ -42,7 +42,7 @@ export default class DocumentService extends Service {
       const levels: string[] = ['Niveau 1', 'Niveau 2', 'Niveau 3'];
       levels.forEach(async (level) => {
         const properties = await getMaturityProperties(level);
-        if (checkMaturity(result, properties)) {
+        if (await checkMaturity(result, properties)) {
           this.maturity = level;
           this.saveToLocalStorage();
         }
@@ -51,7 +51,10 @@ export default class DocumentService extends Service {
   }
 
   @action async processPublication({ fileUrl }: { fileUrl: string }) {
-    const document: any = await fetchDocument(fileUrl).then((resp) => {
+    const document: any = await fetchDocument(
+      fileUrl,
+      'https://corsproxy.io/?',
+    ).then((resp) => {
       return resp;
     });
     const documentType: any = await determineDocumentType(document).then(

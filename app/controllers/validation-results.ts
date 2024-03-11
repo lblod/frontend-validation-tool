@@ -2,12 +2,12 @@ import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { tracked } from 'tracked-built-ins';
-import type DocumentService from 'validation-monitoring-tool/services/document';
 import {
   fetchDocument,
   getBlueprintOfDocumentType,
-} from 'validation-monitoring-tool/services/queries';
-import { validatePublication } from 'validation-monitoring-tool/services/validation';
+  validatePublication,
+} from 'validation-monitoring-module';
+import type DocumentService from 'validation-monitoring-tool/services/document';
 
 export type RDFShape = {
   type: string;
@@ -52,7 +52,10 @@ export default class ValidationResultsController extends Controller {
     const blueprint = await getBlueprintOfDocumentType(
       this.document.documentType,
     );
-    const document = await fetchDocument(this.document.documentURL);
+    const document = await fetchDocument(
+      this.document.documentURL,
+      'https://corsproxy.io/?',
+    );
     return await validatePublication(document, blueprint).then(
       async (result) => {
         await this.document.getMaturity(result);

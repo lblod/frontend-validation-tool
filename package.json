@@ -126,15 +126,8 @@
   },
   "dependencies": {
     "@comunica/actor-http-proxy": "^2.10.2",
-    "broccoli-funnel": "^3.0.8",
-    "broccoli-merge-trees": "^4.2.0",
-    "cors-anywhere": "^0.4.4",
-    "dotenv": "^16.4.5",
-    "ember-cli-cors": "^0.0.2",
-    "https-browserify": "^1.0.0",
     "node-libs-browser": "^2.2.1",
     "rdf-js": "^4.0.2",
-    "stream-http": "^3.2.0",
-    "validation-monitoring-module": "^1.0.23"
+    "validation-monitoring-module": "^1.0.27"
   }
 }
