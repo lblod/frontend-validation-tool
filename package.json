@@ -1,11 +1,14 @@
 {
   "name": "validation-monitoring-tool",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
-  "description": "Small description for validation-monitoring-tool goes here",
-  "repository": "",
+  "description": "This tool is used to validate publications in the context of the Flemish government.",
+  "repository": "https://github.com/lblod/validation-monitoring-tool",
   "license": "MIT",
-  "author": "",
+  "author": "Senne Bels <sennebels@gmail.com> (https://sennebels.xyz)",
+  "contributors": [
+    "Lenny Bontenakel"
+  ],
   "directories": {
     "doc": "doc",
     "test": "tests"
