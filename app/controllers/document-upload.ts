@@ -44,26 +44,35 @@ export default class DocumentUploadController extends Controller {
   }
   @action async validateURL({ url }: { url: string }) {
     const validUrl = url.match(/^(ftp|http|https):\/\/[^ "]+$/);
-    if (validUrl) {
-      const data = await fetchDocument(url, 'https://corsproxy.io/?');
-      if (data) {
-        this.currentToast = this.toaster.success(
-          'Correcte URL',
-          'Publicatie wordt geladen',
-        );
-        await this.document.processDocumentURL(this.publicationURL);
-        this.router.transitionTo('document-review');
-        return true;
-      }
+    if (!validUrl) {
       this.currentToast = this.toaster.error(
         'Geen publicatie gevonden',
         'Geef een correcte URL in',
       );
       return false;
-    } else {
+    }
+
+    try {
+      const data = await fetchDocument(url, 'https://corsproxy.io/?');
+      if (!data) {
+        this.currentToast = this.toaster.error(
+          'Geen publicatie gevonden',
+          'Geef een correcte URL in',
+        );
+        return false;
+      }
+
+      this.currentToast = this.toaster.success(
+        'Correcte URL',
+        'Publicatie wordt geladen',
+      );
+      await this.document.processDocumentURL(this.publicationURL);
+      this.router.transitionTo('document-review');
+      return true;
+    } catch (error) {
       this.currentToast = this.toaster.error(
-        'Geen publicatie gevonden',
-        'Geef een correcte URL in',
+        'Fout bij het laden van de publicatie',
+        'Probeer het opnieuw',
       );
       return false;
     }
