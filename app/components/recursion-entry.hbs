@@ -1,0 +1,98 @@
+{{! IF VALUE }}
+{{#if (is-string @property.value)}}
+  <h3>{{@property.value}}</h3>
+{{/if}}
+{{#if (is-array @property.value)}}
+  <AuAlert
+    @skin={{if @property.valid "info" "error"}}
+    class="au-u-margin-bottom-none"
+  >
+    <Accordion
+      class="au-u-1-1"
+      @sideLabel={{if
+        (and @property.validCount @property.totalCount)
+        (concat @property.validCount "/" @property.totalCount)
+        @property.actualCount
+      }}
+      @defaultOpen={{false}}
+      @iconOpen="nav-down"
+      @iconClosed="nav-up"
+      @buttonLabel={{format-entry-name @property.name}}
+    >
+      <AuAlert
+        @skin={{if @property.valid "success" "warning"}}
+        @icon={{if @property.valid "check" "cross"}}
+        @title={{format-entry-name @property.name}}
+        class="au-u-margin-bottom-none"
+      >
+        <p>{{@property.description}}</p>
+        <section class="au-u-flex">
+          <span class="au-u-flex au-u-margin-right-small">
+            <p>Aantal gevonden:&nbsp;</p><p>{{@property.actualCount}}</p>
+          </span>
+          {{#if @property.minCount}}
+            <span class="au-u-flex au-u-margin-right-small">
+              <p>Aantal min. vereist:&nbsp;</p><p>{{@property.minCount}}</p>
+            </span>
+          {{/if}}
+          {{#if @property.maxCount}}
+            <span class="au-u-flex au-u-margin-right">
+              <p>Aantal max. vereist:&nbsp;</p><p>{{@property.maxCount}}</p>
+            </span>
+          {{/if}}
+        </section>
+      </AuAlert>
+      {{#each @property.value as |properties|}}
+        <RecursionEntry @property={{properties}} />
+      {{/each}}
+    </Accordion>
+  </AuAlert>
+{{/if}}
+
+{{! IF PROPERTY }}
+{{#if (is-string @property.properties)}}
+  <h3>{{@property.properties}}</h3>
+{{/if}}
+{{#if (is-array @property.properties)}}
+  <AuAlert @skin={{"success"}} class="au-u-margin-bottom-none">
+    <Accordion
+      class="au-u-1-1"
+      @sideLabel={{if
+        (and @property.validCount @property.totalCount)
+        (concat @property.validCount "/" @property.totalCount)
+        @property.actualCount
+      }}
+      @defaultOpen={{false}}
+      @iconOpen="nav-down"
+      @iconClosed="nav-up"
+      @buttonLabel={{format-entry-name @property.name}}
+    >
+      <AuAlert
+        @skin={{if @property.valid "success" "warning"}}
+        @icon={{if @property.valid "check" "cross"}}
+        @title={{format-entry-name @property.name}}
+        class="au-u-margin-bottom-none"
+      >
+        <p>{{@property.description}}</p>
+        <section class="au-u-flex">
+          <span class="au-u-flex au-u-margin-right-small">
+            <p>Aantal gevonden:&nbsp;</p><p>{{@property.actualCount}}</p>
+          </span>
+          {{#if @property.minCount}}
+            <span class="au-u-flex au-u-margin-right-small">
+              <p>Aantal min. vereist:&nbsp;</p><p>{{@property.minCount}}</p>
+            </span>
+          {{/if}}
+          {{#if @property.maxCount}}
+            <span class="au-u-flex au-u-margin-right">
+              <p>Aantal max. vereist:&nbsp;</p><p>{{@property.maxCount}}</p>
+            </span>
+          {{/if}}
+        </section>
+      </AuAlert>
+      {{#each @property.properties as |value|}}
+        <RecursionEntry @property={{value}} />
+      {{/each}}
+    </Accordion>
+  </AuAlert>
+{{/if}}
