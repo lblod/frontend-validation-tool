@@ -6,7 +6,7 @@
   <span class="au-u-margin-top-tiny publication-link">
     <p>Resultaat van de validatie van het document met type
       <p class="au-u-medium">
-        {{this.document.documentType}}
+        {{this.document.subject}}
       </p>
     </p>
   </span>
@@ -26,43 +26,17 @@
   </AuLoader>
 {{else}}
   <div class="au-u-flex au-u-flex--column au-u-flex--center au-u-1-1">
-    {{#each this.validatedDocument as |documentType|}}
+    {{#each this.validatedDocument as |subject|}}
       <Accordion
         class="au-u-1-1"
-        @sideLabel={{concat
-          documentType.validCount
-          "/"
-          documentType.totalCount
-        }}
+        @sideLabel={{concat subject.validCount "/" subject.totalCount}}
         @defaultOpen={{false}}
         @iconOpen="nav-down"
         @iconClosed="nav-up"
-        @buttonLabel={{documentType.typeName}}
+        @buttonLabel={{format-entry-name subject.typeName}}
       >
-        {{#each documentType.validatedProperties as |property|}}
-          <AuAlert
-            @skin={{if property.valid "success" "warning"}}
-            @icon={{if property.valid "check" "cross"}}
-            @title={{property.name}}
-            class="au-u-margin-bottom-none"
-          >
-            <p>{{property.description}}</p>
-            <section class="au-u-flex">
-              <span class="au-u-flex au-u-margin-right-small">
-                <p>Aantal gevonden:&nbsp;</p><p>{{property.actualCount}}</p>
-              </span>
-              {{#if property.minCount}}
-                <span class="au-u-flex au-u-margin-right-small">
-                  <p>Aantal min. vereist:&nbsp;</p><p>{{property.minCount}}</p>
-                </span>
-              {{/if}}
-              {{#if property.maxCount}}
-                <span class="au-u-flex au-u-margin-right">
-                  <p>Aantal max. vereist:&nbsp;</p><p>{{property.maxCount}}</p>
-                </span>
-              {{/if}}
-            </section>
-          </AuAlert>
+        {{#each subject.properties as |property|}}
+          <RecursionEntry @property={{property}} />
         {{/each}}
       </Accordion>
     {{/each}}

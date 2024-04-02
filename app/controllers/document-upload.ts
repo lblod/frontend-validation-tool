@@ -67,6 +67,7 @@ export default class DocumentUploadController extends Controller {
         'Publicatie wordt geladen',
       );
       await this.document.processDocumentURL(this.publicationURL);
+
       this.router.transitionTo('document-review');
       return true;
     } catch (error) {

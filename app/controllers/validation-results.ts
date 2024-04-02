@@ -7,6 +7,7 @@ import {
   getBlueprintOfDocumentType,
   validatePublication,
 } from 'validation-monitoring-module';
+
 import type DocumentService from 'validation-monitoring-tool/services/document';
 
 export type RDFShape = {
@@ -48,20 +49,18 @@ export default class ValidationResultsController extends Controller {
   }
 
   @action async validateDocument() {
-    this.isLoading = true;
     const blueprint = await getBlueprintOfDocumentType(
       this.document.documentType,
     );
-    const document = await fetchDocument(
-      this.document.documentURL,
-      'https://corsproxy.io/?',
-    );
-    return await validatePublication(document, blueprint).then(
-      async (result) => {
-        await this.document.getMaturity(result);
-        this.isLoading = false;
-        return result;
-      },
-    );
+    const document = await fetchDocument(this.document.documentURL);
+    const result = validatePublication(document, blueprint);
+    console.log(result);
+
+    await this.document.getMaturity(result);
+
+    // filter out everything with the name 'undefined' or everything that starts with 'http'
+    return result.filter((item: any) => {
+      return item.typeName !== 'undefined' && !item.typeName.startsWith('http');
+    });
   }
 }

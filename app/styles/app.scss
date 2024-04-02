@@ -1,5 +1,9 @@
 @import "@appuniversum/ember-appuniversum/styles";
 
+.au-c-alert.au-c-alert--info {
+  background-color: var(--au-white);
+}
+
 .page-bg {
   background-color: $au-page-bg;
 }

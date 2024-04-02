@@ -57,11 +57,7 @@ export default class DocumentService extends Service {
     ).then((resp) => {
       return resp;
     });
-    const documentType: any = await determineDocumentType(document).then(
-      (resp) => {
-        return resp;
-      },
-    );
+    const documentType = determineDocumentType(document);
     this.document = document;
     this.saveToLocalStorage();
 
