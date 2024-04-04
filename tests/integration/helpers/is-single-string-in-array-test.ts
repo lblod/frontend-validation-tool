@@ -1,0 +1,17 @@
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'validation-monitoring-tool/tests/helpers';
+import { render } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
+
+module('Integration | Helper | is-single-string-in-array', function (hooks) {
+  setupRenderingTest(hooks);
+
+  // TODO: Replace this with your real tests.
+  test('it renders', async function (assert) {
+    this.set('inputValue', '1234');
+
+    await render(hbs`{{is-single-string-in-array this.inputValue}}`);
+
+    assert.dom().hasText('1234');
+  });
+});

@@ -27,18 +27,18 @@
 {{else}}
   <div class="au-u-flex au-u-flex--column au-u-flex--center au-u-1-1">
     {{#each this.validatedDocument as |subject|}}
-      <Accordion
+      {{!-- <Accordion
         class="au-u-1-1"
         @sideLabel={{concat subject.validCount "/" subject.totalCount}}
         @defaultOpen={{false}}
         @iconOpen="nav-down"
         @iconClosed="nav-up"
         @buttonLabel={{format-entry-name subject.typeName}}
-      >
-        {{#each subject.properties as |property|}}
-          <RecursionEntry @property={{property}} />
-        {{/each}}
-      </Accordion>
+      > --}}
+      {{!-- {{#each subject as |property|}} --}}
+      <RecursionEntry @property={{subject}} />
+      {{!-- {{/each}} --}}
+      {{! </Accordion> }}
     {{/each}}
   </div>
 {{/if}}
