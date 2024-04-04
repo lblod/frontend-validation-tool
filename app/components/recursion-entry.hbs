@@ -1,205 +1,104 @@
-{{! IF VALUE }}
-{{#if @property.value}}
-  <AuAlert class="au-u-margin-bottom" @skin={{"info"}}>
-    <div class="au-c-accordion {{this.skin}} {{this.reverse}}" ...attributes>
-      <AuToolbar
-        @nowrap={{true}}
-        @reverse={{@reverse}}
-        {{on "click" this.toggleAccordion}}
-        data-test-accordion-toggle
-        as |Group|
-      >
-        <Group class="au-u-1-1">
-          <div class="au-u-1-1">
-            <AuButton
-              class="au-u-1-1"
-              @skin="link"
-              aria-expanded="{{if this.isOpen 'true' 'false'}}"
-              data-test-accordion-button
-            >
-              <section class="au-u-1-1 au-u-flex au-u-flex--between">
-                <span>
-                  <p class="au-u-h3">
-                    {{format-entry-name @property.name}}
-                  </p>
-                  <p class="au-u-para">{{@property.description}}</p>
-                </span>
-                <p class="au-u-h6">
+{{!-- {{#if @property.value}} --}}
+<AuAlert
+  @skin={{if @property.valid "success" "warning"}}
+  {{!-- @icon={{if @property.valid "check" "cross"}} --}}
+  class="au-u-margin-bottom"
+>
+  <div class="au-c-accordion {{this.skin}} {{this.reverse}}" ...attributes>
+    <AuToolbar
+      @nowrap={{true}}
+      @reverse={{@reverse}}
+      {{on "click" this.toggleAccordion}}
+      data-test-accordion-toggle
+      as |Group|
+    >
+      <Group class="au-u-1-1">
+        <div class="au-u-1-1">
+          <AuButton
+            class="au-u-1-1"
+            @skin="link"
+            aria-expanded="{{if this.isOpen 'true' 'false'}}"
+            data-test-accordion-button
+          >
+            <section class="au-u-1-1 au-u-flex au-u-flex--between">
+              <span>
+                <p class="au-u-h3">
                   {{if
-                    (and @property.validCount @property.totalCount)
-                    (concat @property.validCount "/" @property.totalCount)
-                    @property.actualCount
+                    (or (eq @property.name undefined) (eq @property.name null))
+                    (format-entry-name @property.typeName)
+                    (format-entry-name @property.name)
                   }}
                 </p>
-              </section>
-            </AuButton>
-            {{#if @property.subtitle}}
-              <p data-test-accordion-subtitle>
-                {{@property.subtitle}}
+                <p class="au-u-para">{{@property.description}}</p>
+              </span>
+              <p class="au-u-h6">
+                {{if
+                  (and @property.validCount @property.totalCount)
+                  (concat @property.validCount "/" @property.totalCount)
+                  @property.actualCount
+                }}
               </p>
-            {{/if}}
-          </div>
-        </Group>
-        <Group>
-          {{#if this.isOpen}}
-            <AuIcon
-              @icon="nav-down"
-              @alignment="left"
-              @size="large"
-              @ariaHidden={{true}}
-              data-test-accordion-icon-open
-            />
-          {{else}}
-            <AuIcon
-              @icon="nav-up"
-              @alignment="left"
-              @size="large"
-              @ariaHidden={{true}}
-              data-test-accordion-icon-closed
-            />
-          {{/if}}
-        </Group>
-      </AuToolbar>
-      {{#if this.isOpen}}
-        <AuContent
-          tabindex="0"
-          class="au-u-padding-top"
-          data-test-accordion-content
-        >
-          {{#if this.loading}}
-            <AuLoader data-test-accordion-loader />
-          {{else}}
-            {{!-- <AuAlert
-            @skin={{if @property.valid "success" "warning"}}
-            @icon={{if @property.valid "check" "cross"}}
-            @title={{format-entry-name @property.name}}
-            class="au-u-margin-bottom-none"
-          > --}}
-
-            <section class="au-u-flex">
-              <!-- Display counts and other property details here -->
             </section>
-            {{#if @property.value}}
-              {{#if (is-single-string-in-array @property.value)}}
-                <p>{{@property.value}}</p>
-              {{else}}
-                {{#each @property.value as |subProperty|}}
-                  <RecursionEntry @property={{subProperty}} />
-                {{/each}}
-              {{/if}}
+          </AuButton>
+          {{#if @property.subtitle}}
+            <p data-test-accordion-subtitle>
+              {{@property.subtitle}}
+            </p>
+          {{/if}}
+        </div>
+      </Group>
+      <Group>
+        {{#if this.isOpen}}
+          <AuIcon
+            @icon="nav-down"
+            @alignment="left"
+            @size="large"
+            @ariaHidden={{true}}
+            data-test-accordion-icon-open
+          />
+        {{else}}
+          <AuIcon
+            @icon="nav-up"
+            @alignment="left"
+            @size="large"
+            @ariaHidden={{true}}
+            data-test-accordion-icon-closed
+          />
+        {{/if}}
+      </Group>
+    </AuToolbar>
+    {{#if this.isOpen}}
+      <AuContent
+        tabindex="0"
+        class="au-u-padding-top"
+        data-test-accordion-content
+      >
+        {{#if this.loading}}
+          <AuLoader data-test-accordion-loader />
+        {{else}}
+          <section class="au-u-flex">
+
+          </section>
+          {{#if @property.value}}
+            {{#if (is-single-string-in-array @property.value)}}
+              <p>{{@property.value}}</p>
+            {{else}}
+              {{#each @property.value as |subProperty|}}
+                <RecursionEntry @property={{subProperty}} />
+              {{/each}}
             {{/if}}
-            {{#if @property.properties}}
+          {{/if}}
+          {{#if @property.properties}}
+            {{#if (is-single-string-in-array @property.properties)}}
+              <p>{{@property.properties}}</p>
+            {{else}}
               {{#each @property.properties as |subProperty|}}
                 <RecursionEntry @property={{subProperty}} />
               {{/each}}
             {{/if}}
-            {{! </AuAlert> }}
           {{/if}}
-        </AuContent>
-      {{/if}}
-    </div>
-  </AuAlert>
-  {{!-- {{else}} --}}
-  {{!-- <h3>{{@property.name}}</h3> --}}
-{{/if}}
-
-{{#if @property.properties}}
-  <AuAlert class="au-u-margin-bottom" @skin={{"info"}}>
-    <div class="au-c-accordion {{this.skin}} {{this.reverse}}" ...attributes>
-      <AuToolbar
-        @nowrap={{true}}
-        @reverse={{@reverse}}
-        {{on "click" this.toggleAccordion}}
-        data-test-accordion-toggle
-        as |Group|
-      >
-        <Group class="au-u-1-1">
-          <div class="au-u-1-1">
-            <AuButton
-              class="au-u-1-1"
-              @skin="link"
-              aria-expanded="{{if this.isOpen 'true' 'false'}}"
-              data-test-accordion-button
-            >
-              <section class="au-u-1-1 au-u-flex au-u-flex--between">
-                <span>
-                  <p class="au-u-h3">
-                    {{format-entry-name @property.name}}
-                  </p>
-                  <p class="au-u-para">{{@property.description}}</p>
-                </span>
-                <p class="au-u-h6">
-                  {{if
-                    (and @property.validCount @property.totalCount)
-                    (concat @property.validCount "/" @property.totalCount)
-                    @property.actualCount
-                  }}
-                </p>
-              </section>
-            </AuButton>
-            {{#if @property.subtitle}}
-              <p data-test-accordion-subtitle>
-                {{@property.subtitle}}
-              </p>
-            {{/if}}
-          </div>
-        </Group>
-        <Group>
-          {{#if this.isOpen}}
-            <AuIcon
-              @icon="nav-down"
-              @alignment="left"
-              @size="large"
-              @ariaHidden={{true}}
-              data-test-accordion-icon-open
-            />
-          {{else}}
-            <AuIcon
-              @icon="nav-up"
-              @alignment="left"
-              @size="large"
-              @ariaHidden={{true}}
-              data-test-accordion-icon-closed
-            />
-          {{/if}}
-        </Group>
-      </AuToolbar>
-      {{#if this.isOpen}}
-        <AuContent
-          tabindex="0"
-          class="au-u-padding-top"
-          data-test-accordion-content
-        >
-          {{#if this.loading}}
-            <AuLoader data-test-accordion-loader />
-          {{else}}
-            {{!-- <AuAlert
-            @skin={{if @property.valid "success" "warning"}}
-            @icon={{if @property.valid "check" "cross"}}
-            @title={{format-entry-name @property.name}}
-            class="au-u-margin-bottom-none"
-          > --}}
-
-            <section class="au-u-flex">
-            </section>
-            {{#if @property.value}}
-              {{#if (is-single-string-in-array @property.value)}}
-                <p>{{@property.value}}</p>
-              {{else}}
-                {{#each @property.value as |subProperty|}}
-                  <RecursionEntry @property={{subProperty}} />
-                {{/each}}
-              {{/if}}
-            {{/if}}
-            {{#if @property.properties}}
-              {{#each @property.properties as |subProperty|}}
-                <RecursionEntry @property={{subProperty}} />
-              {{/each}}
-            {{/if}}
-            {{! </AuAlert> }}
-          {{/if}}
-        </AuContent>
-      {{/if}}
-    </div>
-  </AuAlert>
-{{/if}}
+        {{/if}}
+      </AuContent>
+    {{/if}}
+  </div>
+</AuAlert>

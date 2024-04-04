@@ -58,9 +58,6 @@ export default class ValidationResultsController extends Controller {
 
     await this.document.getMaturity(result);
 
-    // filter out everything with the name 'undefined' or everything that starts with 'http'
-    return result.filter((item: any) => {
-      return item.typeName !== 'undefined' && !item.typeName.startsWith('http');
-    });
+    return result;
   }
 }
