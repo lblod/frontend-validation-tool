@@ -80,6 +80,12 @@ In order to properly validate an agenda item exists in a publication, we need to
 
 ## Usage
 
+> Run the application using the command below:
+>
+> ```console
+> npm run dev
+> ```
+
 ### CORS
 
 Due to issues with CORS for publications published by vendors other than Gelinkt Notuleren changes needed to be made to the way the app proxies. Either we host a CORS-anywhere service alongside the app or we resort to using a third party. We currently chose the latter and are using [CORS proxy](https://corsproxy.io/). In the future we might want to host our own CORS-anywhere service to avoid the need for a third party.
