@@ -6,7 +6,7 @@ import {
   fetchDocument,
   getBlueprintOfDocumentType,
   validatePublication,
-} from 'validation-monitoring-module';
+} from 'validation-monitoring-module-test/dist';
 
 import type DocumentService from 'validation-monitoring-tool/services/document';
 
@@ -53,7 +53,7 @@ export default class ValidationResultsController extends Controller {
       this.document.documentType,
     );
     const document = await fetchDocument(this.document.documentURL);
-    const result = validatePublication(document, blueprint);
+    const result = await validatePublication(document, blueprint);
     console.log(result);
 
     await this.document.getMaturity(result);

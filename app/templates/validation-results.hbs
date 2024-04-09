@@ -1,6 +1,6 @@
 {{page-title "Validation Results"}}
 
-<span class="au-u-text-center">
+<div class="au-u-text-center">
   <h2>Validatie resultaten</h2>
 
   <span class="au-u-margin-top-tiny publication-link">
@@ -19,7 +19,17 @@
     class="publication-link"
     @href={{this.document.documentURL}}
   >{{this.document.documentURL}}</AuLinkExternal>
-</span>
+
+  <section class="au-u-margin-top">
+    <AuPill @skin={{"success"}}>Correct/Volledig</AuPill>
+    <AuPill @skin={{"border"}}>Correct/Volledig</AuPill>
+    <AuPill @skin={{"default"}}>Niet Gevalideerd</AuPill>
+    <AuPill @skin={{"warning"}}>Onvolledig</AuPill>
+    <AuPill @skin={{"error"}}>Onvolledig</AuPill>
+  </section>
+</div>
+
+{{! Validation Results }}
 {{#if this.isLoading}}
   <AuLoader @centered={{true}}>
     Valideren van publicatie...
@@ -27,18 +37,20 @@
 {{else}}
   <div class="au-u-flex au-u-flex--column au-u-flex--center au-u-1-1">
     {{#each this.validatedDocument as |subject|}}
-      {{!-- <Accordion
-        class="au-u-1-1"
-        @sideLabel={{concat subject.validCount "/" subject.totalCount}}
-        @defaultOpen={{false}}
-        @iconOpen="nav-down"
-        @iconClosed="nav-up"
-        @buttonLabel={{format-entry-name subject.typeName}}
-      > --}}
-      {{!-- {{#each subject as |property|}} --}}
-      <RecursionEntry @property={{subject}} />
-      {{!-- {{/each}} --}}
-      {{! </Accordion> }}
+      {{! First level of subjects }}
+      <RecursionEntry
+        @firstLevel={{true}}
+        @alertSkin={{if
+          (and
+            subject.totalCount
+            subject.validCount
+            (lt subject.validCount subject.totalCount)
+          )
+          "error"
+          "info"
+        }}
+        @property={{subject}}
+      />
     {{/each}}
   </div>
 {{/if}}
