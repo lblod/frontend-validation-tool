@@ -17,17 +17,16 @@ module.exports = {
   },
   rules: {},
   overrides: [
-    // ts files
     {
+      // ts files
       files: ['**/*.ts'],
       extends: [
         'plugin:@typescript-eslint/eslint-recommended',
         'plugin:@typescript-eslint/recommended',
       ],
-      rules: {},
     },
-    // node files
     {
+      // node files
       files: [
         './.eslintrc.js',
         './.prettierrc.js',
@@ -40,6 +39,9 @@ module.exports = {
         './lib/*/index.js',
         './server/**/*.js',
       ],
+      parserOptions: {
+        sourceType: 'script',
+      },
       env: {
         browser: false,
         node: true,

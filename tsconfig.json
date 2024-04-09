@@ -1,9 +1,6 @@
 {
-  "include": ["app", "server"],
   "extends": "@tsconfig/ember/tsconfig.json",
   "compilerOptions": {
-    "skipLibCheck": true,
-    "types": ["node"],
     // The combination of `baseUrl` with `paths` allows Ember's classic package
     // layout, which is not resolvable with the Node resolution algorithm, to
     // work with TypeScript.
@@ -13,5 +10,11 @@
       "validation-monitoring-tool/*": ["app/*"],
       "*": ["types/*"]
     }
-  }
+  },
+  "include": [
+    "app/**/*",
+    "tests/**/*",
+    "types/**/*",
+    "app/config/environment.d.ts"
+  ]
 }
