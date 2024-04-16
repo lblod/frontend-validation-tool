@@ -1,187 +1,346 @@
-<AuAlert
-  @skin={{if
-    @alertSkin
-    @alertSkin
-    (if
-      (and (not @firstLevel) (eq @property.valid undefined))
-      "info"
-      (if @property.valid "success" "warning")
-    )
-  }}
-  class="{{concat
-      'au-u-margin-bottom '
+{{#if (eq @property.actualCount 0)}}
+  <AuAlert
+    @skin={{if
+      @alertSkin
+      @alertSkin
+      (if
+        (and (not @firstLevel) (eq @property.valid undefined))
+        "info"
+        (if @property.valid "success" "warning")
+      )
+    }}
+    class="{{concat
+        'au-u-margin-bottom '
+        (if
+          (and
+            @firstLevel
+            (or (eq @property.valid true) (eq @property.valid undefined))
+          )
+          'au-c-alert--neutral'
+        )
+      }}"
+  >
+    <section class="au-u-1-1 accordion-title au-u-flex au-u-flex--between">
+      {{! ACCORDION TITLE }}
+      <span class="au-u-5-6">
+        <p class="au-u-h3">
+          {{#if (or (eq @property.name undefined) (eq @property.name null))}}
+            {{#if (or (eq @property.path undefined) (eq @property.path null))}}
+              {{format-entry-name @property.typeName}}
+            {{else}}
+
+              {{format-entry-name @property.path}}
+            {{/if}}
+          {{else}}
+            {{format-entry-name @property.name}}
+          {{/if}}
+        </p>
+        <p class="au-u-para-tiny">
+          {{#if @property.url}}
+            <AuLinkExternal
+              @skin="primary"
+              href={{@property.url}}
+              class="truncate-url"
+              title={{@property.url}}
+            >{{@property.url}}</AuLinkExternal>
+          {{/if}}
+        </p>
+        <p class="au-u-para">{{@property.description}}</p>
+      </span>
+      <p class="au-u-h6">
+        {{if
+          @property.actualCount
+          @property.actualCount
+          (if
+            (and @property.validCount @property.totalCount)
+            (concat @property.validCount "/" @property.totalCount)
+            @property.totalCount
+          )
+        }}
+      </p>
+    </section>
+  </AuAlert>
+{{else if (eq @property.totalCount 0)}}
+  <AuAlert
+    @skin={{if
+      @alertSkin
+      @alertSkin
+      (if
+        (and (not @firstLevel) (eq @property.valid undefined))
+        "info"
+        (if @property.valid "success" "warning")
+      )
+    }}
+    class="{{concat
+        'au-u-margin-bottom '
+        (if
+          (and
+            @firstLevel
+            (or (eq @property.valid true) (eq @property.valid undefined))
+          )
+          'au-c-alert--neutral'
+        )
+      }}"
+  >
+    <section class="au-u-1-1 accordion-title au-u-flex au-u-flex--between">
+      {{! ACCORDION TITLE }}
+      <span class="au-u-5-6">
+        <p class="au-u-h3">
+          {{#if (or (eq @property.name undefined) (eq @property.name null))}}
+            {{#if (or (eq @property.path undefined) (eq @property.path null))}}
+              {{format-entry-name @property.typeName}}
+            {{else}}
+              {{format-entry-name @property.path}}
+            {{/if}}
+          {{else}}
+            {{format-entry-name @property.name}}
+          {{/if}}
+        </p>
+        <p class="au-u-para-tiny">
+          {{#if @property.url}}
+            <AuLinkExternal
+              @skin="primary"
+              href={{@property.url}}
+              class="truncate-url"
+              title={{@property.url}}
+            >{{@property.url}}</AuLinkExternal>
+          {{/if}}
+        </p>
+        <p class="au-u-para">{{@property.description}}</p>
+      </span>
+      <p class="au-u-h6">
+        {{if
+          @property.actualCount
+          @property.actualCount
+          (if
+            (and @property.validCount @property.totalCount)
+            (concat @property.validCount "/" @property.totalCount)
+            @property.totalCount
+          )
+        }}
+      </p>
+    </section>
+  </AuAlert>
+{{else}}
+  <AuAlert
+    @skin={{if
+      @alertSkin
+      @alertSkin
       (if
         (and
-          @firstLevel
-          (or (eq @property.valid true) (eq @property.valid undefined))
+          (not @property.valid)
+          (is-empty @property.validCount)
+          (is-empty @property.totalCount)
         )
-        'au-c-alert--neutral'
+        "info"
+        (if
+          (and @firstLevel (lt @property.validCount @property.totalCount))
+          "error"
+          (if
+            (and
+              (not @firstLevel) (eq @property.validCount @property.totalCount)
+            )
+            "success"
+            (if
+              (and
+                (not @firstLevel)
+                (not (eq @property.validCount @property.totalCount))
+              )
+              "warning"
+              (if
+                (and (not @firstLevel) (eq @property.valid undefined))
+                "info"
+                (if (and @firstLevel @property.valid) "success" "warning")
+              )
+            )
+          )
+        )
       )
-    }}"
->
-  <div class="au-c-accordion {{this.skin}} {{this.reverse}}" ...attributes>
-    <AuToolbar
-      @nowrap={{true}}
-      @reverse={{@reverse}}
-      {{on "click" this.toggleAccordion}}
-      data-test-accordion-toggle
-      as |Group|
-    >
-      <Group class="au-u-1-1">
-        <div class="au-u-1-1">
-          <AuButton
-            class="au-u-1-1"
-            @skin="link"
-            aria-expanded="{{if this.isOpen 'true' 'false'}}"
-            data-test-accordion-button
-          >
-            <section
-              class="au-u-1-1 accordion-title au-u-flex au-u-flex--between"
+    }}
+    class="{{concat
+        'au-u-margin-bottom '
+        (if
+          (and
+            @firstLevel
+            (or
+              (and
+                (eq @property.validCount undefined)
+                (not (eq @property.totalCount undefined))
+              )
+            )
+          )
+          'au-c-alert--neutral'
+        )
+      }}"
+  >
+    <div class="au-c-accordion {{this.skin}} {{this.reverse}}" ...attributes>
+      <AuToolbar
+        @nowrap={{true}}
+        @reverse={{@reverse}}
+        {{on "click" this.toggleAccordion}}
+        data-test-accordion-toggle
+        as |Group|
+      >
+        <Group class="au-u-1-1">
+          <div class="au-u-1-1">
+            <AuButton
+              class="au-u-1-1"
+              @skin="link"
+              aria-expanded="{{if this.isOpen 'true' 'false'}}"
+              data-test-accordion-button
             >
-              {{! ACCORDION TITLE }}
-              <span class="au-u-5-6">
-                <p class="au-u-h3">
-                  {{#if
-                    (or (eq @property.name undefined) (eq @property.name null))
-                  }}
+              <section
+                class="au-u-1-1 accordion-title au-u-flex au-u-flex--between"
+              >
+                {{! ACCORDION TITLE }}
+                <span class="au-u-5-6">
+                  <p class="au-u-h3">
                     {{#if
                       (or
-                        (eq @property.path undefined) (eq @property.path null)
+                        (eq @property.name undefined) (eq @property.name null)
                       )
                     }}
-                      {{format-entry-name @property.typeName}}
+                      {{#if
+                        (or
+                          (eq @property.path undefined) (eq @property.path null)
+                        )
+                      }}
+                        {{format-entry-name @property.typeName}}
+                      {{else}}
+
+                        {{format-entry-name @property.path}}
+                      {{/if}}
                     {{else}}
-
-                      {{format-entry-name @property.path}}
+                      {{format-entry-name @property.name}}
                     {{/if}}
-                  {{else}}
-                    {{format-entry-name @property.name}}
-                  {{/if}}
+                  </p>
+                  <p class="au-u-para-tiny">
+                    {{#if @property.url}}
+                      <AuLinkExternal
+                        @skin="primary"
+                        href={{@property.url}}
+                        class="truncate-url"
+                        title={{@property.url}}
+                      >{{@property.url}}</AuLinkExternal>
+                    {{/if}}
+                  </p>
+                  <p class="au-u-para">{{@property.description}}</p>
+                </span>
+                <p class="au-u-h6">
+                  {{if
+                    @property.actualCount
+                    @property.actualCount
+                    (if
+                      (and @property.validCount @property.totalCount)
+                      (concat @property.validCount "/" @property.totalCount)
+                      @property.totalCount
+                    )
+                  }}
                 </p>
-                <p class="au-u-para-tiny">
-                  {{#if @property.url}}
-                    <AuLinkExternal
-                      @skin="primary"
-                      href={{@property.url}}
-                      class="truncate-url"
-                      title={{@property.url}}
-                    >{{@property.url}}</AuLinkExternal>
-                  {{/if}}
-                </p>
-                <p class="au-u-para">{{@property.description}}</p>
-              </span>
-              <p class="au-u-h6">
-                {{if
-                  @property.actualCount
-                  @property.actualCount
-                  (if
-                    (and @property.validCount @property.totalCount)
-                    (concat @property.validCount "/" @property.totalCount)
-                    @property.totalCount
-                  )
-                }}
+              </section>
+            </AuButton>
+            {{#if @property.subtitle}}
+              <p data-test-accordion-subtitle>
+                {{@property.subtitle}}
               </p>
-            </section>
-          </AuButton>
-          {{#if @property.subtitle}}
-            <p data-test-accordion-subtitle>
-              {{@property.subtitle}}
+            {{/if}}
+            <p class="au-u-h6">
+              {{concat
+                (if
+                  (or
+                    (eq @property.minCount undefined)
+                    (eq @property.minCount null)
+                  )
+                  ""
+                  (concat "Minimum Aantal: " @property.minCount " ")
+                )
+                (if
+                  (or
+                    (eq @property.maxCount undefined)
+                    (eq @property.maxCount null)
+                  )
+                  ""
+                  (concat "Maximum Aantal: " @property.maxCount " ")
+                )
+                (if
+                  (or
+                    (eq @property.actualCount undefined)
+                    (eq @property.actualCount null)
+                  )
+                  ""
+                  (concat "Werkelijke Aantal: " @property.actualCount)
+                )
+              }}
             </p>
+          </div>
+        </Group>
+        <Group>
+          {{#if this.isOpen}}
+            <AuIcon
+              @icon="nav-down"
+              @alignment="left"
+              @size="large"
+              @ariaHidden={{true}}
+              data-test-accordion-icon-open
+            />
+          {{else}}
+            <AuIcon
+              @icon="nav-up"
+              @alignment="left"
+              @size="large"
+              @ariaHidden={{true}}
+              data-test-accordion-icon-closed
+            />
           {{/if}}
-          <p class="au-u-h6">
-            {{concat
-              (if
-                (or
-                  (eq @property.minCount undefined) (eq @property.minCount null)
-                )
-                ""
-                (concat "Minimum Aantal: " @property.minCount " ")
-              )
-              (if
-                (or
-                  (eq @property.maxCount undefined) (eq @property.maxCount null)
-                )
-                ""
-                (concat "Maximum Aantal: " @property.maxCount " ")
-              )
-              (if
-                (or
-                  (eq @property.actualCount undefined)
-                  (eq @property.actualCount null)
-                )
-                ""
-                (concat "Werkelijke Aantal: " @property.actualCount)
-              )
-            }}
-          </p>
-        </div>
-      </Group>
-      <Group>
-        {{#if this.isOpen}}
-          <AuIcon
-            @icon="nav-down"
-            @alignment="left"
-            @size="large"
-            @ariaHidden={{true}}
-            data-test-accordion-icon-open
-          />
-        {{else}}
-          <AuIcon
-            @icon="nav-up"
-            @alignment="left"
-            @size="large"
-            @ariaHidden={{true}}
-            data-test-accordion-icon-closed
-          />
-        {{/if}}
-      </Group>
-    </AuToolbar>
-    {{#if this.isOpen}}
-      <AuContent
-        tabindex="0"
-        class="au-u-padding-top"
-        data-test-accordion-content
-      >
-        {{#if this.loading}}
-          <AuLoader data-test-accordion-loader />
-        {{else}}
-          <section class="au-u-flex">
+        </Group>
+      </AuToolbar>
+      {{#if this.isOpen}}
+        <AuContent
+          tabindex="0"
+          class="au-u-padding-top"
+          data-test-accordion-content
+        >
+          {{#if this.loading}}
+            <AuLoader data-test-accordion-loader />
+          {{else}}
+            <section class="au-u-flex">
 
-          </section>
-          {{#if @property.value}}
-            {{#if (is-single-string-in-array @property.value)}}
-              {{#if (is-uri @property.value)}}
-                <AuLinkExternal
-                  @skin="primary"
-                  href={{@property.value}}
-                >{{@property.value}}</AuLinkExternal>
+            </section>
+            {{#if @property.value}}
+              {{#if (is-single-string-in-array @property.value)}}
+                {{#if (is-uri @property.value)}}
+                  <AuLinkExternal
+                    @skin="primary"
+                    href={{@property.value}}
+                  >{{@property.value}}</AuLinkExternal>
+                {{else}}
+                  <p>{{@property.value}}</p>
+                {{/if}}
               {{else}}
-                <p>{{@property.value}}</p>
+                {{#each @property.value as |subProperty|}}
+                  <RecursionEntry @property={{subProperty}} />
+                {{/each}}
               {{/if}}
-            {{else}}
-              {{#each @property.value as |subProperty|}}
-                <RecursionEntry @property={{subProperty}} />
-              {{/each}}
+            {{/if}}
+            {{#if @property.properties}}
+              {{#if (is-single-string-in-array @property.properties)}}
+                {{#if (is-uri @property.properties)}}
+                  <AuLinkExternal
+                    @skin="primary"
+                    href={{@property.properties}}
+                  >{{@property.properties}}</AuLinkExternal>
+                {{else}}
+                  <p>{{@property.properties}}</p>
+                {{/if}}
+              {{else}}
+                {{#each @property.properties as |subProperty|}}
+                  <RecursionEntry @property={{subProperty}} />
+                {{/each}}
+              {{/if}}
             {{/if}}
           {{/if}}
-          {{#if @property.properties}}
-            {{#if (is-single-string-in-array @property.properties)}}
-              {{#if (is-uri @property.properties)}}
-                <AuLinkExternal
-                  @skin="primary"
-                  href={{@property.properties}}
-                >{{@property.properties}}</AuLinkExternal>
-              {{else}}
-                <p>{{@property.properties}}</p>
-              {{/if}}
-            {{else}}
-              {{#each @property.properties as |subProperty|}}
-                <RecursionEntry @property={{subProperty}} />
-              {{/each}}
-            {{/if}}
-          {{/if}}
-        {{/if}}
-      </AuContent>
-    {{/if}}
-  </div>
-</AuAlert>
+        </AuContent>
+      {{/if}}
+    </div>
+  </AuAlert>
+{{/if}}
