@@ -1,5 +1,14 @@
 @import "@appuniversum/ember-appuniversum/styles";
 
+.au-c-app {
+  height: auto !important;
+  min-height: 100vh;
+
+  .au-c-main-container__content {
+    height: 100% !important;
+  }
+}
+
 .au-c-alert {
   overflow: hidden;
 
