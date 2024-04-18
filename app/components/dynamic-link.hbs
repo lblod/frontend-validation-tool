@@ -1,0 +1,5 @@
+{{#if (is-uri @value)}}
+  <AuLinkExternal @skin="primary" href={{@value}}>{{@value}}</AuLinkExternal>
+{{else}}
+  <p>{{@value}}</p>
+{{/if}}
