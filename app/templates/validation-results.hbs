@@ -38,7 +38,7 @@
   <div class="au-u-flex au-u-flex--column au-u-flex--center au-u-1-1">
     {{#each this.validatedDocument as |subject|}}
       {{! First level of subjects }}
-      <RecursionEntry
+      <RecursiveEntry
         @firstLevel={{true}}
         @alertSkin={{if
           (and

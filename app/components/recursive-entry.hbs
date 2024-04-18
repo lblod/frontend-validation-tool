@@ -100,7 +100,7 @@
                   <DynamicLink @value={{@property.value}} />
                 {{else}}
                   {{#each @property.value as |value|}}
-                    <RecursionEntry @property={{value}} />
+                    <RecursiveEntry @property={{value}} />
                   {{/each}}
                 {{/if}}
               {{/if}}
@@ -109,7 +109,7 @@
                   <DynamicLink @value={{@property.value}} />
                 {{else}}
                   {{#each @property.properties as |property|}}
-                    <RecursionEntry @property={{property}} />
+                    <RecursiveEntry @property={{property}} />
                   {{/each}}
                 {{/if}}
               {{/if}}

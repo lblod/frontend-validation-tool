@@ -30,7 +30,7 @@ interface ArgsInterface {
   alertSkin?: string;
 }
 
-export default class Accordion extends Component<ArgsInterface> {
+export default class RecursiveEntry extends Component<ArgsInterface> {
   get skin() {
     const { valid, validCount, totalCount, actualCount } = this.args.property;
     const { firstLevel, alertSkin } = this.args;
