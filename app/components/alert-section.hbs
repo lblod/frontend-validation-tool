@@ -1,0 +1,17 @@
+<section class="au-u-1-1 accordion-title au-u-flex au-u-flex--between">
+  <span class="au-u-5-6">
+    <p class="au-u-h3">{{@formattedName}}</p>
+    <p class="au-u-para-tiny">
+      {{#if @hasURL}}
+        <AuLinkExternal
+          @skin="primary"
+          href={{@displayURL}}
+          class="truncate-url"
+          title={{@displayURL}}
+        >{{@displayURL}}</AuLinkExternal>
+      {{/if}}
+    </p>
+    <p class="au-u-para">{{@description}}</p>
+  </span>
+  <p class="au-u-h6">{{@displayCounts}}</p>
+</section>

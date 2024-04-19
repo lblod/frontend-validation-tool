@@ -1,5 +1,33 @@
 @import "@appuniversum/ember-appuniversum/styles";
 
+.au-c-app {
+  height: auto !important;
+  min-height: 100vh;
+
+  .au-c-main-container__content {
+    height: 100% !important;
+  }
+}
+
+.au-c-alert {
+  overflow: hidden;
+
+  .au-c-alert__content {
+    width: 100%;
+  }
+}
+
+.au-c-alert.au-c-alert--neutral {
+  background-color: var(--au-white) !important;
+}
+
+.truncate-url {
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 .page-bg {
   background-color: $au-page-bg;
 }
@@ -15,19 +43,23 @@
   display: flex;
   justify-content: center;
   line-break: anywhere;
+  max-lines: 1;
+  line-clamp: 1;
+  text-overflow: ellipsis;
 }
 
 .au-c-button {
   .au-c-link {
     text-decoration: none;
     font-weight: var(--au-medium);
-    display: flex !important;
     width: 100%;
-    justify-content: center;
   }
 }
 
 .au-c-accordion {
+  .accordion-title {
+    overflow: hidden;
+  }
   .au-c-toolbar {
     border-bottom: var(--au-border) solid var(--au-divider-color);
     padding-bottom: calc(var(--au-border) * 3);

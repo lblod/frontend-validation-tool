@@ -1,12 +1,12 @@
 {{page-title "Validation Results"}}
 
-<span class="au-u-text-center">
+<div class="au-u-text-center">
   <h2>Validatie resultaten</h2>
 
   <span class="au-u-margin-top-tiny publication-link">
     <p>Resultaat van de validatie van het document met type
       <p class="au-u-medium">
-        {{this.document.documentType}}
+        {{this.document.subject}}
       </p>
     </p>
   </span>
@@ -17,54 +17,40 @@
   {{/unless}}
   <AuLinkExternal
     class="publication-link"
-    @href={{this.document.documentURL}}
+    href={{this.document.documentURL}}
   >{{this.document.documentURL}}</AuLinkExternal>
-</span>
+
+  <section class="au-u-margin-top">
+    <AuPill @skin={{"success"}}>Correct/Volledig</AuPill>
+    <AuPill @skin={{"border"}}>Correct/Volledig</AuPill>
+    <AuPill @skin={{"default"}}>Niet Gevalideerd</AuPill>
+    <AuPill @skin={{"warning"}}>Onvolledig</AuPill>
+    <AuPill @skin={{"error"}}>Onvolledig</AuPill>
+  </section>
+</div>
+
+{{! Validation Results }}
 {{#if this.isLoading}}
   <AuLoader @centered={{true}}>
     Valideren van publicatie...
   </AuLoader>
 {{else}}
   <div class="au-u-flex au-u-flex--column au-u-flex--center au-u-1-1">
-    {{#each this.validatedDocument as |documentType|}}
-      <Accordion
-        class="au-u-1-1"
-        @sideLabel={{concat
-          documentType.validCount
-          "/"
-          documentType.totalCount
+    {{#each this.validatedDocument as |subject|}}
+      {{! First level of subjects }}
+      <RecursiveEntry
+        @firstLevel={{true}}
+        @alertSkin={{if
+          (and
+            subject.totalCount
+            subject.validCount
+            (lt subject.validCount subject.totalCount)
+          )
+          "error"
+          "info"
         }}
-        @defaultOpen={{false}}
-        @iconOpen="nav-down"
-        @iconClosed="nav-up"
-        @buttonLabel={{documentType.typeName}}
-      >
-        {{#each documentType.validatedProperties as |property|}}
-          <AuAlert
-            @skin={{if property.valid "success" "warning"}}
-            @icon={{if property.valid "check" "cross"}}
-            @title={{property.name}}
-            class="au-u-margin-bottom-none"
-          >
-            <p>{{property.description}}</p>
-            <section class="au-u-flex">
-              <span class="au-u-flex au-u-margin-right-small">
-                <p>Aantal gevonden:&nbsp;</p><p>{{property.actualCount}}</p>
-              </span>
-              {{#if property.minCount}}
-                <span class="au-u-flex au-u-margin-right-small">
-                  <p>Aantal min. vereist:&nbsp;</p><p>{{property.minCount}}</p>
-                </span>
-              {{/if}}
-              {{#if property.maxCount}}
-                <span class="au-u-flex au-u-margin-right">
-                  <p>Aantal max. vereist:&nbsp;</p><p>{{property.maxCount}}</p>
-                </span>
-              {{/if}}
-            </section>
-          </AuAlert>
-        {{/each}}
-      </Accordion>
+        @property={{subject}}
+      />
     {{/each}}
   </div>
 {{/if}}

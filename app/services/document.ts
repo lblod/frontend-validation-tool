@@ -7,9 +7,9 @@ import {
   determineDocumentType,
   fetchDocument,
   getPublicationFromFileContent,
-} from 'validation-monitoring-module';
-import { getMaturityProperties } from 'validation-monitoring-module/dist/queries';
-import { checkMaturity } from 'validation-monitoring-module/dist/validation';
+} from 'validation-monitoring-module-test/dist';
+import { getMaturityProperties } from 'validation-monitoring-module-test/dist/queries';
+import { checkMaturity } from 'validation-monitoring-module-test/dist/validation';
 
 export default class DocumentService extends Service {
   @tracked document: Bindings[] = [];
@@ -57,11 +57,7 @@ export default class DocumentService extends Service {
     ).then((resp) => {
       return resp;
     });
-    const documentType: any = await determineDocumentType(document).then(
-      (resp) => {
-        return resp;
-      },
-    );
+    const documentType = determineDocumentType(document);
     this.document = document;
     this.saveToLocalStorage();
 
