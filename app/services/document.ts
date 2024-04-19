@@ -8,8 +8,14 @@ import {
   fetchDocument,
   getPublicationFromFileContent,
 } from 'validation-monitoring-module-test/dist';
-import { getMaturityProperties } from 'validation-monitoring-module-test/dist/queries';
-import { checkMaturity } from 'validation-monitoring-module-test/dist/validation';
+import {
+  getBlueprintOfDocumentType,
+  getMaturityProperties,
+} from 'validation-monitoring-module-test/dist/queries';
+import {
+  checkMaturity,
+  validatePublication,
+} from 'validation-monitoring-module-test/dist/validation';
 
 export default class DocumentService extends Service {
   @tracked document: Bindings[] = [];
@@ -17,6 +23,7 @@ export default class DocumentService extends Service {
   @tracked documentType: string = '';
   @tracked documentFile: File | null = null;
   @tracked maturity: string = '';
+  @tracked validatedDocument: any = [];
 
   @service declare toaster: any;
 
@@ -26,6 +33,28 @@ export default class DocumentService extends Service {
 
     // Load data from local storage on initialization
     this.loadFromLocalStorage();
+  }
+
+  @action async validateDocument() {
+    const blueprint = await getBlueprintOfDocumentType(this.documentType);
+    const document = await fetchDocument(this.documentURL);
+    const result = await validatePublication(document, blueprint);
+    console.log(result);
+
+    await this.getMaturity(result);
+
+    return result;
+  }
+
+  clearData() {
+    this.document = [];
+    this.documentURL = '';
+    this.documentType = '';
+    this.documentFile = null;
+    this.maturity = '';
+    this.validatedDocument = [];
+    // Optionally clear local storage as well if you don't want to persist data at all
+    localStorage.removeItem('documentServiceData');
   }
 
   @action async handleDocumentTypeChange(event: Event) {
@@ -113,7 +142,8 @@ export default class DocumentService extends Service {
         documentURL: this.documentURL,
         documentType: this.documentType,
         documentFile: this.documentFile,
-        maturity: this.maturity, // Add this line
+        maturity: this.maturity,
+        validatedDocument: this.validatedDocument,
       }),
     );
   }
@@ -122,12 +152,19 @@ export default class DocumentService extends Service {
   loadFromLocalStorage() {
     const data = localStorage.getItem('documentServiceData');
     if (data) {
-      const { document, documentURL, documentType, documentFile, maturity } =
-        JSON.parse(data); // Add maturity here
+      const {
+        document,
+        documentURL,
+        documentType,
+        documentFile,
+        maturity,
+        validatedDocument,
+      } = JSON.parse(data); // Add maturity here
       this.document = document;
       this.documentURL = documentURL;
       this.documentType = documentType;
       this.documentFile = documentFile;
+      this.validatedDocument = validatedDocument;
       this.maturity = maturity; // And add this line
     }
   }
