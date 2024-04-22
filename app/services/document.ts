@@ -7,15 +7,13 @@ import {
   determineDocumentType,
   fetchDocument,
   getPublicationFromFileContent,
+  validatePublication,
 } from 'validation-monitoring-module-test/dist';
 import {
   getBlueprintOfDocumentType,
   getMaturityProperties,
 } from 'validation-monitoring-module-test/dist/queries';
-import {
-  checkMaturity,
-  validatePublication,
-} from 'validation-monitoring-module-test/dist/validation';
+import { checkMaturity } from 'validation-monitoring-module-test/dist/validation';
 
 export default class DocumentService extends Service {
   @tracked document: Bindings[] = [];
@@ -24,6 +22,7 @@ export default class DocumentService extends Service {
   @tracked documentFile: File | null = null;
   @tracked maturity: string = '';
   @tracked validatedDocument: any = [];
+  @tracked isProcessingFile: boolean = false;
 
   @service declare toaster: any;
 
@@ -35,10 +34,12 @@ export default class DocumentService extends Service {
     this.loadFromLocalStorage();
   }
 
-  @action async validateDocument() {
+  @action async validateDocument(): Promise<any> {
     const blueprint = await getBlueprintOfDocumentType(this.documentType);
-    const document = await fetchDocument(this.documentURL);
-    const result = await validatePublication(document, blueprint);
+    if (!this.isProcessingFile) {
+      this.document = await fetchDocument(this.documentURL);
+    }
+    const result = await validatePublication(this.document, blueprint);
     console.log(result);
 
     await this.getMaturity(result);
@@ -51,6 +52,7 @@ export default class DocumentService extends Service {
     this.documentURL = '';
     this.documentType = '';
     this.documentFile = null;
+    this.isProcessingFile = false;
     this.maturity = '';
     this.validatedDocument = [];
     // Optionally clear local storage as well if you don't want to persist data at all
@@ -65,6 +67,7 @@ export default class DocumentService extends Service {
     this.saveToLocalStorage();
   }
 
+  // Function to get the maturity level of a document with type 'Notulen'
   @action async getMaturity(result: any) {
     this.maturity = '';
     if (this.documentType === 'Notulen') {
@@ -93,7 +96,9 @@ export default class DocumentService extends Service {
     return documentType;
   }
 
+  // Function to process a document file (as uploaded by the user in route: document-upload)
   @action async processDocumentFile(file: File) {
+    this.isProcessingFile = true;
     this.documentFile = file;
     const html = await file.text();
     const document = await getPublicationFromFileContent(html);
@@ -101,7 +106,6 @@ export default class DocumentService extends Service {
     this.documentType = await determineDocumentType(document);
 
     if (this.documentType && this.documentType !== 'unknown document type') {
-      // Save to local storage
       this.saveToLocalStorage();
       return true;
     } else {
@@ -114,6 +118,7 @@ export default class DocumentService extends Service {
     }
   }
 
+  // Function to process a document URL (as entered by the user in route: document-upload)
   @action async processDocumentURL(fileUrl: string) {
     this.documentURL = fileUrl;
     this.documentType =

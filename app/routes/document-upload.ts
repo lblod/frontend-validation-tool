@@ -5,7 +5,15 @@ import type DocumentService from 'validation-monitoring-tool/services/document';
 export default class DocumentUploadRoute extends Route {
   @service declare document: DocumentService;
 
-  async model() {
+  queryParams = {
+    url: {
+      refreshModel: true,
+    },
+  };
+
+  model(params: { url: string }) {
     this.document.clearData();
+    // Decode the URL component
+    return params.url ? decodeURIComponent(params.url) : '';
   }
 }

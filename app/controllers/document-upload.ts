@@ -13,10 +13,10 @@ export default class DocumentUploadController extends Controller {
     this.fileUpload = false;
     this.fileInputDisabled = false;
     this.inputDisabled = false;
-    this.buttonDisabled = true;
     this.loading = false;
     this.loadingMessage = '';
     this.publicationURL = '';
+    this.buttonDisabled = true;
     this.uploadedFile = null;
   }
   @tracked resolvedPublication: any = [];
@@ -30,7 +30,8 @@ export default class DocumentUploadController extends Controller {
 
   // input
   @tracked inputDisabled = false;
-  @tracked publicationURL = '';
+  @tracked publicationURL = (this.model as string) || '';
+
   @action handleChange(event: Event) {
     const target = event.target as HTMLInputElement;
     this.publicationURL = target.value;
@@ -68,7 +69,11 @@ export default class DocumentUploadController extends Controller {
       );
       await this.document.processDocumentURL(this.publicationURL);
 
-      this.router.transitionTo('document-review');
+      this.router.transitionTo('document-review', {
+        queryParams: {
+          url: this.publicationURL,
+        },
+      });
       return true;
     } catch (error) {
       this.currentToast = this.toaster.error(
@@ -102,7 +107,7 @@ export default class DocumentUploadController extends Controller {
   }
 
   // button
-  @tracked buttonDisabled = true;
+  @tracked buttonDisabled = this.publicationURL ? false : true;
   @tracked loading = false;
   @tracked loadingMessage = '';
 

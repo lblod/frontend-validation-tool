@@ -9,8 +9,8 @@
     {{! template-lint-disable no-autofocus-attribute }}
     <AuInput
       placeholder="Link naar het document"
+      value={{this.publicationURL}}
       {{on "input" this.handleChange}}
-      @value={{this.publication}}
       @disabled={{this.inputDisabled}}
       id="input"
       @width="block"
