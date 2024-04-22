@@ -5,7 +5,6 @@ import { service } from '@ember/service';
 import { DOCUMENT_TYPES } from 'validation-monitoring-tool/constants/document-types';
 import type Transition from '@ember/routing/transition';
 import type DocumentService from 'validation-monitoring-tool/services/document';
-import { validatePublication } from 'validation-monitoring-module-test';
 
 export default class ValidationResultsRoute extends Route {
   @service declare router: RouterService;

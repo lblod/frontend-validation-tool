@@ -1,12 +1,6 @@
 import Controller from '@ember/controller';
-import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { tracked } from 'tracked-built-ins';
-import {
-  fetchDocument,
-  getBlueprintOfDocumentType,
-  validatePublication,
-} from 'validation-monitoring-module-test/dist';
 
 import type DocumentService from 'validation-monitoring-tool/services/document';
 
