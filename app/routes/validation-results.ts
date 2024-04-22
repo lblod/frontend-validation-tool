@@ -30,6 +30,7 @@ export default class ValidationResultsRoute extends Route {
       this.document.validateDocument();
       return;
     }
+    this.document.isProcessingFile = false;
     if (!params.url) {
       this.router.transitionTo('document-upload');
       return;
@@ -51,11 +52,11 @@ export default class ValidationResultsRoute extends Route {
       );
       this.router.transitionTo('document-upload');
       return;
-    } else if (params.documentType) {
+    } else if (params.documentType && params.url) {
       this.document.documentType = params.documentType;
+      this.document.documentURL = params.url;
       this.document.validateDocument();
     }
-
     return;
   }
 
