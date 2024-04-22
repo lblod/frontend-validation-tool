@@ -131,6 +131,6 @@
     "@comunica/actor-http-proxy": "^2.10.2",
     "node-libs-browser": "^2.2.1",
     "rdf-js": "^4.0.2",
-    "validation-monitoring-module-test": "^1.0.3"
+    "validation-monitoring-module-test": "^1.0.4"
   }
 }
