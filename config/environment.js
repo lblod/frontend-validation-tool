@@ -34,12 +34,11 @@ module.exports = function (environment) {
     locationType: 'history',
     EmberENV: {
       EXTEND_PROTOTYPES: false,
-      PROXY_HOST: process.env.PROXY_HOST,
-      PROXY_PORT: process.env.PROXY_PORT,
     },
 
     APP: {
       PROXY_URL: process.env.EMBER_APP_PROXY || 'http://localhost:3000',
+      CORS_PROXY_URL: process.env.CORS_PROXY_URL || 'https://corsproxy.io/?',
       // Here you can pass flags/options to your application instance
       // when it is created
     },
@@ -51,6 +50,7 @@ module.exports = function (environment) {
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
+    ENV.APP.CORS_PROXY_URL = '';
   }
 
   if (environment === 'test') {
