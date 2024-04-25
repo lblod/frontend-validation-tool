@@ -1,14 +1,4 @@
-{{#if (eq @property.actualCount 0)}}
-  <AuAlert @skin={{this.skin}} class={{this.displayClass}}>
-    <AlertSection
-      @formattedName={{this.formattedName}}
-      @hasURL={{this.hasURL}}
-      @displayURL={{this.displayURL}}
-      @description={{this.description}}
-      @displayCounts={{this.displayCounts}}
-    />
-  </AuAlert>
-{{else if (eq @property.totalCount 0)}}
+{{#if (or (eq @property.actualCount 0) (eq @property.totalCount 0))}}
   <AuAlert @skin={{this.skin}} class={{this.displayClass}}>
     <AlertSection
       @formattedName={{this.formattedName}}
@@ -40,17 +30,9 @@
               class="au-u-1-1 accordion-title au-u-flex au-u-flex--between"
             >
               <span class="au-u-5-6">
-                <p class="au-u-h3">{{this.formattedName}}</p>
-                <p class="au-u-para-tiny">
-                  {{#if this.hasURL}}
-                    <AuLinkExternal
-                      @skin="primary"
-                      href={{this.displayURL}}
-                      class="truncate-url"
-                      title={{this.displayURL}}
-                    >{{this.displayURL}}</AuLinkExternal>
-                  {{/if}}
-                </p>
+                <AuLinkExternal @skin="secondary" href={{this.displayURL}} class="truncate-url au-u-h5" title={{this.displayURL}}>
+                  {{this.displayURL}}
+                </AuLinkExternal>
                 <p class="au-u-para">{{this.description}}</p>
               </span>
               <p class="au-u-h6">{{this.countText}}</p>

@@ -18,10 +18,10 @@ interface ArgsInterface {
     actualCount?: number;
     minCount?: number;
     maxCount?: number;
-    name?: string;
+    shapeName?: string;
     path?: string;
-    typeName?: string;
-    url?: string;
+    className?: string;
+    uri?: string;
     description?: string;
   };
 
@@ -64,8 +64,8 @@ export default class RecursiveEntry extends Component<ArgsInterface> {
   }
 
   get formattedName() {
-    const { name, path, typeName } = this.args.property;
-    return name || path || typeName || 'Unvalidated Property';
+    const { shapeName, path, className } = this.args.property;
+    return className || shapeName || path || 'Unvalidated Property';
   }
 
   get isValidCount() {
@@ -93,11 +93,11 @@ export default class RecursiveEntry extends Component<ArgsInterface> {
   }
 
   get displayURL() {
-    return this.args.property.url || '';
+    return this.args.property.uri || '';
   }
 
   get hasURL() {
-    return !!this.args.property.url;
+    return !!this.args.property.uri;
   }
 
   get description() {

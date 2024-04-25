@@ -38,19 +38,46 @@
   <div class="au-u-flex au-u-flex--column au-u-flex--center au-u-1-1">
     {{#each this.validatedDocument as |subject|}}
       {{! First level of subjects }}
-      <RecursiveEntry
-        @firstLevel={{true}}
-        @alertSkin={{if
-          (and
-            subject.totalCount
-            subject.validCount
-            (lt subject.validCount subject.totalCount)
-          )
-          "error"
-          "info"
-        }}
-        @property={{subject}}
-      />
+      <div class="au-c-accordion {{this.skin}} {{this.reverse}}" ...attributes>
+      <AuToolbar @nowrap={{true}} @reverse={{@reverse}} data-test-accordion-toggle as
+        |Group|>
+        <Group class="au-u-1-1">
+          <AuButton class="au-u-1-1" @skin="link" aria-expanded="{{if this.isOpen 'true' 'false'}}"
+            data-test-accordion-button>
+            <section class="au-u-1-1 accordion-title au-u-flex au-u-flex--between">
+              <span class="au-u-5-6">
+                <p class="au-u-h3">{{subject.className}}</p>
+                <p class="au-u-para-tiny">
+                  <AuLinkExternal @skin="primary" href={{subject.classURI}} class="truncate-url" title={{subject.classURI}}>
+                    {{subject.classURI}}</AuLinkExternal>
+                </p>
+              </span>
+              <p class="au-u-h6">{{subject.count}}</p>
+            </section>
+          </AuButton>
+          {{#if @property.subtitle}}
+          <p data-test-accordion-subtitle>{{@property.subtitle}}</p>
+          {{/if}}
+          <p class="au-u-h6">{{this.additionalCounts}}</p>
+        </Group>
+        <Group>
+          {{#if this.isOpen}}
+          <AuIcon @icon="nav-down" @alignment="left" @size="large" @ariaHidden="true" data-test-accordion-icon-open />
+          {{else}}
+          <AuIcon @icon="nav-up" @alignment="left" @size="large" @ariaHidden="true" data-test-accordion-icon-closed />
+          {{/if}}
+        </Group>
+      </AuToolbar>
+        <AuContent>
+          {{#each subject.objects as |object| }}
+            <RecursiveEntry
+              @firstLevel={{true}}
+              @alertSkin={{if (and object.totalCount object.validCount
+                (lt object.validCount object.totalCount)) "error" "info" }}
+              @property={{object}} />
+          {{/each}}
+        </AuContent>
+      </div>
     {{/each}}
   </div>
 {{/if}}
