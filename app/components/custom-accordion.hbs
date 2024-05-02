@@ -1,23 +1,18 @@
 <div class="au-c-accordion {{this.skin}} {{this.reverse}}" ...attributes>
-  <AuToolbar @nowrap={{true}} @reverse={{@reverse}} {{on "click" this.toggleAccordion}} data-test-accordion-toggle as
-    |Group|>
-      <Group class="au-u-1-1">
-        <AuButton class="au-u-1-1" @skin="link" aria-expanded="{{if this.isOpen 'true' 'false'}}" data-test-accordion-button>
-          <section class="au-u-1-1 accordion-title au-u-flex au-u-flex--between">
-            <span class="au-u-5-6">
-              {{yield to="toolbar"}}
-            </span>
-          </section>
-        </AuButton>
-        <p class="au-u-h6">{{yield to="counts"}}</p>
-      </Group>
-      <Group>
-        {{#if this.isOpen}}
-          <AuIcon @icon="nav-down" @alignment="left" @size="large" @ariaHidden="true" data-test-accordion-icon-open />
-        {{else}}
-          <AuIcon @icon="nav-up" @alignment="left" @size="large" @ariaHidden="true" data-test-accordion-icon-closed />
-        {{/if}}
-      </Group>
+  <AuToolbar @nowrap={{true}} @reverse={{@reverse}} {{on "click" this.toggleAccordion}} data-test-accordion-toggle as |Group|>
+    <Group class="au-u-1-1">
+      <AuButton class="au-u-1-1" @skin="link" aria-expanded="{{if this.isOpen 'true' 'false'}}" data-test-accordion-button>
+        <section class="au-u-1-1 accordion-title au-u-flex au-u-flex--between">
+          <span class="au-u-5-6">
+            {{yield to="toolbar"}}
+          </span>
+          <p class="au-u-h6">{{yield to="counts"}}</p>
+        </section>
+      </AuButton>
+    </Group>
+    <Group>
+      <AuIcon @icon={{this.displayIcon}} @alignment="left" @size="large" @ariaHidden="true" />
+    </Group>
   </AuToolbar>
   {{#if this.isOpen}}
     <AuContent>

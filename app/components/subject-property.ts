@@ -49,9 +49,8 @@ export default class SubjectProperty extends Component<ArgsInterface> {
     return this.args.property.path || '';
   }
 
-  get displayValue() {
-    if(this.args.property.value.length > 0) return this.args.property.value
-    else return "Geen waarde";
+  get hasNoValues(){
+    return this.args.property.value.length <= 0
   }
 
   get countText() {

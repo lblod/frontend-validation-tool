@@ -6,18 +6,20 @@
         {{@property.path}}
       </AuLinkExternal>
     </p>
-    <AuAlert @skin="default">
-      <p class="au-u-para">{{@property.description}}</p>
-    </AuAlert>
+    <p class="au-c-textarea">{{@property.description}}</p>
   </:toolbar>
-  <:counts>{{this.actualCount}}</:counts>
+  <:counts>{{this.countText}}</:counts>
   <:content>
-    {{#each @property.value as |value|}}
-      {{#if value.uri}}
-        <RecursiveEntry @subject={{value}} />
-      {{else}}
-        <p>{{this.displayValue}}</p>
-      {{/if}}
-    {{/each}}
+    {{#if this.hasNoValues}}
+      <p>Geen waarde gevonden</p>
+    {{else}}
+      {{#each @property.value as |value index|}}
+        {{#if value.uri}}
+          <RecursiveEntry @subject={{value}} @index={{index}} />
+        {{else}}
+          <p>{{value}}</p>
+        {{/if}}
+      {{/each}}
+    {{/if}}
   </:content>
 </CustomAccordion>

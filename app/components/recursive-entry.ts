@@ -64,7 +64,6 @@ export default class RecursiveEntry extends Component<ArgsInterface> {
   }
 
   get displayIndex() {
-    console.log(this.args.index);
     return this.args.index +1;
   }
 

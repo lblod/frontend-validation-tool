@@ -48,6 +48,9 @@ export default class SubjectProperty extends Component<ArgsInterface> {
     if (this.args.loading) return 'is-loading';
     else return '';
   }
+  get displayIcon() {
+    return this.isOpen? "nav-down" : "nav-up"
+  }
 
   get iconOpen() {
     if (this.args.iconOpen) {

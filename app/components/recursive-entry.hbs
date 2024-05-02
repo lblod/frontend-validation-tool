@@ -2,16 +2,16 @@
   <CustomAccordion>
     <:toolbar>
       <p class="truncate-url au-u-h4">
-        Artikel {{this.displayIndex}}
+        {{@subject.className}} {{this.displayIndex}}
       </p>
       <p class="au-u-para-tiny">
-        <AuLinkExternal @skin="primary" href={{@property.path}} class="truncate-url" title={{@property.path}}>
+        <AuLinkExternal @skin="primary"class="truncate-url">
           {{@subject.uri}}
         </AuLinkExternal>
       </p>
       <p class="au-u-para">{{this.description}}</p>
     </:toolbar>
-    <:counts>{{@subject.totalCount}}</:counts>
+    <:counts>{{this.countText}}</:counts>
     <:content>
       {{#if this.loading}}
         <AuLoader data-test-accordion-loader />
