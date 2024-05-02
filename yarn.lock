@@ -17102,10 +17102,10 @@ validate-peer-dependencies@^2.2.0:
     resolve-package-path "^4.0.3"
     semver "^7.3.8"
 
-validation-monitoring-module-test@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.npmjs.org/validation-monitoring-module-test/-/validation-monitoring-module-test-1.0.7.tgz"
-  integrity sha512-B19UeOQXs+P2Mfa+TnSkeXfGxndzSk2iHb+++rYMaNNpcXH69UPXBmxMQaXpi18sBbhhxC0TM0/QFA7CtS/jNQ==
+validation-monitoring-module-test@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.npmjs.org/validation-monitoring-module-test/-/validation-monitoring-module-test-1.0.8.tgz"
+  integrity sha512-Yk/7Yb7D5GVDexcnK/h1OW3AhzyP1y+rftzPqXJ/+6WPZdxVP1m+rIaxtKHxwMO07cUDYATFO8rUIM8+wvkalg==
   dependencies:
     "@comunica/actor-http-proxy" "^2.10.2"
     "@comunica/query-sparql" "^2.10.2"

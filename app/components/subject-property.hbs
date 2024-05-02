@@ -1,25 +1,27 @@
-<CustomAccordion @defaultOpen="true">
-  <:toolbar>
-    <p class="au-u-h4">{{@property.name}}</p>
-    <p class="au-u-para-tiny">
-      <AuLinkExternal @skin="primary" href={{@property.path}} class="truncate-url" title={{@property.path}}>
-        {{@property.path}}
-      </AuLinkExternal>
-    </p>
-    <p class="au-c-textarea">{{@property.description}}</p>
-  </:toolbar>
-  <:counts>{{this.countText}}</:counts>
-  <:content>
-    {{#if this.hasNoValues}}
-      <p>Geen waarde gevonden</p>
-    {{else}}
-      {{#each @property.value as |value index|}}
-        {{#if value.uri}}
-          <RecursiveEntry @subject={{value}} @index={{index}} />
-        {{else}}
-          <p>{{value}}</p>
-        {{/if}}
-      {{/each}}
-    {{/if}}
-  </:content>
-</CustomAccordion>
+<AuAlert @skin={{this.skin}}>
+  <CustomAccordion @defaultOpen="true">
+    <:toolbar>
+      <p class="au-u-h4">{{@property.name}}</p>
+      <p class="au-u-para-tiny">
+        <AuLinkExternal @skin="primary" href={{@property.path}} class="truncate-url" title={{@property.path}}>
+          {{@property.path}}
+        </AuLinkExternal>
+      </p>
+      <p class="au-u-para">{{@property.description}}</p>
+    </:toolbar>
+    <:counts>{{this.countText}}</:counts>
+    <:content>
+      {{#if this.hasNoValues}}
+        <p>Geen waarde gevonden</p>
+      {{else}}
+        {{#each @property.value as |value index|}}
+          {{#if value.uri}}
+            <RecursiveEntry @subject={{value}} @index={{index}} />
+          {{else}}
+            <p>{{value}}</p>
+          {{/if}}
+        {{/each}}
+      {{/if}}
+    </:content>
+  </CustomAccordion>
+</AuAlert>
