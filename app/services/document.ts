@@ -10,14 +10,16 @@ import {
 } from 'validation-monitoring-module-test/dist';
 import { getMaturityProperties } from 'validation-monitoring-module-test/dist/queries';
 import { checkMaturity } from 'validation-monitoring-module-test/dist/validation';
+import config from 'validation-monitoring-tool/config/environment';
 
 export default class DocumentService extends Service {
+  corsProxy = <string>config.APP['CORS_PROXY_URL'];
+
   @tracked document: Bindings[] = [];
   @tracked documentURL: string = '';
   @tracked documentType: string = '';
   @tracked documentFile: File | null = null;
   @tracked maturity: string = '';
-
   @service declare toaster: any;
 
   constructor() {
@@ -51,12 +53,11 @@ export default class DocumentService extends Service {
   }
 
   @action async processPublication({ fileUrl }: { fileUrl: string }) {
-    const document: any = await fetchDocument(
-      fileUrl,
-      'https://corsproxy.io/?',
-    ).then((resp) => {
-      return resp;
-    });
+    const document: any = await fetchDocument(fileUrl, this.corsProxy).then(
+      (resp) => {
+        return resp;
+      },
+    );
     const documentType = determineDocumentType(document);
     this.document = document;
     this.saveToLocalStorage();
