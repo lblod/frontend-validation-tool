@@ -35,5 +35,9 @@
     Valideren van publicatie...
   </AuLoader>
 {{else}}
-  <ClassCollection @document={{this.validatedDocument}} />
+  <div class="au-u-flex au-u-flex--column au-u-flex--center au-u-1-1">
+    {{#each this.validatedDocument as |collection|}}
+      <ClassCollection @collection={{collection}} />
+    {{/each}}
+  </div>
 {{/if}}

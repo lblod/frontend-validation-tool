@@ -10,19 +10,6 @@ interface ArgsInterface {
   iconClosed: string;
   defaultOpen: boolean;
   reverse: boolean;
-
-  // subject arguments
-  property: {
-    name: string;
-    targetClass: string;
-    description: string;
-    path: string;
-    value: string[] | Object[];
-    minCount?: number;
-    maxCount?: number;
-    actualCount: number;
-    valid: boolean;
-  };
 }
 
 export default class SubjectProperty extends Component<ArgsInterface> {
