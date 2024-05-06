@@ -1,5 +1,3 @@
-
-{{! First level: collections }}
 <CustomAccordion @defaultOpen="true">
   <:toolbar>
     {{@collection.className}}
@@ -13,7 +11,11 @@
   <:content>
     {{#if this.tooManyDocuments}}
       <AuAlert @skin="warning">
-        Deze publicatie bevat te veel documenten
+        <section class="au-u-1-1 accordion-title au-u-flex au-u-flex--between">
+          <p class="au-u-para">
+            Deze publicatie bevat te veel documenten!
+          </p>
+        </section>
       </AuAlert>
     {{/if}}
     {{#each @collection.objects as |object index|}}
@@ -21,4 +23,3 @@
     {{/each}}
   </:content>
 </CustomAccordion>
-
