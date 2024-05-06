@@ -38,4 +38,9 @@ export default class ValidationResultsController extends Controller {
 
     return result;
   }
+
+  get singleCollection() {
+    return this.validatedDocument.length === 1
+  }
+
 }
