@@ -17,10 +17,10 @@ module.exports = function (environment) {
         TileColor: '#FFED00',
         'application-name': 'Vlaanderen',
       },
-      'og:title': 'Validation Monitoring Tool',
+      'og:title': 'Frontend Validation Tool',
       'twitter:card': 'summary_large_image',
 
-      'twitter:title': ' Validation Monitoring Tool',
+      'twitter:title': 'Frontend Validation Tool',
       'twitter:site': '@info_vlaanderen',
       'og:type': 'website',
       'og:description':
@@ -28,7 +28,7 @@ module.exports = function (environment) {
       'twitter:description':
         'Concept for a tool to validate publications for harvesting. When multiple publishers are publishing data to a triple store, this tool can be used to validate the data against a blueprint of said data.',
     },
-    modulePrefix: 'validation-monitoring-tool',
+    modulePrefix: 'frontend-validation-tool',
     environment,
     rootURL: '/',
     locationType: 'history',
@@ -50,7 +50,7 @@ module.exports = function (environment) {
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
-    ENV.APP.CORS_PROXY_URL = '';
+    ENV.APP.CORS_PROXY_URL = process.env.CORS_PROXY_URL || '';
   }
 
   if (environment === 'test') {

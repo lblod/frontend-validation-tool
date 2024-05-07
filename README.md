@@ -2,12 +2,12 @@
   <img src="https://ui.vlaanderen.be/3.latest/icons/app-icon/icon-highres-precomposed.png" width="100" alt="project-logo">
 </p>
 <p align="center">
-    <h1 align="center">VALIDATION-MONITORING-TOOL</h1>
+    <h1 align="center">FRONTEND-VALIDATION-TOOL</h1>
 </p>
 <p align="center">
-	<img src="https://img.shields.io/github/last-commit/lblod/validation-monitoring-tool?style=default&logo=git&logoColor=white&color=0080ff" alt="last-commit">
-	<img src="https://img.shields.io/github/languages/top/lblod/validation-monitoring-tool?style=default&color=0080ff" alt="repo-top-language">
-	<img src="https://img.shields.io/github/languages/count/lblod/validation-monitoring-tool?style=default&color=0080ff" alt="repo-language-count">
+	<img src="https://img.shields.io/github/last-commit/lblod/frontend-validation-tool?style=default&logo=git&logoColor=white&color=0080ff" alt="last-commit">
+	<img src="https://img.shields.io/github/languages/top/lblod/frontend-validation-tool?style=default&color=0080ff" alt="repo-top-language">
+	<img src="https://img.shields.io/github/languages/count/lblod/frontend-validation-tool?style=default&color=0080ff" alt="repo-language-count">
 <p>
 
 <br><!-- TABLE OF CONTENTS -->
@@ -35,7 +35,7 @@ A publication can have several requirements in order to make structural sense. T
 
 ### Document Type Validation
 
-Publications must meet structural requirements to ensure consistency and readability. The module supports validation for the following document types:
+Publications must meet structural requirements to ensure consistency and readability. The frontend supports validation for the following document types:
 
     - Besluitenlijst
     - Notule
@@ -60,16 +60,16 @@ In order to properly validate an agenda item exists in a publication, we need to
 
 <h4>From <code>source</code></h4>
 
-> 1. Clone the validation-monitoring-tool repository:
+> 1. Clone the frontend-validation-tool repository:
 >
 > ```console
-> $ git clone git@github.com:lblod/validation-monitoring-tool.git
+> $ git clone git@github.com:lblod/frontend-validation-tool.git
 > ```
 >
 > 2. Change to the project directory:
 >
 > ```console
-> $ cd validation-monitoring-tool
+> $ cd frontend-validation-tool
 > ```
 >
 > 3. Install the dependencies:
@@ -77,6 +77,12 @@ In order to properly validate an agenda item exists in a publication, we need to
 > ```console
 > $ > npm install
 > ```
+> 3. Build the frontend:
+>
+> ```console
+> $ > npm run build
+> ```
+> Note that you can define the environment by creating a `.ENV` file in the root and set `ENVIRONMENT=development` for development.
 
 ## Usage
 
@@ -89,6 +95,14 @@ In order to properly validate an agenda item exists in a publication, we need to
 ### CORS
 
 Due to issues with CORS for publications published by vendors other than Gelinkt Notuleren changes needed to be made to the way the app proxies. Either we host a CORS-anywhere service alongside the app or we resort to using a third party. We currently chose the latter and are using [CORS proxy](https://corsproxy.io/). In the future we might want to host our own CORS-anywhere service to avoid the need for a third party.
+
+To change the default proxy, configure the `CORS_PROXY_URL` environment variable in the `.ENV` file. For example, to not use a proxy leave the variable empty:
+```
+ENVIRONMENT=development
+CORS_PROXY_URL=
+```
+
+Don't forget to rebuild by running `npm run dev`.
 
 ### Testing
 

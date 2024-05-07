@@ -1,9 +1,9 @@
 {
-  "name": "validation-monitoring-tool",
-  "version": "1.0.0",
+  "name": "frontend-validation-tool",
+  "version": "1.0.1",
   "private": true,
   "description": "This tool is used to validate publications in the context of the Flemish government.",
-  "repository": "https://github.com/lblod/validation-monitoring-tool",
+  "repository": "https://github.com/lblod/frontend-validation-tool",
   "license": "MIT",
   "author": "Senne Bels <sennebels@gmail.com> (https://sennebels.xyz)",
   "contributors": [
@@ -18,7 +18,7 @@
     "lint": "concurrently \"npm:lint:*(!fix)\" --names \"lint:\"",
     "start": "ember serve",
     "dev": "ember serve",
-    "watch-module": "tsc -w ./validation-monitoring-module/src/index.ts",
+    "watch-module": "tsc -w ./app-validation-tool/src/index.ts",
     "test": "concurrently \"npm:lint\" \"npm:test:*\" --names \"lint,test:\"",
     "test:ember": "ember test"
   },
@@ -131,6 +131,6 @@
     "@comunica/actor-http-proxy": "^2.10.2",
     "node-libs-browser": "^2.2.1",
     "rdf-js": "^4.0.2",
-    "validation-monitoring-module-test": "^1.0.2"
+    "app-validation-tool": "latest"
   }
 }

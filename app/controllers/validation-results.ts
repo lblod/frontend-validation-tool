@@ -6,9 +6,9 @@ import {
   fetchDocument,
   getBlueprintOfDocumentType,
   validatePublication,
-} from 'validation-monitoring-module-test/dist';
+} from 'app-validation-tool/dist';
 
-import type DocumentService from 'validation-monitoring-tool/services/document';
+import type DocumentService from 'frontend-validation-tool/services/document';
 
 export type RDFShape = {
   type: string;

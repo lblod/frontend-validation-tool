@@ -7,10 +7,10 @@ import {
   determineDocumentType,
   fetchDocument,
   getPublicationFromFileContent,
-} from 'validation-monitoring-module-test/dist';
-import { getMaturityProperties } from 'validation-monitoring-module-test/dist/queries';
-import { checkMaturity } from 'validation-monitoring-module-test/dist/validation';
-import config from 'validation-monitoring-tool/config/environment';
+} from 'app-validation-tool/dist';
+import { getMaturityProperties } from 'app-validation-tool/dist/queries';
+import { checkMaturity } from 'app-validation-tool/dist/validation';
+import config from 'frontend-validation-tool/config/environment';
 
 export default class DocumentService extends Service {
   corsProxy = <string>config.APP['CORS_PROXY_URL'];
