@@ -7,8 +7,10 @@ import { tracked } from '@glimmer/tracking';
 import type { UploadFile } from 'ember-file-upload/upload-file';
 import { fetchDocument } from 'validation-monitoring-module-test/dist';
 import type DocumentService from 'validation-monitoring-tool/services/document';
-
+import config from 'validation-monitoring-tool/config/environment';
 export default class DocumentUploadController extends Controller {
+  corsProxy = config.APP['CORS_PROXY_URL'];
+
   @action reset() {
     this.fileUpload = false;
     this.fileInputDisabled = false;
@@ -54,7 +56,7 @@ export default class DocumentUploadController extends Controller {
     }
 
     try {
-      const data = await fetchDocument(url, 'https://corsproxy.io/?');
+      const data = await fetchDocument(url, this.corsProxy);
       if (!data) {
         this.currentToast = this.toaster.error(
           'Geen publicatie gevonden',

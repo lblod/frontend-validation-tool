@@ -4080,10 +4080,10 @@
   dependencies:
     "@types/node" "*"
 
-"@rollup/rollup-darwin-arm64@4.14.3":
-  version "4.14.3"
-  resolved "https://registry.npmjs.org/@rollup/rollup-darwin-arm64/-/rollup-darwin-arm64-4.14.3.tgz"
-  integrity sha512-Od4vE6f6CTT53yM1jgcLqNfItTsLt5zE46fdPaEmeFHvPs5SjZYlLpHrSiHEKR1+HdRfxuzXHjDOIxQyC3ptBA==
+"@rollup/rollup-darwin-arm64@4.16.1":
+  version "4.16.1"
+  resolved "https://registry.npmjs.org/@rollup/rollup-darwin-arm64/-/rollup-darwin-arm64-4.16.1.tgz"
+  integrity sha512-QLDvPLetbqjHojTGFw9+nuSP3YY/iz2k1cep6crYlr97sS+ZJ0W43b8Z0zC00+lnFZj6JSNxiA4DjboNQMuh1A==
 
 "@rubensworks/saxes@^6.0.1":
   version "6.0.1"
@@ -6807,9 +6807,9 @@ builtins@^5.0.0, builtins@^5.0.1:
     semver "^7.0.0"
 
 bundle-require@^4.0.0:
-  version "4.0.2"
-  resolved "https://registry.npmjs.org/bundle-require/-/bundle-require-4.0.2.tgz"
-  integrity sha512-jwzPOChofl67PSTW2SGubV9HBQAhhR2i6nskiOThauo9dzwDUgOWQScFVaJkjEfYX+UXiD+LEx8EblQMc2wIag==
+  version "4.0.3"
+  resolved "https://registry.npmjs.org/bundle-require/-/bundle-require-4.0.3.tgz"
+  integrity sha512-2iscZ3fcthP2vka4Y7j277YJevwmsby/FpFDwjgw34Nl7dtCpt7zz/4TexmHMzY6KZEih7En9ImlbbgUNNQGtA==
   dependencies:
     load-tsconfig "^0.2.3"
 
@@ -15072,28 +15072,28 @@ rollup@^2.50.0:
     fsevents "~2.3.2"
 
 rollup@^4.0.2:
-  version "4.14.3"
-  resolved "https://registry.npmjs.org/rollup/-/rollup-4.14.3.tgz"
-  integrity sha512-ag5tTQKYsj1bhrFC9+OEWqb5O6VYgtQDO9hPDBMmIbePwhfSr+ExlcU741t8Dhw5DkPCQf6noz0jb36D6W9/hw==
+  version "4.16.1"
+  resolved "https://registry.npmjs.org/rollup/-/rollup-4.16.1.tgz"
+  integrity sha512-5CaD3MPDlPKfhqzRvWXK96G6ELJfPZNb3LHiZxTHgDdC6jvwfGz2E8nY+9g1ONk4ttHsK1WaFP19Js4PSr1E3g==
   dependencies:
     "@types/estree" "1.0.5"
   optionalDependencies:
-    "@rollup/rollup-android-arm-eabi" "4.14.3"
-    "@rollup/rollup-android-arm64" "4.14.3"
-    "@rollup/rollup-darwin-arm64" "4.14.3"
-    "@rollup/rollup-darwin-x64" "4.14.3"
-    "@rollup/rollup-linux-arm-gnueabihf" "4.14.3"
-    "@rollup/rollup-linux-arm-musleabihf" "4.14.3"
-    "@rollup/rollup-linux-arm64-gnu" "4.14.3"
-    "@rollup/rollup-linux-arm64-musl" "4.14.3"
-    "@rollup/rollup-linux-powerpc64le-gnu" "4.14.3"
-    "@rollup/rollup-linux-riscv64-gnu" "4.14.3"
-    "@rollup/rollup-linux-s390x-gnu" "4.14.3"
-    "@rollup/rollup-linux-x64-gnu" "4.14.3"
-    "@rollup/rollup-linux-x64-musl" "4.14.3"
-    "@rollup/rollup-win32-arm64-msvc" "4.14.3"
-    "@rollup/rollup-win32-ia32-msvc" "4.14.3"
-    "@rollup/rollup-win32-x64-msvc" "4.14.3"
+    "@rollup/rollup-android-arm-eabi" "4.16.1"
+    "@rollup/rollup-android-arm64" "4.16.1"
+    "@rollup/rollup-darwin-arm64" "4.16.1"
+    "@rollup/rollup-darwin-x64" "4.16.1"
+    "@rollup/rollup-linux-arm-gnueabihf" "4.16.1"
+    "@rollup/rollup-linux-arm-musleabihf" "4.16.1"
+    "@rollup/rollup-linux-arm64-gnu" "4.16.1"
+    "@rollup/rollup-linux-arm64-musl" "4.16.1"
+    "@rollup/rollup-linux-powerpc64le-gnu" "4.16.1"
+    "@rollup/rollup-linux-riscv64-gnu" "4.16.1"
+    "@rollup/rollup-linux-s390x-gnu" "4.16.1"
+    "@rollup/rollup-linux-x64-gnu" "4.16.1"
+    "@rollup/rollup-linux-x64-musl" "4.16.1"
+    "@rollup/rollup-win32-arm64-msvc" "4.16.1"
+    "@rollup/rollup-win32-ia32-msvc" "4.16.1"
+    "@rollup/rollup-win32-x64-msvc" "4.16.1"
     fsevents "~2.3.2"
 
 route-recognizer@^0.3.4:
@@ -17102,10 +17102,10 @@ validate-peer-dependencies@^2.2.0:
     resolve-package-path "^4.0.3"
     semver "^7.3.8"
 
-validation-monitoring-module-test@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.npmjs.org/validation-monitoring-module-test/-/validation-monitoring-module-test-1.0.4.tgz"
-  integrity sha512-hEWdBxJ32e8hfrlLDeKzeUjIthVRTe6xnzdPwtZW6wBeFddF5Ni9p4IovULVtQud9A2FCJcGCGJ4vqKM7Ry5zA==
+validation-monitoring-module-test@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.npmjs.org/validation-monitoring-module-test/-/validation-monitoring-module-test-1.0.8.tgz"
+  integrity sha512-Yk/7Yb7D5GVDexcnK/h1OW3AhzyP1y+rftzPqXJ/+6WPZdxVP1m+rIaxtKHxwMO07cUDYATFO8rUIM8+wvkalg==
   dependencies:
     "@comunica/actor-http-proxy" "^2.10.2"
     "@comunica/query-sparql" "^2.10.2"
