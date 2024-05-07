@@ -1,0 +1,20 @@
+<CustomAccordion @defaultOpen="true">
+  <:toolbar>
+    {{@subject.className}}
+    <p class="au-u-para-tiny">
+      <AuLinkExternal @skin="primary" class="truncate-url">
+        {{@subject.uri}}
+      </AuLinkExternal>
+    </p>
+  </:toolbar>
+  <:counts>{{this.displayCounts}}</:counts>
+  <:content>
+    {{#if this.loading}}
+    <AuLoader data-test-accordion-loader />
+    {{else}}
+      {{#each @subject.properties as |property|}}
+      <SubjectProperty @property={{property}} />
+      {{/each}}
+    {{/if}}
+  </:content>
+</CustomAccordion>

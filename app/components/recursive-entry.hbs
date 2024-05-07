@@ -1,122 +1,19 @@
-{{#if (eq @property.actualCount 0)}}
-  <AuAlert @skin={{this.skin}} class={{this.displayClass}}>
-    <AlertSection
-      @formattedName={{this.formattedName}}
-      @hasURL={{this.hasURL}}
-      @displayURL={{this.displayURL}}
-      @description={{this.description}}
-      @displayCounts={{this.displayCounts}}
-    />
-  </AuAlert>
-{{else if (eq @property.totalCount 0)}}
-  <AuAlert @skin={{this.skin}} class={{this.displayClass}}>
-    <AlertSection
-      @formattedName={{this.formattedName}}
-      @hasURL={{this.hasURL}}
-      @displayURL={{this.displayURL}}
-      @description={{this.description}}
-      @displayCounts={{this.displayCounts}}
-    />
-  </AuAlert>
-{{else}}
-  {{! Default case }}
-  <AuAlert @skin={{this.skin}} class={{this.displayClass}}>
-    <div class="au-c-accordion {{this.skin}} {{this.reverse}}" ...attributes>
-      <AuToolbar
-        @nowrap={{true}}
-        @reverse={{@reverse}}
-        {{on "click" this.toggleAccordion}}
-        data-test-accordion-toggle
-        as |Group|
-      >
-        <Group class="au-u-1-1">
-          <AuButton
-            class="au-u-1-1"
-            @skin="link"
-            aria-expanded="{{if this.isOpen 'true' 'false'}}"
-            data-test-accordion-button
-          >
-            <section
-              class="au-u-1-1 accordion-title au-u-flex au-u-flex--between"
-            >
-              <span class="au-u-5-6">
-                <p class="au-u-h3">{{this.formattedName}}</p>
-                <p class="au-u-para-tiny">
-                  {{#if this.hasURL}}
-                    <AuLinkExternal
-                      @skin="primary"
-                      href={{this.displayURL}}
-                      class="truncate-url"
-                      title={{this.displayURL}}
-                    >{{this.displayURL}}</AuLinkExternal>
-                  {{/if}}
-                </p>
-                <p class="au-u-para">{{this.description}}</p>
-              </span>
-              <p class="au-u-h6">{{this.countText}}</p>
-            </section>
-          </AuButton>
-          {{#if @property.subtitle}}
-            <p data-test-accordion-subtitle>{{@property.subtitle}}</p>
-          {{/if}}
-          <p class="au-u-h6">{{this.additionalCounts}}</p>
-        </Group>
-        <Group>
-          {{#if this.isOpen}}
-            <AuIcon
-              @icon="nav-down"
-              @alignment="left"
-              @size="large"
-              @ariaHidden="true"
-              data-test-accordion-icon-open
-            />
-          {{else}}
-            <AuIcon
-              @icon="nav-up"
-              @alignment="left"
-              @size="large"
-              @ariaHidden="true"
-              data-test-accordion-icon-closed
-            />
-          {{/if}}
-        </Group>
-      </AuToolbar>
-      {{#if this.isOpen}}
-        <AuContent
-          tabindex="0"
-          class="au-u-padding-top"
-          data-test-accordion-content
-        >
-          {{#if this.loading}}
-            <AuLoader data-test-accordion-loader />
-          {{else}}
-            {{! Dynamic rendering based on property values }}
-            {{#if this.loading}}
-              <AuLoader data-test-accordion-loader />
-            {{else}}
-              {{! Conditionally render properties and their values, recursively if necessary }}
-              {{#if @property.value}}
-                {{#if (is-single-string-in-array @property.value)}}
-                  <DynamicLink @value={{@property.value}} />
-                {{else}}
-                  {{#each @property.value as |value|}}
-                    <RecursiveEntry @property={{value}} />
-                  {{/each}}
-                {{/if}}
-              {{/if}}
-              {{#if @property.properties}}
-                {{#if (is-single-string-in-array @property.properties)}}
-                  <DynamicLink @value={{@property.value}} />
-                {{else}}
-                  {{#each @property.properties as |property|}}
-                    <RecursiveEntry @property={{property}} />
-                  {{/each}}
-                {{/if}}
-              {{/if}}
-            {{/if}}
-          {{/if}}
-        </AuContent>
-      {{/if}}
-    </div>
-  </AuAlert>
-{{/if}}
+<AuAlert @skin={{this.skin}} class={{this.displayClass}}>
+  <CustomAccordion>
+    <:toolbar>
+      <p class="truncate-url au-u-h4">
+        {{@subject.className}} {{this.displayIndex}}
+      </p>
+      <p class="au-u-para-tiny">
+        <AuLinkExternal @skin="primary"class="truncate-url">
+          {{@subject.uri}}
+        </AuLinkExternal>
+      </p>
+      <p class="au-u-para">{{this.description}}</p>
+    </:toolbar>
+    <:counts>{{this.countText}}</:counts>
+    <:content>
+
+    </:content>
+  </CustomAccordion>
+</AuAlert>

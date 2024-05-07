@@ -20,7 +20,7 @@ interface ArgsInterface {
   alertSkin?: string;
 }
 
-export default class RecursiveEntry extends Component<ArgsInterface> {
+export default class RootSubject extends Component<ArgsInterface> {
   get skin() {
     const { validCount, totalCount } = this.args.subject;
     const { firstLevel, alertSkin } = this.args;
@@ -34,6 +34,7 @@ export default class RecursiveEntry extends Component<ArgsInterface> {
     }
     return 'info';
   }
+  
   get displayClass() {
     const { validCount, totalCount } = this.args.subject;
     const { firstLevel } = this.args;

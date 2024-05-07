@@ -20,7 +20,7 @@ interface ArgsInterface {
   alertSkin?: string;
 }
 
-export default class RecursiveEntry extends Component<ArgsInterface> {
+export default class Subject extends Component<ArgsInterface> {
   get skin() {
     const { validCount, totalCount } = this.args.subject;
     const { firstLevel, alertSkin } = this.args;
@@ -50,6 +50,7 @@ export default class RecursiveEntry extends Component<ArgsInterface> {
   }
 
   get displayCounts() {
+    console.log('helkajdf;la')
     const { validCount, totalCount } = this.args.subject;
     if (validCount !== undefined && totalCount !== undefined) {
       return `${validCount}/${totalCount}`;

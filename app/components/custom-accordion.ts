@@ -1,17 +1,30 @@
+
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
 interface ArgsInterface {
+  // AUAccordion arguments
   loading: boolean;
   iconOpen: string;
   iconClosed: string;
   defaultOpen: boolean;
-  skin: string;
   reverse: boolean;
 }
 
-export default class Accordion extends Component<ArgsInterface> {
+export default class SubjectProperty extends Component<ArgsInterface> {
+  // AUAccordion settings
+
+  get reverse() {
+    if (this.args.reverse) return 'au-c-accordion--reverse';
+    return '';
+  }
+
+  @action
+  toggleAccordion() {
+    this.isOpen = !this.isOpen;
+  }
+
   get defaultOpen() {
     return this.args.defaultOpen ?? false;
   }
@@ -21,6 +34,9 @@ export default class Accordion extends Component<ArgsInterface> {
   get loading() {
     if (this.args.loading) return 'is-loading';
     else return '';
+  }
+  get displayIcon() {
+    return this.isOpen? "nav-down" : "nav-up"
   }
 
   get iconOpen() {
@@ -37,20 +53,5 @@ export default class Accordion extends Component<ArgsInterface> {
     } else {
       return 'nav-right';
     }
-  }
-
-  get skin() {
-    if (this.args.skin == 'border') return 'au-c-accordion--border';
-    return '';
-  }
-
-  get reverse() {
-    if (this.args.reverse) return 'au-c-accordion--reverse';
-    return '';
-  }
-
-  @action
-  toggleAccordion() {
-    this.isOpen = !this.isOpen;
   }
 }
