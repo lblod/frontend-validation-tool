@@ -1,19 +1,22 @@
 <CustomAccordion @defaultOpen="true">
   <:toolbar>
     {{@subject.className}}
-    <p class="au-u-para-tiny">
+    <span class="au-u-para-tiny au-u-flex au-u-margin-top-tiny">
+      <p class="au-u-margin-right-tiny au-u-word-nowrap">
+        Gevonden URI:
+      </p>
       <AuLinkExternal @skin="primary" class="truncate-url">
         {{@subject.uri}}
       </AuLinkExternal>
-    </p>
+    </span>
   </:toolbar>
   <:counts>{{this.displayCounts}}</:counts>
   <:content>
     {{#if this.loading}}
-    <AuLoader data-test-accordion-loader />
+      <AuLoader data-test-accordion-loader />
     {{else}}
       {{#each @subject.properties as |property|}}
-      <SubjectProperty @property={{property}} />
+        <SubjectProperty @property={{property}} />
       {{/each}}
     {{/if}}
   </:content>
