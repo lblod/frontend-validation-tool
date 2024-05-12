@@ -7,8 +7,12 @@ import {
   determineDocumentType,
   fetchDocument,
   getPublicationFromFileContent,
+  validatePublication,
 } from 'validation-monitoring-module-test/dist';
-import { getMaturityProperties } from 'validation-monitoring-module-test/dist/queries';
+import {
+  getBlueprintOfDocumentType,
+  getMaturityProperties,
+} from 'validation-monitoring-module-test/dist/queries';
 import { checkMaturity } from 'validation-monitoring-module-test/dist/validation';
 import config from 'validation-monitoring-tool/config/environment';
 
@@ -20,6 +24,8 @@ export default class DocumentService extends Service {
   @tracked documentType: string = '';
   @tracked documentFile: File | null = null;
   @tracked maturity: string = '';
+  @tracked validatedDocument: any = [];
+  @tracked isProcessingFile: boolean = false;
   @service declare toaster: any;
 
   constructor() {
@@ -30,6 +36,31 @@ export default class DocumentService extends Service {
     this.loadFromLocalStorage();
   }
 
+  @action async validateDocument(): Promise<any> {
+    const blueprint = await getBlueprintOfDocumentType(this.documentType);
+    if (!this.isProcessingFile) {
+      this.document = await fetchDocument(this.documentURL);
+    }
+    const result = await validatePublication(this.document, blueprint);
+    console.log(result);
+
+    await this.getMaturity(result);
+
+    return result;
+  }
+
+  clearData() {
+    this.document = [];
+    this.documentURL = '';
+    this.documentType = '';
+    this.documentFile = null;
+    this.isProcessingFile = false;
+    this.maturity = '';
+    this.validatedDocument = [];
+    // Optionally clear local storage as well if you don't want to persist data at all
+    localStorage.removeItem('documentServiceData');
+  }
+
   @action async handleDocumentTypeChange(event: Event) {
     const target = event.target as HTMLInputElement;
     this.documentType = target.value;
@@ -38,6 +69,7 @@ export default class DocumentService extends Service {
     this.saveToLocalStorage();
   }
 
+  // Function to get the maturity level of a document with type 'Notulen'
   @action async getMaturity(result: any) {
     this.maturity = '';
     if (this.documentType === 'Notulen') {
@@ -65,7 +97,9 @@ export default class DocumentService extends Service {
     return documentType;
   }
 
+  // Function to process a document file (as uploaded by the user in route: document-upload)
   @action async processDocumentFile(file: File) {
+    this.isProcessingFile = true;
     this.documentFile = file;
     const html = await file.text();
     const document = await getPublicationFromFileContent(html);
@@ -73,7 +107,6 @@ export default class DocumentService extends Service {
     this.documentType = await determineDocumentType(document);
 
     if (this.documentType && this.documentType !== 'unknown document type') {
-      // Save to local storage
       this.saveToLocalStorage();
       return true;
     } else {
@@ -86,6 +119,7 @@ export default class DocumentService extends Service {
     }
   }
 
+  // Function to process a document URL (as entered by the user in route: document-upload)
   @action async processDocumentURL(fileUrl: string) {
     this.documentURL = fileUrl;
     this.documentType =
@@ -114,7 +148,8 @@ export default class DocumentService extends Service {
         documentURL: this.documentURL,
         documentType: this.documentType,
         documentFile: this.documentFile,
-        maturity: this.maturity, // Add this line
+        maturity: this.maturity,
+        validatedDocument: this.validatedDocument,
       }),
     );
   }
@@ -123,12 +158,19 @@ export default class DocumentService extends Service {
   loadFromLocalStorage() {
     const data = localStorage.getItem('documentServiceData');
     if (data) {
-      const { document, documentURL, documentType, documentFile, maturity } =
-        JSON.parse(data); // Add maturity here
+      const {
+        document,
+        documentURL,
+        documentType,
+        documentFile,
+        maturity,
+        validatedDocument,
+      } = JSON.parse(data); // Add maturity here
       this.document = document;
       this.documentURL = documentURL;
       this.documentType = documentType;
       this.documentFile = documentFile;
+      this.validatedDocument = validatedDocument;
       this.maturity = maturity; // And add this line
     }
   }

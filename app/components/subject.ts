@@ -50,7 +50,6 @@ export default class Subject extends Component<ArgsInterface> {
   }
 
   get displayCounts() {
-    console.log('helkajdf;la')
     const { validCount, totalCount } = this.args.subject;
     if (validCount !== undefined && totalCount !== undefined) {
       return `${validCount}/${totalCount}`;

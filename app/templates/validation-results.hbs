@@ -6,7 +6,7 @@
   <span class="au-u-margin-top-tiny publication-link">
     <p>Resultaat van de validatie van het document met type
       <p class="au-u-medium">
-        {{this.document.subject}}
+        {{this.document.documentType}}
       </p>
     </p>
   </span>
@@ -36,8 +36,8 @@
   </AuLoader>
 {{else}}
   <div class="au-u-flex au-u-flex--column au-u-flex--center au-u-1-1">
-    {{#each this.validatedDocument as |collection|}}
-      {{#if (eq (get collection 'count') 1)}}
+    {{#each this.document.validatedDocument as |collection|}}
+      {{#if (eq (get collection "count") 1)}}
         <RootSubject @subject={{get collection.objects 0}} />
       {{else}}
         <ClassCollection @collection={{collection}} />
