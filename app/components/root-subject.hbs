@@ -2,12 +2,10 @@
   <:toolbar>
     {{@subject.className}}
     <span class="au-u-para-tiny au-u-flex au-u-margin-top-tiny">
-      <p class="au-u-margin-right-tiny au-u-word-nowrap">
+      <p class="au-u-margin-tiny au-u-margin-left-none au-u-word-nowrap">
         Gevonden URI:
       </p>
-      <AuLinkExternal @skin="primary" class="truncate-url">
-        {{@subject.uri}}
-      </AuLinkExternal>
+      <CopyToClipboard @value={{@subject.uri}} />
     </span>
   </:toolbar>
   <:counts>{{this.displayCounts}}</:counts>
