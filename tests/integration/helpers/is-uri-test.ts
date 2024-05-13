@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'validation-monitoring-tool/tests/helpers';
+import { setupRenderingTest } from 'frontend-validation-tool/tests/helpers';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 
