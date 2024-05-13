@@ -9,8 +9,8 @@
     // work with TypeScript.
     "baseUrl": ".",
     "paths": {
-      "validation-monitoring-tool/tests/*": ["tests/*"],
-      "validation-monitoring-tool/*": ["app/*"],
+      "frontend-validation-tool/tests/*": ["tests/*"],
+      "frtonend-validation-tool/*": ["app/*"],
       "*": ["types/*"]
     }
   }

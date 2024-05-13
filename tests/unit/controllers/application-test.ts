@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { setupTest } from 'validation-monitoring-tool/tests/helpers';
+import { setupTest } from 'frontend-validation-tool/tests/helpers';
 
 module('Unit | Controller | application', function (hooks) {
   setupTest(hooks);
