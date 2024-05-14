@@ -9,6 +9,10 @@
   }
 }
 
+.gutter {
+  gap: $au-unit-tiny;
+}
+
 .au-c-alert {
   overflow: hidden;
 

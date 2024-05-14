@@ -10,23 +10,34 @@
       </p>
     </p>
   </span>
-  {{#unless this.isLoading}}
-    {{#if this.document.maturity}}
-      <h3>Maturiteit: {{this.document.maturity}}</h3>
-    {{/if}}
-  {{/unless}}
+
   <AuLinkExternal
     class="publication-link"
     href={{this.document.documentURL}}
   >{{this.document.documentURL}}</AuLinkExternal>
+  <div class="au-u-flex au-u-margin-top au-u-flex--between au-u-h4">
+    <section>
+      {{#unless this.isLoading}}
+        {{#if this.document.maturity}}
+          <h4 class="au-u-bold">Maturiteitsniveau:
+            {{this.document.maturity}}</h4>
+        {{/if}}
+      {{/unless}}
+      Maturiteitsniveau: 1
+    </section>
 
-  <section class="au-u-margin-top">
-    <AuPill @skin={{"success"}}>Correct/Volledig</AuPill>
-    <AuPill @skin={{"border"}}>Correct/Volledig</AuPill>
-    <AuPill @skin={{"default"}}>Niet Gevalideerd</AuPill>
-    <AuPill @skin={{"warning"}}>Onvolledig</AuPill>
-    <AuPill @skin={{"error"}}>Onvolledig</AuPill>
-  </section>
+    <section
+      class="au-u-flex gutter au-u-flex--vertical-center au-u-flex--center"
+    >
+      <p class="au-u-para-small">Legende:</p>
+
+      <AuPill @skin={{"success"}}>Correct/Volledig</AuPill>
+      <AuPill @skin={{"border"}}>Correct/Volledig</AuPill>
+      <AuPill @skin={{"default"}}>Niet Gevalideerd</AuPill>
+      <AuPill @skin={{"warning"}}>Onvolledig</AuPill>
+      <AuPill @skin={{"error"}}>Onvolledig</AuPill>
+    </section>
+  </div>
 </div>
 
 {{! Validation Results }}
