@@ -1,0 +1,79 @@
+.au-c-app {
+  height: auto !important;
+  min-height: 100vh;
+
+  .au-c-main-container__content {
+    height: 100% !important;
+  }
+}
+
+.gutter {
+  gap: $au-unit-tiny;
+}
+
+.au-c-alert {
+  overflow: hidden;
+
+  .au-c-alert__content {
+    width: 100%;
+  }
+}
+
+.au-c-alert.au-c-alert--neutral {
+  background-color: var(--au-white) !important;
+}
+
+.truncate-url {
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.page-bg {
+  background-color: $au-page-bg;
+}
+
+.au-c-file-upload-disabled {
+  * {
+    color: var(--au-gray-700);
+    text-decoration: none;
+    pointer-events: none;
+  }
+}
+.publication-link {
+  display: flex;
+  justify-content: center;
+  line-break: anywhere;
+  max-lines: 1;
+  line-clamp: 1;
+  text-overflow: ellipsis;
+}
+
+.au-c-button.au-c-button--secondary {
+  .au-c-link {
+    text-decoration: none;
+    font-weight: var(--au-medium);
+    width: 100%;
+    justify-content: center;
+    display: flex;
+  }
+}
+
+.au-c-accordion {
+  .accordion-title {
+    overflow: hidden;
+  }
+  .au-c-toolbar {
+    border-bottom: var(--au-border) solid var(--au-divider-color);
+    padding-bottom: calc(var(--au-border) * 3);
+
+    .au-c-button.au-c-button--link,
+    .au-c-icon {
+      font-size: var(--au-h2);
+      font-weight: var(--au-regular);
+      text-decoration: none;
+      color: var(--au-select-text-color);
+    }
+  }
+}
