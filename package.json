@@ -130,6 +130,7 @@
   },
   "dependencies": {
     "@comunica/actor-http-proxy": "^2.10.2",
+    "dayjs": "^1.11.11",
     "node-libs-browser": "^2.2.1",
     "rdf-js": "^4.0.2",
     "validation-monitoring-module-test": "^1.0.11"
