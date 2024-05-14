@@ -24,13 +24,12 @@ interface ArgsInterface {
 export default class SubjectProperty extends Component<ArgsInterface> {
   get skin() {
     const { valid } = this.args.property;
-    const { alertSkin } = this.args;
+    return valid? "success": "error";
+  }
 
-    if (alertSkin) return alertSkin;
-    if (valid) return 'success';
-
-
-    return 'error';
+  get pillMessage() {
+    const { valid } = this.args.property;
+    return valid ? 'Correct/Volledig' : 'Onvolledig';
   }
 
   get isValidCount() {

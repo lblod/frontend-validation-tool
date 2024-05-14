@@ -1,11 +1,13 @@
-<AuAlert @skin={{this.skin}} class={{this.displayClass}}>
+<AuAlert class="au-c-alert--neutral">
   <CustomAccordion>
     <:toolbar>
-      <p class="truncate-url au-u-h4">
-
-        {{@subject.className}}
-        {{this.displayIndex}}
-      </p>
+      <span class="au-u-para-tiny au-u-flex--vertical-center au-u-flex">
+        <p class="truncate-url au-u-h4 au-u-margin-tiny au-u-margin-left-none">
+          {{@subject.className}}
+          {{this.displayIndex}}
+        </p>
+        <AuPill @skin={{this.skin}}>{{this.pillMessage}}</AuPill>
+      </span>
 
       <span class="au-u-para-tiny au-u-flex au-u-margin-top-tiny">
         <p class="au-u-margin-tiny au-u-margin-left-none au-u-word-nowrap">
