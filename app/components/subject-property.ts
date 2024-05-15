@@ -1,7 +1,4 @@
-import { action } from '@ember/object';
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
-
 
 interface ArgsInterface {
   // subject arguments
@@ -62,7 +59,7 @@ export default class SubjectProperty extends Component<ArgsInterface> {
 
     // Fallback to actual, min, and max counts
     const text = actualCount !== undefined ? `${actualCount}` : 'N/A';
-    const minMaxText = [];
+    const minMaxText: string[] = [];
 
     if (minCount !== undefined) {
       minMaxText.push(`Min: ${minCount}`);
