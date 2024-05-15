@@ -1,6 +1,6 @@
 /**
  * Type declarations for
- *    import config from 'validation-monitoring-tool/config/environment'
+ *    import config from 'frontend-validation-tool/config/environment'
  */
 declare const config: {
   environment: string;

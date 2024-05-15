@@ -1,9 +1,9 @@
 {
-  "name": "validation-monitoring-tool",
-  "version": "1.0.0",
+  "name": "frontend-validation-tool",
+  "version": "1.0.1",
   "private": true,
   "description": "This tool is used to validate publications in the context of the Flemish government.",
-  "repository": "https://github.com/lblod/validation-monitoring-tool",
+  "repository": "https://github.com/lblod/frontend-validation-tool",
   "license": "MIT",
   "author": "Senne Bels <sennebels@gmail.com> (https://sennebels.xyz)",
   "contributors": [

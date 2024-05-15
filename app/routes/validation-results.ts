@@ -2,9 +2,9 @@
 import Route from '@ember/routing/route';
 import type RouterService from '@ember/routing/router-service';
 import { service } from '@ember/service';
-import { DOCUMENT_TYPES } from 'validation-monitoring-tool/constants/document-types';
+import { DOCUMENT_TYPES } from 'frontend-validation-tool/constants/document-types';
 import type Transition from '@ember/routing/transition';
-import type DocumentService from 'validation-monitoring-tool/services/document';
+import type DocumentService from 'frontend-validation-tool/services/document';
 
 export default class ValidationResultsRoute extends Route {
   @service declare router: RouterService;
