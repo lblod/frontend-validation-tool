@@ -30,10 +30,6 @@
   white-space: nowrap;
 }
 
-.page-bg {
-  background-color: $au-page-bg;
-}
-
 .au-c-file-upload-disabled {
   * {
     color: var(--au-gray-700);
@@ -76,4 +72,24 @@
       color: var(--au-select-text-color);
     }
   }
+}
+
+.au-c-main-container__content {
+  height: 100% !important;
+}
+
+.au-u-max-width-1-1 {
+  max-width: 100%;
+}
+
+.entry-container {
+  overflow-x: hidden;
+}
+
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
 }
