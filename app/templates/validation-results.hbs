@@ -19,12 +19,17 @@
     class="au-u-flex au-u-flex--between au-u-1-1 au-u-flex--column@medium au-u-margin-top"
   >
     <section>
-      {{#unless this.isLoading}}
-        {{#if this.document.maturity}}
-          <h4 class="au-u-bold au-u-h4">Maturiteitsniveau:
-            {{this.document.maturity}}</h4>
-        {{/if}}
-      {{/unless}}
+
+      <h4 class="au-u-bold au-u-h4">Maturiteitsniveau:
+        {{#unless this.isLoading}}
+          {{#if this.document.maturity}}
+            {{this.document.maturity}}
+          {{else}}
+            Onbekend
+          {{/if}}
+        {{/unless}}
+      </h4>
+
     </section>
 
     <section
