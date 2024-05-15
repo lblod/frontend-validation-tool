@@ -50,7 +50,7 @@ module.exports = function (environment) {
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
-    ENV.APP.CORS_PROXY_URL = '';
+    ENV.APP.CORS_PROXY_URL = process.env.CORS_PROXY_URL;
   }
 
   if (environment === 'test') {
