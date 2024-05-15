@@ -23,28 +23,22 @@ interface ArgsInterface {
 export default class RootSubject extends Component<ArgsInterface> {
   get skin() {
     const { validCount, totalCount } = this.args.subject;
-    const { firstLevel, alertSkin } = this.args;
+    return validCount
+      ? validCount! == totalCount!
+        ? 'success'
+        : 'error'
+      : 'default';
+  }
 
-    if (alertSkin) return alertSkin;
-
-    if (firstLevel && validCount! < totalCount!) return 'error';
-    if (!firstLevel && validCount !== undefined && totalCount !== undefined) {
-      if (validCount === totalCount) return 'success';
-      if (validCount !== totalCount) return 'warning';
-    }
-    return 'info';
+  get pillMessage() {
+    const { validCount, totalCount } = this.args.subject;
+    return validCount
+      ? validCount! == totalCount!
+        ? 'Correct/Volledig'
+        : 'Onvolledig'
+      : 'Niet gevalideerd';
   }
   
-  get displayClass() {
-    const { validCount, totalCount } = this.args.subject;
-    const { firstLevel } = this.args;
-
-    if (firstLevel && !(validCount! < totalCount!)) {
-      return 'au-c-alert--neutral au-u-margin-bottom';
-    }
-    return 'au-u-margin-bottom';
-  }
-
   get formattedName() {
     const { shapeName, className } = this.args.subject;
     return className || shapeName || name || 'Unvalidated subject';

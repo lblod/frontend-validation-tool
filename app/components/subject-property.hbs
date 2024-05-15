@@ -1,7 +1,10 @@
-<AuAlert @skin={{this.skin}}>
+<AuAlert class="au-c-alert--neutral">
   <CustomAccordion @defaultOpen="true">
     <:toolbar>
-      <p class="au-u-h4 margin-left-tiny">{{@property.name}}</p>
+      <span class="au-u-para-tiny au-u-flex--vertical-center au-u-flex">
+        <p class="au-u-h4 au-u-margin-tiny au-u-margin-left-none au-u-margin-bottom-none">{{@property.name}}</p>
+        <AuPill @skin={{this.skin}}>{{this.pillMessage}}</AuPill>
+      </span>
       <span
         style="flex-grow: 1;"
         class="au-u-para-tiny au-u-flex au-u-margin-top-tiny"
@@ -22,7 +25,7 @@
           {{#if value.uri}}
             <RecursiveEntry @subject={{value}} @index={{index}} />
           {{else}}
-            <p>{{value}}</p>
+            <p>{{formatValue value}}</p>
           {{/if}}
         {{/each}}
       {{/if}}

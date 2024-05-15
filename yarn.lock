@@ -7690,6 +7690,11 @@ date-time@^2.1.0:
   dependencies:
     time-zone "^1.0.0"
 
+dayjs@^1.11.11:
+  version "1.11.11"
+  resolved "https://registry.npmjs.org/dayjs/-/dayjs-1.11.11.tgz"
+  integrity sha512-okzr3f11N6WuqYtZSvm+F776mB41wRZMhKP+hc34YdW+KmtYYK9iqvHSwo2k9FEH3fhGXvOPV6yz2IcSrfRUDg==
+
 debug@^2.1.0:
   version "2.6.9"
   resolved "https://registry.npmjs.org/debug/-/debug-2.6.9.tgz"
@@ -17180,10 +17185,10 @@ validate-peer-dependencies@^2.2.0:
     resolve-package-path "^4.0.3"
     semver "^7.3.8"
 
-validation-monitoring-module-test@latest:
-  version "1.0.8"
-  resolved "https://registry.npmjs.org/validation-monitoring-module-test/-/validation-monitoring-module-test-1.0.8.tgz"
-  integrity sha512-Yk/7Yb7D5GVDexcnK/h1OW3AhzyP1y+rftzPqXJ/+6WPZdxVP1m+rIaxtKHxwMO07cUDYATFO8rUIM8+wvkalg==
+validation-monitoring-module-test@^1.0.11:
+  version "1.0.11"
+  resolved "https://registry.npmjs.org/validation-monitoring-module-test/-/validation-monitoring-module-test-1.0.11.tgz"
+  integrity sha512-FhfLuoVSNJT0LIg343InXX5NnhszTnS9Kho8CXv1wIcjvuFDH+15Wi/XMnmd7aH8ADTzp6Z7cvzdgN9Z8Ds7og==
   dependencies:
     "@comunica/actor-http-proxy" "^2.10.2"
     "@comunica/query-sparql" "^2.10.2"
