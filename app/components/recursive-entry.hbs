@@ -2,13 +2,17 @@
   <CustomAccordion>
     <:toolbar>
       <p class="truncate-url au-u-h4">
-        {{@subject.className}} {{this.displayIndex}}
+
+        {{@subject.className}}
+        {{this.displayIndex}}
       </p>
-      <p class="au-u-para-tiny">
-        <AuLinkExternal @skin="primary"class="truncate-url">
-          {{@subject.uri}}
-        </AuLinkExternal>
-      </p>
+
+      <span class="au-u-para-tiny au-u-flex au-u-margin-top-tiny">
+        <p class="au-u-margin-tiny au-u-margin-left-none au-u-word-nowrap">
+          Gevonden URI:
+        </p>
+        <CopyToClipboard @value={{@subject.uri}} />
+      </span>
       <p class="au-u-para">{{this.description}}</p>
     </:toolbar>
     <:counts>{{this.countText}}</:counts>
