@@ -23,17 +23,22 @@ interface ArgsInterface {
 export default class RecursiveEntry extends Component<ArgsInterface> {
   get skin() {
     const { validCount, totalCount } = this.args.subject;
-    const { firstLevel, alertSkin } = this.args;
-
-    if (alertSkin) return alertSkin;
-
-    if (firstLevel && validCount! < totalCount!) return 'error';
-    if (!firstLevel && validCount !== undefined && totalCount !== undefined) {
-      if (validCount === totalCount) return 'success';
-      if (validCount !== totalCount) return 'warning';
-    }
-    return 'info';
+    return validCount
+      ? validCount! == totalCount!
+        ? 'success'
+        : 'error'
+      : 'default';
   }
+
+  get pillMessage() {
+    const { validCount, totalCount } = this.args.subject;
+    return validCount
+      ? validCount! == totalCount!
+        ? 'Correct/Volledig'
+        : 'Onvolledig'
+      : 'Niet gevalideerd';
+  }
+
   get displayClass() {
     const { validCount, totalCount } = this.args.subject;
     const { firstLevel } = this.args;
