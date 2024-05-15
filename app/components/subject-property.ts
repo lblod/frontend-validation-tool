@@ -23,13 +23,15 @@ interface ArgsInterface {
 
 export default class SubjectProperty extends Component<ArgsInterface> {
   get skin() {
-    const { valid } = this.args.property;
+    const { valid, actualCount, minCount } = this.args.property;
+    if(actualCount === 0 && minCount === 0) return "warning"
     if(valid == undefined) return "default"
     return valid? "success": "error";
   }
 
   get pillMessage() {
-    const { valid } = this.args.property;
+    const { valid, actualCount, minCount } = this.args.property;
+    if (actualCount === 0 && minCount === 0) return 'Optioneel';
     if (valid == undefined) return "Niet gevalideerd";
     return valid? "Correct/Volledig" : "Onvolledig";
   }

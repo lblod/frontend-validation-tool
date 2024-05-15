@@ -38,7 +38,7 @@ export default class RootSubject extends Component<ArgsInterface> {
         : 'Onvolledig'
       : 'Niet gevalideerd';
   }
-  
+
   get formattedName() {
     const { shapeName, className } = this.args.subject;
     return className || shapeName || name || 'Unvalidated subject';
