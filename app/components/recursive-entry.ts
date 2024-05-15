@@ -23,7 +23,7 @@ interface ArgsInterface {
 export default class RecursiveEntry extends Component<ArgsInterface> {
   get skin() {
     const { validCount, totalCount } = this.args.subject;
-    return validCount
+    return validCount !== undefined
       ? validCount! == totalCount!
         ? 'success'
         : 'error'
@@ -32,7 +32,7 @@ export default class RecursiveEntry extends Component<ArgsInterface> {
 
   get pillMessage() {
     const { validCount, totalCount } = this.args.subject;
-    return validCount
+    return validCount !== undefined
       ? validCount! == totalCount!
         ? 'Correct/Volledig'
         : 'Onvolledig'

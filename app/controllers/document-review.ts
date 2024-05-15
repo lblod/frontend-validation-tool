@@ -3,8 +3,8 @@ import { action } from '@ember/object';
 import type RouterService from '@ember/routing/router-service';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import { DOCUMENT_TYPES } from 'validation-monitoring-tool/constants/document-types';
-import type DocumentService from 'validation-monitoring-tool/services/document';
+import { DOCUMENT_TYPES } from 'frontend-validation-tool/constants/document-types';
+import type DocumentService from 'frontend-validation-tool/services/document';
 
 export default class DocumentReviewController extends Controller {
   @service declare document: DocumentService;
