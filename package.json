@@ -17,7 +17,7 @@
     "build": "ember build",
     "lint": "concurrently \"npm:lint:*(!fix)\" --names \"lint:\"",
     "start": "ember serve",
-    "dev": "ember serve",
+    "dev": "ember serve --environment development",
     "watch-module": "tsc -w ./validation-monitoring-module/src/index.ts",
     "test": "concurrently \"npm:lint\" \"npm:test:*\" --names \"lint,test:\"",
     "test:ember": "ember test"
