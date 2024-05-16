@@ -1,4 +1,7 @@
+import { action } from '@ember/object';
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import pretty from 'pretty';
 
 interface ArgsInterface {
   // subject arguments
@@ -70,5 +73,39 @@ export default class SubjectProperty extends Component<ArgsInterface> {
     }
 
     return minMaxText.length > 0 ? `${text} (${minMaxText.join(', ')})` : text;
+  }
+
+  get encodedExample() {
+    const ex = this.args.property.example;
+    const example = ex || '';
+    const prettyExample = pretty(example);
+    return prettyExample;
+  }
+
+  get displayExample() {
+    const encodedExample = this.encodedExample;
+    return encodedExample;
+  }
+
+  @tracked showExample: boolean = false;
+
+  @action
+  toggleShowExample() {
+    this.showExample = !this.showExample;
+  }
+
+  get displayExampleClass() {
+    const ex = this.args.property.example;
+    const example = ex || '';
+
+    if (this.showExample && example.startsWith('<')) return '';
+    else return 'au-u-hidden';
+  }
+  get displayExampleButtonClass() {
+    const example = this.args.property.example;
+
+    if (typeof example !== 'undefined' && example.startsWith('<')) return '';
+    // else return 'au-u-hidden';
+    else return '';
   }
 }

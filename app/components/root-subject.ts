@@ -1,7 +1,6 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import pretty from 'pretty';
 
 interface ArgsInterface {
   index: number;
@@ -84,23 +83,5 @@ export default class RootSubject extends Component<ArgsInterface> {
     }
 
     return '';
-  }
-
-
-  get displayExample() {
-    const encodedExample = this.encodedExample;
-    return encodedExample;
-  }
-
-  get example() {
-    return this.args.subject.example || '';
-  }
-
-  get encodedExample() {
-    const ex = this.args.subject.example;
-    const example = ex || '';
-    const prettyExample = pretty(example);
-    console.log(prettyExample);
-    return prettyExample;
   }
 }

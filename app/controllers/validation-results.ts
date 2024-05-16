@@ -7,7 +7,7 @@ import {
   getBlueprintOfDocumentType,
   validatePublication,
   getExampleOfDocumentType,
-  enrichValidationResultWithExample,
+  enrichClassCollectionsWithExample,
 } from 'app-validation-tool/dist';
 
 import type DocumentService from 'frontend-validation-tool/services/document';
@@ -62,7 +62,7 @@ export default class ValidationResultsController extends Controller {
 
     // NEW: get example and enrich results with specific examples
     const example = await getExampleOfDocumentType(this.document.documentType);
-    const enrichedResults = await enrichValidationResultWithExample(
+    const enrichedResults = await enrichClassCollectionsWithExample(
       result,
       blueprint,
       example,

@@ -9,7 +9,7 @@ import {
   getPublicationFromFileContent,
   validatePublication,
   getExampleOfDocumentType,
-  enrichValidationResultWithExample,
+  enrichClassCollectionsWithExample,
 } from 'app-validation-tool/dist';
 import {
   getBlueprintOfDocumentType,
@@ -48,7 +48,7 @@ export default class DocumentService extends Service {
     await this.getMaturity(result);
 
     const example = await getExampleOfDocumentType(this.documentType);
-    const enrichedResults = await enrichValidationResultWithExample(
+    const enrichedResults = await enrichClassCollectionsWithExample(
       result,
       blueprint,
       example,
