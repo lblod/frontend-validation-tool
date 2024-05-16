@@ -1,7 +1,4 @@
-import { action } from '@ember/object';
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
-
 
 interface ArgsInterface {
   // subject arguments
@@ -23,13 +20,15 @@ interface ArgsInterface {
 
 export default class SubjectProperty extends Component<ArgsInterface> {
   get skin() {
-    const { valid } = this.args.property;
+    const { valid, actualCount, minCount } = this.args.property;
+    if(actualCount === 0 && minCount === 0) return "warning"
     if(valid == undefined) return "default"
     return valid? "success": "error";
   }
 
   get pillMessage() {
-    const { valid } = this.args.property;
+    const { valid, actualCount, minCount } = this.args.property;
+    if (actualCount === 0 && minCount === 0) return 'Optioneel';
     if (valid == undefined) return "Niet gevalideerd";
     return valid? "Correct/Volledig" : "Onvolledig";
   }
@@ -60,7 +59,7 @@ export default class SubjectProperty extends Component<ArgsInterface> {
 
     // Fallback to actual, min, and max counts
     const text = actualCount !== undefined ? `${actualCount}` : 'N/A';
-    const minMaxText = [];
+    const minMaxText: string[] = [];
 
     if (minCount !== undefined) {
       minMaxText.push(`Min: ${minCount}`);
