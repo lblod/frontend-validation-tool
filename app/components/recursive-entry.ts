@@ -1,6 +1,7 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import pretty from 'pretty';
 
 interface ArgsInterface {
   index: number;
@@ -13,6 +14,8 @@ interface ArgsInterface {
     shapeName?: string;
     totalCount: number;
     validCount?: number;
+    example?: string;
+    encodedExample?: string;
   };
 
   // entry arguments
@@ -71,6 +74,14 @@ export default class RecursiveEntry extends Component<ArgsInterface> {
 
   get displayURI() {
     return this.args.subject.uri || '';
+  }
+
+  get displayExampleClass() {
+    const ex = this.args.subject.example;
+    const example = ex || '';
+
+    if (example.startsWith('<')) return '';
+    else return 'au-u-hidden';
   }
 
   get hasURL() {
