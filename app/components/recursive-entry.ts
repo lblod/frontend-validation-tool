@@ -1,6 +1,7 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import pretty from 'pretty';
 
 interface ArgsInterface {
   // AUAccordion arguments
@@ -23,6 +24,8 @@ interface ArgsInterface {
     typeName?: string;
     url?: string;
     description?: string;
+    example?: string;
+    encodedExample?: string;
   };
 
   // entry arguments
@@ -92,6 +95,19 @@ export default class RecursiveEntry extends Component<ArgsInterface> {
     return '';
   }
 
+  get displayExample() {
+    const encodedExample = this.encodedExample;
+    return encodedExample;
+  }
+
+  get displayExampleClass() {
+    const ex = this.args.property.example;
+    const example = ex || '';
+
+    if (example.startsWith('<')) return '';
+    else return 'au-u-hidden';
+  }
+
   get displayURL() {
     return this.args.property.url || '';
   }
@@ -102,6 +118,18 @@ export default class RecursiveEntry extends Component<ArgsInterface> {
 
   get description() {
     return this.args.property.description || '';
+  }
+
+  get example() {
+    return this.args.property.example || '';
+  }
+
+  get encodedExample() {
+    const ex = this.args.property.example;
+    const example = ex || '';
+    const prettyExample = pretty(example);
+    console.log(prettyExample);
+    return prettyExample;
   }
 
   get countText() {
@@ -178,4 +206,11 @@ export default class RecursiveEntry extends Component<ArgsInterface> {
       return 'nav-right';
     }
   }
+
+  @action
+  toggleExample() {
+    this.isExampleOpen = !this.isExampleOpen;
+  }
+
+  @tracked isExampleOpen: boolean = true;
 }

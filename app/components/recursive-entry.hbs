@@ -5,6 +5,8 @@
       @hasURL={{this.hasURL}}
       @displayURL={{this.displayURL}}
       @description={{this.description}}
+      @example={{this.example}}
+      @encodedExample={{this.encodedExample}}
       @displayCounts={{this.displayCounts}}
     />
   </AuAlert>
@@ -15,8 +17,11 @@
       @hasURL={{this.hasURL}}
       @displayURL={{this.displayURL}}
       @description={{this.description}}
+      @example={{this.example}}
+      @encodedExample={{this.encodedExample}}
       @displayCounts={{this.displayCounts}}
-    />
+    >
+    </AlertSection>
   </AuAlert>
 {{else}}
   {{! Default case }}
@@ -52,6 +57,26 @@
                   {{/if}}
                 </p>
                 <p class="au-u-para">{{this.description}}</p>
+                <AuButton
+                  class="{{this.displayExampleClass}} au-u-flex--vertical-end"
+                  @skin={{"naked"}}
+                >
+                  Voorbeeld
+                </AuButton>
+                <AuCard
+                    class="{{this.displayExampleClass}} au-c-example"
+                    @flex={{this.flex}}
+                    @textCenter={{this.textCenter}}
+                    @shadow={{this.shadow}}
+                    @size={{this.size}}
+                    @standOut={{this.standOut}}
+                    @expandable={{false}}
+                    as |c|
+                    >
+                    <c.content>
+                      <pre><code class="au-c-example">{{this.displayExample}}</code></pre>
+                    </c.content>   
+                </AuCard>
               </span>
               <p class="au-u-h6">{{this.countText}}</p>
             </section>

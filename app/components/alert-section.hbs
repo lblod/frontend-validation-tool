@@ -12,6 +12,28 @@
       {{/if}}
     </p>
     <p class="au-u-para">{{@description}}</p>
+    <AuButton
+      class="{{this.displayExampleClass}} au-u-flex--vertical-end"
+      @skin={{"naked"}}
+    >
+      Voorbeeld
+    </AuButton>
+    <AuCard
+        class="{{this.displayExampleClass}} au-c-example"
+        @flex={{this.flex}}
+        @textCenter={{this.textCenter}}
+        @shadow={{this.shadow}}
+        @size={{this.size}}
+        @standOut={{this.standOut}}
+        @expandable={{false}}
+        as |c|
+        >
+        <c.content>
+          <pre>
+            <code class="au-c-example">{{@encodedExample}}</code>
+          </pre>
+        </c.content>   
+    </AuCard>
   </span>
   <p class="au-u-h6">{{@displayCounts}}</p>
 </section>

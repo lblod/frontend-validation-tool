@@ -6,6 +6,8 @@ import {
   fetchDocument,
   getBlueprintOfDocumentType,
   validatePublication,
+  getExampleOfDocumentType,
+  enrichValidationResultWithExample,
 } from 'app-validation-tool/dist';
 
 import type DocumentService from 'frontend-validation-tool/services/document';
@@ -52,12 +54,20 @@ export default class ValidationResultsController extends Controller {
     const blueprint = await getBlueprintOfDocumentType(
       this.document.documentType,
     );
-    const document = await fetchDocument(this.document.documentURL);
+    const document = await fetchDocument(this.document.documentURL, '');
     const result = await validatePublication(document, blueprint);
-    console.log(result);
 
     await this.document.getMaturity(result);
 
-    return result;
+    // NEW: get example and enrich results with specific examples
+    const example = await getExampleOfDocumentType(this.document.documentType);
+    const enrichedResults = await enrichValidationResultWithExample(
+      result,
+      blueprint,
+      example,
+    );
+    console.log(enrichedResults);
+
+    return enrichedResults;
   }
 }
