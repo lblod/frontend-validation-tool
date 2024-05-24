@@ -8,12 +8,14 @@ import {
   fetchDocument,
   getPublicationFromFileContent,
   validatePublication,
-} from 'validation-monitoring-module-test/dist';
+  getExampleOfDocumentType,
+  enrichClassCollectionsWithExample,
+} from 'app-validation-tool/dist';
 import {
   getBlueprintOfDocumentType,
   getMaturityProperties,
-} from 'validation-monitoring-module-test/dist/queries';
-import { checkMaturity } from 'validation-monitoring-module-test/dist/validation';
+} from 'app-validation-tool/dist/queries';
+import { checkMaturity } from 'app-validation-tool/dist/validation';
 import config from 'frontend-validation-tool/config/environment';
 
 export default class DocumentService extends Service {
@@ -39,14 +41,21 @@ export default class DocumentService extends Service {
   @action async validateDocument(): Promise<any> {
     const blueprint = await getBlueprintOfDocumentType(this.documentType);
     if (!this.isProcessingFile) {
-      this.document = await fetchDocument(this.documentURL);
+      this.document = await fetchDocument(this.documentURL, this.corsProxy);
     }
     const result = await validatePublication(this.document, blueprint);
-    console.log(result);
 
     await this.getMaturity(result);
 
-    return result;
+    const example = await getExampleOfDocumentType(this.documentType);
+    const enrichedResults = await enrichClassCollectionsWithExample(
+      result,
+      blueprint,
+      example,
+    );
+    console.log(enrichedResults);
+
+    return enrichedResults;
   }
 
   clearData() {

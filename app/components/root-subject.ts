@@ -13,6 +13,8 @@ interface ArgsInterface {
     shapeName?: string;
     totalCount: number;
     validCount?: number;
+    example?: string;
+    encodedExample?: string;
   };
 
   // entry arguments
