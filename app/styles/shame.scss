@@ -67,8 +67,9 @@
 
 .au-c-toolbar .tooltip .tooltip-text {
   position: absolute;
-  bottom: -350%;
+  bottom: 0;
   left: 0;
+  transform: translateY(100%);
   visibility: hidden;
   width: 300px;
   background-color: var(--au-white);
