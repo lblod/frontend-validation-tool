@@ -68,7 +68,6 @@
 .au-c-toolbar .tooltip .tooltip-text {
   position: absolute;
   bottom: -350%;
-  transform: translateY(50%);
   left: 0;
   visibility: hidden;
   width: 300px;
@@ -102,9 +101,6 @@
   visibility: visible;
 }
 .au-c-accordion {
-  .accordion-title {
-    overflow: hidden;
-  }
   .au-c-toolbar {
     border-bottom: var(--au-border) solid var(--au-divider-color);
     padding-bottom: calc(var(--au-border) * 3);
