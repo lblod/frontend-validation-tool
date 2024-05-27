@@ -11,3 +11,7 @@ $au-flex-utilities-responsive: true;
 @import "@appuniversum/ember-appuniversum/styles/a-utilities";
 
 @import "shame";
+
+.au-c-example {
+  white-space: initial;
+}

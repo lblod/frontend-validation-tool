@@ -2,7 +2,19 @@
   <CustomAccordion @defaultOpen="true">
     <:toolbar>
       <span class="au-u-para-tiny au-u-flex--vertical-center au-u-flex">
-        <p class="au-u-h4 au-u-margin-tiny au-u-margin-left-none au-u-margin-bottom-none">{{@property.name}}</p>
+        <div class="tooltip">
+          <p
+            {{! au-u-margin-tiny }}
+            class="au-u-h4 au-u-margin-right-tiny au-u-margin-bottom-none au-u-italic"
+          >
+            {{@property.name}}
+          </p>
+          {{! <AuIcon @icon="info-circle" class="au-u-margin-right-tiny" /> }}
+          <span class="tooltip-text">De vorm '{{@property.name}}' wordt gebruikt
+            om een huidige of actieve handeling aan te duiden, waarbij één
+            entiteit een andere beïnvloedt.
+          </span>
+        </div>
         <AuPill @skin={{this.skin}}>{{this.pillMessage}}</AuPill>
       </span>
       <span
@@ -13,8 +25,19 @@
           Gevonden path:
         </p>
         <CopyToClipboard @value={{@property.path}} />
+          <AuButton
+            class="{{this.displayExampleButtonClass}}"
+            @skin={{"naked"}}
+            {{on "click" this.toggleShowExample}}
+          >
+            Voorbeeld
+          </AuButton>
       </span>
       <p class="au-u-para">{{@property.description}}</p>
+      <div class="{{this.displayExampleClass}}">
+        <CodeBlock class="au-u-para-tiny" @code={{this.displayExample}} @language="markup" />
+      </div>
+
     </:toolbar>
     <:counts>{{this.countText}}</:counts>
     <:content>

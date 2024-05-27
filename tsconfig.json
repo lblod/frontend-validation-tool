@@ -10,7 +10,7 @@
     "baseUrl": ".",
     "paths": {
       "frontend-validation-tool/tests/*": ["tests/*"],
-      "frtonend-validation-tool/*": ["app/*"],
+      "frontend-validation-tool/*": ["app/*"],
       "*": ["types/*"]
     }
   }
