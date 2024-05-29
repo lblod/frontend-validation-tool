@@ -132,7 +132,7 @@
   },
   "dependencies": {
     "@comunica/actor-http-proxy": "^2.10.2",
-    "app-validation-tool": "^1.0.25",
+    "app-validation-tool": "^1.0.26",
     "dayjs": "^1.11.11",
     "node-libs-browser": "^2.2.1",
     "pretty": "^2.0.0",
