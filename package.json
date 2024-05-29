@@ -14,6 +14,7 @@
     "test": "tests"
   },
   "scripts": {
+    "build-image": "docker buildx build -t lennybontenakel/validation-lib .",
     "build": "ember build",
     "lint": "concurrently \"npm:lint:*(!fix)\" --names \"lint:\"",
     "start": "ember serve",

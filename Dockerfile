@@ -5,10 +5,9 @@ LABEL maintainer="info@redpencil.io"
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
-RUN yarn
 COPY . .
 RUN ember build -prod
 
 FROM semtech/ember-proxy-service:1.5.1
 
-COPY --from=builder /app/dist /data
+COPY --from=builder /app/dist ./data
