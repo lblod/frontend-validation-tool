@@ -38,37 +38,4 @@ export default class ValidationResultsController extends Controller {
   @service declare document: DocumentService;
 
   @tracked isLoading = false;
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  constructor(...args: any[]) {
-    super(...args);
-    this.document.validateDocument().then((resp) => {
-      this.document.validatedDocument = resp;
-    });
-  }
-
-  get singleCollection() {
-    return this.document.validatedDocument.length === 1;
-  }
-
-  @action async validateDocument() {
-    const blueprint = await getBlueprintOfDocumentType(
-      this.document.documentType,
-    );
-    const document = await fetchDocument(this.document.documentURL, '');
-    const result = await validatePublication(document, blueprint);
-
-    await this.document.getMaturity(result);
-
-    // NEW: get example and enrich results with specific examples
-    const example = await getExampleOfDocumentType(this.document.documentType);
-    const enrichedResults = await enrichClassCollectionsWithExample(
-      result,
-      blueprint,
-      example,
-    );
-    console.log(enrichedResults);
-
-    return enrichedResults;
-  }
 }

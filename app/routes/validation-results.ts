@@ -4,6 +4,7 @@ import type RouterService from '@ember/routing/router-service';
 import { service } from '@ember/service';
 import type Transition from '@ember/routing/transition';
 import type DocumentService from 'frontend-validation-tool/services/document';
+import { filter } from 'rsvp';
 import { getDocumentTypes } from 'validation-monitoring-module-test/dist';
 
 export default class ValidationResultsRoute extends Route {
@@ -17,9 +18,16 @@ export default class ValidationResultsRoute extends Route {
     documentType: {
       refreshModel: true,
     },
+    filterInvalid: {
+      refreshModel: true,
+    },
   };
 
-  async model(params: { url: string; documentType: string }) {
+  async model(params: {
+    url: string;
+    documentType: string;
+    filterInvalid: boolean;
+  }) {
     // Check if the URL is valid and if not, redirect to the document upload page
     if (
       this.document.isProcessingFile &&
@@ -54,7 +62,11 @@ export default class ValidationResultsRoute extends Route {
     } else if (params.documentType && params.url) {
       this.document.documentType = params.documentType;
       this.document.documentURL = params.url;
-      this.document.validateDocument();
+      if (!params.filterInvalid) {
+        return this.document.validateDocument();
+      } else {
+        return this.document.getPublicationfilteredByValidity();
+      }
     }
     return;
   }
