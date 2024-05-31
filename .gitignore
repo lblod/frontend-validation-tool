@@ -4,8 +4,6 @@
 
 # dependencies
 /node_modules/
-yarn.lock
-package-lock.json
 
 /validation-monitoring-module
 /app-validation-tool

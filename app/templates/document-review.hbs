@@ -32,12 +32,12 @@
         {{/unless}}
 
         {{#each this.selectOptions as |documentType|}}
-          {{#if (eq documentType.value this.document.documentType)}}
-            <option value={{documentType.value}} selected>
+          {{#if (eq documentType.label this.document.documentType)}}
+            <option value={{documentType.label}} selected>
               {{documentType.label}}
             </option>
           {{else}}
-            <option value={{documentType.value}}>
+            <option value={{documentType.label}}>
               {{documentType.label}}
             </option>
           {{/if}}
