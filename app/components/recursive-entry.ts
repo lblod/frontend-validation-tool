@@ -35,7 +35,7 @@ export default class RecursiveEntry extends Component<ArgsInterface> {
 
   get classNames() {
     const { validCount, totalCount } = this.args.subject;
-    return validCount === totalCount && 'au-c-pill--whole';
+    return validCount === totalCount && 'au-c-pill--whole' && !this.isCorrect;
   }
 
   get pillMessage() {
