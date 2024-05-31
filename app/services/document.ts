@@ -45,7 +45,7 @@ export default class DocumentService extends Service {
     }
     const result = await validatePublication(this.document, blueprint);
 
-    await this.getMaturity(result);
+    // await this.getMaturity(result);
 
     const example = await getExampleOfDocumentType(this.documentType);
     const enrichedResults = await enrichClassCollectionsWithExample(
@@ -53,6 +53,7 @@ export default class DocumentService extends Service {
       blueprint,
       example,
     );
+
     console.log(enrichedResults);
 
     return enrichedResults;

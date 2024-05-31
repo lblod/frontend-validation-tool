@@ -8,7 +8,10 @@
           {{@subject.className}}
           {{this.displayIndex}}
         </p>
-        <AuPill @skin={{this.skin}}>{{this.pillMessage}}</AuPill>
+        <AuPill
+          class={{this.classNames}}
+          @skin={{this.skin}}
+        >{{this.pillMessage}}</AuPill>
       </span>
 
       <span class="au-u-para-tiny au-u-flex au-u-margin-top-tiny">

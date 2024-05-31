@@ -10,7 +10,7 @@ interface ArgsInterface {
     targetClass: string;
     description: string;
     path: string;
-    value: string[] | Object[];
+    value: string[] | object[];
     minCount?: number;
     maxCount?: number;
     actualCount: number;
@@ -28,14 +28,24 @@ export default class SubjectProperty extends Component<ArgsInterface> {
     const { valid, actualCount, minCount } = this.args.property;
     if (actualCount === 0 && minCount === 0) return 'warning';
     if (valid == undefined) return 'default';
-    return valid ? 'success' : 'error';
+    if (this.isCorrect) return 'success';
+    return valid ? 'whole' : 'error';
+  }
+
+  get classNames() {
+    const { valid, actualCount, minCount } = this.args.property;
+    if (actualCount === 0 && minCount === 0) return;
+    if (valid == undefined) return;
+    if (this.isCorrect) return;
+    return valid && 'au-c-pill--whole';
   }
 
   get pillMessage() {
     const { valid, actualCount, minCount } = this.args.property;
     if (actualCount === 0 && minCount === 0) return 'Optioneel';
     if (valid == undefined) return 'Niet gevalideerd';
-    return valid ? 'Correct/Volledig' : 'Onvolledig';
+    if (this.isCorrect) return 'Correct';
+    return valid ? 'Volledig' : 'Onvolledig';
   }
 
   get isValidCount() {
@@ -48,6 +58,19 @@ export default class SubjectProperty extends Component<ArgsInterface> {
       (minCount === undefined || actualCount >= minCount) &&
       (maxCount === undefined || actualCount <= maxCount)
     );
+  }
+
+  get isCorrect() {
+    const { value, minCount, maxCount } = this.args.property;
+    if (value.length === 0) {
+      return minCount === 0;
+    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return value
+      ? minCount === undefined && maxCount === undefined
+        ? true
+        : value.every((v: any) => v.totalCount === v.actualCount)
+      : true;
   }
 
   get displayURI() {
