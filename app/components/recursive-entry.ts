@@ -12,7 +12,7 @@ interface ArgsInterface {
     usedShape?: string;
     shapeName?: string;
     totalCount: number;
-    properties: Array<Object>;
+    properties: Array<object>;
     validCount?: number;
   };
 
@@ -26,9 +26,16 @@ export default class RecursiveEntry extends Component<ArgsInterface> {
     const { validCount, totalCount } = this.args.subject;
     return validCount !== undefined
       ? validCount! == totalCount!
-        ? 'success'
+        ? this.isCorrect
+          ? 'success'
+          : 'success'
         : 'error'
       : 'default';
+  }
+
+  get classNames() {
+    const { validCount, totalCount } = this.args.subject;
+    return validCount === totalCount && 'au-c-pill--whole';
   }
 
   get pillMessage() {

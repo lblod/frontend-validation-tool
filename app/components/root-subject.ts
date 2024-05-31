@@ -13,6 +13,7 @@ interface ArgsInterface {
     shapeName?: string;
     totalCount: number;
     validCount?: number;
+    objects?: Array<object>;
     example?: string;
     encodedExample?: string;
   };
@@ -32,13 +33,28 @@ export default class RootSubject extends Component<ArgsInterface> {
       : 'default';
   }
 
+  get classNames() {
+    const { validCount, totalCount } = this.args.subject;
+    return validCount === totalCount && 'au-c-pill--whole';
+  }
+
   get pillMessage() {
     const { validCount, totalCount } = this.args.subject;
     return validCount !== undefined
       ? validCount! == totalCount!
-        ? 'Correct/Volledig'
+        ? this.isCorrect
+          ? 'Correct'
+          : 'Volledig'
         : 'Onvolledig'
       : 'Niet gevalideerd';
+  }
+
+  get isCorrect() {
+    const { objects } = this.args.subject;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return objects
+      ? objects.every((v: any) => v.validCount === v.totalCount)
+      : true;
   }
 
   get formattedName() {
