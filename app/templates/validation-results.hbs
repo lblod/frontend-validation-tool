@@ -73,7 +73,6 @@
           klasse zijn ingevuld.
         </span>
       </div>
-
     </section>
   </div>
 </div>
@@ -87,7 +86,7 @@
   <div
     class="entry-container au-u-flex au-u-flex--column au-u-flex--center au-u-1-1"
   >
-    {{#each this.document.validatedDocument as |collection|}}
+    {{#each this.model as |collection|}}
       {{#if (eq (get collection "count") 1)}}
         <RootSubject @subject={{get collection.objects 0}} />
       {{else}}
