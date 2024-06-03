@@ -38,6 +38,58 @@ export default class DocumentService extends Service {
     this.loadFromLocalStorage();
   }
 
+  get singleCollection() {
+    return this.document.validatedDocument.length === 1;
+  }
+
+  @action async getPublicationfilteredByValidity() {
+    function filterRecursive(item) {
+      if (Array.isArray(item.objects) && item.objects.length > 0) {
+        item.objects = item.objects
+          .map(filterRecursive)
+          .filter((object) => !(object.validCount === object.totalCount));
+      } else {
+        if (Array.isArray(item.properties) && item.properties.length > 0) {
+          item.properties = item.properties
+            .map(filterRecursive)
+            .filter(
+              (property) =>
+                !(
+                  property.actualCount >= property.minCount &&
+                  property.actualCount <= property.maxCount
+                ),
+            );
+        }
+        if (Array.isArray(item.value) && item.value.length > 0) {
+          item.value = item.value
+            .map(filterRecursive)
+            .filter((value) => !(value.validCount === value.totalCount));
+        }
+      }
+      return item;
+    }
+
+    const document = await this.validateDocument();
+
+    document
+      .map(filterRecursive)
+      .filter(
+        (entry) =>
+          !(
+            entry.actualCount >= entry.minCount &&
+            entry.actualCount <= entry.maxCount
+          ),
+      );
+    console.log('filtered document');
+    console.log(document);
+    this.validatedDocument = document;
+    return document;
+  }
+
+  @action updateValidatedDocument(newValidatedDocument: object) {
+    this.validatedDocument = newValidatedDocument;
+  }
+
   @action async validateDocument(): Promise<any> {
     const blueprint = await getBlueprintOfDocumentType(this.documentType);
     if (!this.isProcessingFile) {
@@ -45,14 +97,13 @@ export default class DocumentService extends Service {
     }
     const result = await validatePublication(this.document, blueprint);
 
-    await this.getMaturity(result);
-
     const example = await getExampleOfDocumentType(this.documentType);
     const enrichedResults = await enrichClassCollectionsWithExample(
       result,
       blueprint,
       example,
     );
+
     console.log(enrichedResults);
 
     return enrichedResults;

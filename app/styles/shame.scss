@@ -30,6 +30,11 @@
   white-space: nowrap;
 }
 
+.au-c-pill--whole {
+  background-color: var(--au-blue-200) !important;
+  color: var(--au-blue-900);
+}
+
 .au-c-file-upload-disabled {
   * {
     color: var(--au-gray-700);
@@ -65,8 +70,9 @@
   align-self: center;
 }
 
-.au-c-toolbar .tooltip .tooltip-text {
+.tooltip .tooltip-text {
   position: absolute;
+  cursor: pointer;
   bottom: 0;
   left: 0;
   transform: translateY(100%);
@@ -101,6 +107,11 @@
 .au-c-toolbar .tooltip:hover .tooltip-text {
   visibility: visible;
 }
+
+.tooltip:hover .tooltip-text {
+  visibility: visible;
+}
+
 .au-c-accordion {
   .au-c-toolbar {
     border-bottom: var(--au-border) solid var(--au-divider-color);

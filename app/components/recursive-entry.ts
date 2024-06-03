@@ -12,6 +12,7 @@ interface ArgsInterface {
     usedShape?: string;
     shapeName?: string;
     totalCount: number;
+    properties: Array<object>;
     validCount?: number;
   };
 
@@ -25,16 +26,25 @@ export default class RecursiveEntry extends Component<ArgsInterface> {
     const { validCount, totalCount } = this.args.subject;
     return validCount !== undefined
       ? validCount! == totalCount!
-        ? 'success'
+        ? this.isCorrect
+          ? 'success'
+          : 'success'
         : 'error'
       : 'default';
+  }
+
+  get classNames() {
+    const { validCount, totalCount } = this.args.subject;
+    return validCount === totalCount && 'au-c-pill--whole' && !this.isCorrect;
   }
 
   get pillMessage() {
     const { validCount, totalCount } = this.args.subject;
     return validCount !== undefined
       ? validCount! == totalCount!
-        ? 'Correct/Volledig'
+        ? this.isCorrect
+          ? 'Correct'
+          : 'Volledig'
         : 'Onvolledig'
       : 'Niet gevalideerd';
   }
@@ -67,6 +77,12 @@ export default class RecursiveEntry extends Component<ArgsInterface> {
   get displayIndex() {
     if (this.args.index === undefined) return '';
     return this.args.index + 1;
+  }
+
+  get isCorrect() {
+    const { properties } = this.args.subject;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return properties ? properties.every((v: any) => v.valid === true) : true;
   }
 
   get displayURI() {

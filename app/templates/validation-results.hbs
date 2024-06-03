@@ -37,10 +37,42 @@
     >
       <p class="au-u-para-small">Legende:</p>
 
-      <AuPill @skin={{"success"}}>Correct/Volledig</AuPill>
-      <AuPill @skin={{"default"}}>Niet Gevalideerd</AuPill>
-      <AuPill @skin={{"warning"}}>Optioneel</AuPill>
-      <AuPill @skin={{"error"}}>Onvolledig</AuPill>
+      <div class="tooltip">
+        <AuPill @skin={{"success"}}>Correct</AuPill>
+        <span class="tooltip-text">
+          Een klasse is correct wanneer alle velden van een klasse alsook de
+          velden van de subklassen correct zijn ingevuld.
+        </span>
+      </div>
+      <div class="tooltip">
+        <AuPill class="au-c-pill--whole">Volledig</AuPill>
+        <span class="tooltip-text">
+          Een klasse is volledig wanneer alle verplichte velden van een klasse
+          zijn ingevuld. Opgelet: een klasse kan volledig zijn, maar toch
+          incorrect.
+        </span>
+      </div>
+      <div class="tooltip">
+        <AuPill @skin={{"default"}}>Niet Gevalideerd</AuPill>
+        <span class="tooltip-text">
+          Een klasse is niet gevalideerd wanneer er geen schema is om deze tegen
+          te valideren.
+        </span>
+      </div>
+      <div class="tooltip">
+        <AuPill @skin={{"warning"}}>Optioneel</AuPill>
+        <span class="tooltip-text">
+          Een klasse is optioneel wanneer deze niet verplicht is om in te
+          vullen.
+        </span>
+      </div>
+      <div class="tooltip">
+        <AuPill @skin={{"error"}}>Onvolledig</AuPill>
+        <span class="tooltip-text">
+          Een klasse is onvolledig wanneer niet alle verplichte velden van een
+          klasse zijn ingevuld.
+        </span>
+      </div>
     </section>
   </div>
 </div>
@@ -54,7 +86,7 @@
   <div
     class="entry-container au-u-flex au-u-flex--column au-u-flex--center au-u-1-1"
   >
-    {{#each this.document.validatedDocument as |collection|}}
+    {{#each this.model as |collection|}}
       {{#if (eq (get collection "count") 1)}}
         <RootSubject @subject={{get collection.objects 0}} />
       {{else}}
