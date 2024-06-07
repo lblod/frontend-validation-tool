@@ -1,11 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Component from '@glimmer/component';
 import {
   getSkin,
-  getClassNames,
-  getPillMessage,
   isCorrectForProperty,
   isCorrectForSubject,
-  hasValid,
 } from '../utils/pill-utils';
 import { STATUS_PILL_TYPES } from 'frontend-validation-tool/constants/status-pills';
 
@@ -28,7 +26,7 @@ interface Args {
   };
 }
 
-export default class AuPillComponent extends Component<Args> {
+export default class StatusPill extends Component<Args> {
   get isCorrect() {
     const { properties, objects } = this.args.subject || {};
     const { value = [], minCount, maxCount } = this.args.property || {};
@@ -83,10 +81,5 @@ export default class AuPillComponent extends Component<Args> {
         : STATUS_PILL_TYPES.invalid.name;
     }
     return 'Niet gevalideerd';
-  }
-
-  get isValidCount() {
-    const { actualCount, minCount, maxCount } = this.args.property || {};
-    return isValidCount(actualCount, minCount, maxCount);
   }
 }
