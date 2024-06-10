@@ -1,15 +1,10 @@
 FROM madnificent/ember:5.4.1 as builder
 
-LABEL maintainer="john.doe@example.com"
-
-
-# Set npm log level to verbose to gather more details
-RUN npm config set loglevel verbose
-
+LABEL maintainer="sennebels@gmail.com"
 
 WORKDIR /app
 COPY package.json ./
-RUN npm install || { echo 'npm ci failed'; cat /root/.npm/_logs/*-debug.log; exit 1; }
+RUN npm install
 COPY . .
 RUN ember build -prod
 
