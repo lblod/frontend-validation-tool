@@ -4,10 +4,11 @@
       <p class="au-u-margin-tiny au-u-margin-left-none au-u-margin-bottom-none">
         {{@subject.className}}
       </p>
-      <AuPill
+      <StatusPill @subject={{@subject}} />
+      {{!-- <AuPill
         @class={{this.classNames}}
         @skin={{this.skin}}
-      >{{this.pillMessage}}</AuPill>
+      >{{this.pillMessage}}</AuPill> --}}
     </span>
     <span class="au-u-para-tiny au-u-flex au-u-margin-top-tiny">
       <p class="au-u-margin-tiny au-u-margin-left-none au-u-word-nowrap">
