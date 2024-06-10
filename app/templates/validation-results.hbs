@@ -37,42 +37,18 @@
     >
       <p class="au-u-para-small">Legende:</p>
 
-      <div class="tooltip">
-        <AuPill @skin={{"success"}}>Correct</AuPill>
-        <span class="tooltip-text">
-          Een klasse is correct wanneer alle velden van een klasse alsook de
-          velden van de subklassen correct zijn ingevuld.
-        </span>
-      </div>
-      <div class="tooltip">
-        <AuPill class="au-c-pill--whole">Volledig</AuPill>
-        <span class="tooltip-text">
-          Een klasse is volledig wanneer alle verplichte velden van een klasse
-          zijn ingevuld. Opgelet: een klasse kan volledig zijn, maar toch
-          incorrect.
-        </span>
-      </div>
-      <div class="tooltip">
-        <AuPill @skin={{"default"}}>Niet Gevalideerd</AuPill>
-        <span class="tooltip-text">
-          Een klasse is niet gevalideerd wanneer er geen schema is om deze tegen
-          te valideren.
-        </span>
-      </div>
-      <div class="tooltip">
-        <AuPill @skin={{"warning"}}>Optioneel</AuPill>
-        <span class="tooltip-text">
-          Een klasse is optioneel wanneer deze niet verplicht is om in te
-          vullen.
-        </span>
-      </div>
-      <div class="tooltip">
-        <AuPill @skin={{"error"}}>Onvolledig</AuPill>
-        <span class="tooltip-text">
-          Een klasse is onvolledig wanneer niet alle verplichte velden van een
-          klasse zijn ingevuld.
-        </span>
-      </div>
+      {{#each-in this.pillLegend as |key value|}}
+        <div class="tooltip">
+          <AuPill
+            class={{value.class}}
+            @skin={{value.skin}}
+          >{{value.name}}</AuPill>
+          <span class="tooltip-text">
+            {{value.description}}
+          </span>
+        </div>
+      {{/each-in}}
+
     </section>
   </div>
 </div>
