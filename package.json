@@ -14,6 +14,7 @@
     "test": "tests"
   },
   "scripts": {
+    "build-image": "docker buildx build -t lennybontenakel/frontend-validation .",
     "build": "ember build",
     "lint": "concurrently \"npm:lint:*(!fix)\" --names \"lint:\"",
     "start": "ember serve",
@@ -131,7 +132,6 @@
     "ember-file-upload": "^8.4.0"
   },
   "dependencies": {
-    "@comunica/actor-http-proxy": "^2.10.2",
     "app-validation-tool": "^1.0.28",
     "dayjs": "^1.11.11",
     "node-libs-browser": "^2.2.1",
