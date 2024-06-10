@@ -1,14 +1,18 @@
-FROM madnificent/ember:4.12.1-node_18 as builder
+FROM madnificent/ember:5.4.1 as builder
 
-LABEL maintainer="info@redpencil.io"
+LABEL maintainer="john.doe@example.com"
+
+
+# Set npm log level to verbose to gather more details
+RUN npm config set loglevel verbose
+
 
 WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm ci
+COPY package.json ./
+RUN npm install || { echo 'npm ci failed'; cat /root/.npm/_logs/*-debug.log; exit 1; }
 COPY . .
 RUN ember build -prod
 
-FROM semtech/ember-proxy-service:1.5.1
+FROM semtech/static-file-service:0.2.0
 
-COPY --from=builder /app/dist ./data
-COPY nginx /etc/nginx
+COPY --from=builder /app/dist /data
