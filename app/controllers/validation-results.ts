@@ -11,6 +11,7 @@ import {
 } from 'app-validation-tool/dist';
 
 import type DocumentService from 'frontend-validation-tool/services/document';
+import { STATUS_PILL_TYPES } from 'frontend-validation-tool/constants/status-pills';
 
 export type RDFShape = {
   type: string;
@@ -36,6 +37,7 @@ export type RDFProperty = {
 
 export default class ValidationResultsController extends Controller {
   @service declare document: DocumentService;
+  pillLegend = STATUS_PILL_TYPES;
 
   @tracked isLoading = false;
 }
