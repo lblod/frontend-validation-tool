@@ -4,7 +4,7 @@ import type RouterService from '@ember/routing/router-service';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import type DocumentService from 'frontend-validation-tool/services/document';
-import { getDocumentTypes } from 'validation-monitoring-module-test/dist';
+import { getDocumentTypes } from 'app-validation-tool/dist/queries';
 
 export default class DocumentReviewController extends Controller {
   @service declare document: DocumentService;
