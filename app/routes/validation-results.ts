@@ -2,10 +2,10 @@
 import Route from '@ember/routing/route';
 import type RouterService from '@ember/routing/router-service';
 import { service } from '@ember/service';
-import { DOCUMENT_TYPES } from 'frontend-validation-tool/constants/document-types';
 import type Transition from '@ember/routing/transition';
 import type DocumentService from 'frontend-validation-tool/services/document';
-import { filter } from 'rsvp';
+import { getDocumentTypes } from 'app-validation-tool/dist/queries';
+
 
 export default class ValidationResultsRoute extends Route {
   @service declare router: RouterService;
@@ -51,7 +51,7 @@ export default class ValidationResultsRoute extends Route {
       return;
     } else if (
       !params.documentType ||
-      !DOCUMENT_TYPES.find((type) => type.value === params.documentType)
+      !getDocumentTypes().find((type) => type.label === params.documentType)
     ) {
       this.toaster.error(
         'Documenttype niet gevonden.',
