@@ -1,6 +1,4 @@
-import { action } from '@ember/object';
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
 
 interface ArgsInterface {
   index: number;
@@ -15,10 +13,6 @@ interface ArgsInterface {
     properties: Array<object>;
     validCount?: number;
   };
-
-  // entry arguments
-  firstLevel: boolean;
-  alertSkin?: string;
 }
 
 export default class RecursiveEntry extends Component<ArgsInterface> {
@@ -47,16 +41,6 @@ export default class RecursiveEntry extends Component<ArgsInterface> {
           : 'Volledig'
         : 'Onvolledig'
       : 'Niet gevalideerd';
-  }
-
-  get displayClass() {
-    const { validCount, totalCount } = this.args.subject;
-    const { firstLevel } = this.args;
-
-    if (firstLevel && !(validCount! < totalCount!)) {
-      return 'au-c-alert--neutral au-u-margin-bottom';
-    }
-    return 'au-u-margin-bottom';
   }
 
   get formattedName() {

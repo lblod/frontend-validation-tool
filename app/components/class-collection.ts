@@ -1,6 +1,4 @@
-import { action } from '@ember/object';
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
 
 interface ArgsInterface {
   // AUAccordion arguments
@@ -14,7 +12,7 @@ interface ArgsInterface {
     maturity: string;
     classes: Object[]
   }
-  
+
   // subject arguments
   collection: {
     classURI: string;
