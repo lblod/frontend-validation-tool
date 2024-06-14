@@ -16,6 +16,11 @@
           </span>
         </div>
         <StatusPill @property={{@property}} />
+        {{#if @property.maturityLevel}}
+          <AuPill class=au-u-margin-left-tiny @skin='default'>
+            {{@property.maturityLevel}}
+          </AuPill>
+        {{/if}}
 
         {{!-- <AuPill
           class={{this.classNames}}

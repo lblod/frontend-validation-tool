@@ -10,6 +10,11 @@ interface ArgsInterface {
   defaultOpen: boolean;
   reverse: boolean;
 
+  publication: {
+    maturity: string;
+    classes: Object[]
+  }
+  
   // subject arguments
   collection: {
     classURI: string;

@@ -9,13 +9,10 @@ import {
   getPublicationFromFileContent,
   validatePublication,
   getExampleOfDocumentType,
-  enrichClassCollectionsWithExample,
 } from 'app-validation-tool/dist';
 import {
   getBlueprintOfDocumentType,
-  getMaturityProperties,
 } from 'app-validation-tool/dist/queries';
-import { checkMaturity } from 'app-validation-tool/dist/validation';
 import config from 'frontend-validation-tool/config/environment';
 
 export default class DocumentService extends Service {
@@ -38,9 +35,6 @@ export default class DocumentService extends Service {
     this.loadFromLocalStorage();
   }
 
-  get singleCollection() {
-    return this.document.validatedDocument.length === 1;
-  }
 
   @action async getPublicationfilteredByValidity() {
     function filterRecursive(item) {
@@ -92,21 +86,14 @@ export default class DocumentService extends Service {
 
   @action async validateDocument(): Promise<any> {
     const blueprint = await getBlueprintOfDocumentType(this.documentType);
+    const example = await getExampleOfDocumentType(this.documentType);
+
     if (!this.isProcessingFile) {
       this.document = await fetchDocument(this.documentURL, this.corsProxy);
     }
-    const result = await validatePublication(this.document, blueprint);
-
-    const example = await getExampleOfDocumentType(this.documentType);
-    const enrichedResults = await enrichClassCollectionsWithExample(
-      result,
-      blueprint,
-      example,
-    );
-
-    console.log(enrichedResults);
-
-    return enrichedResults;
+    const result = await validatePublication(this.document, blueprint, example);
+    console.log(result)
+    return result
   }
 
   clearData() {
@@ -127,21 +114,6 @@ export default class DocumentService extends Service {
 
     // Save to local storage
     this.saveToLocalStorage();
-  }
-
-  // Function to get the maturity level of a document with type 'Notulen'
-  @action async getMaturity(result: any) {
-    this.maturity = '';
-    if (this.documentType === 'Notulen') {
-      const levels: string[] = ['Niveau 1', 'Niveau 2', 'Niveau 3'];
-      levels.forEach(async (level) => {
-        const properties = await getMaturityProperties(level);
-        if (await checkMaturity(result, properties)) {
-          this.maturity = level;
-          this.saveToLocalStorage();
-        }
-      });
-    }
   }
 
   @action async processPublication({ fileUrl }: { fileUrl: string }) {
