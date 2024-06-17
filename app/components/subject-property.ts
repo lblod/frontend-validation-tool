@@ -15,6 +15,7 @@ interface ArgsInterface {
     maxCount?: number;
     actualCount: number;
     valid: boolean;
+    maturityLevel: string;
     example?: string;
     encodedExample?: string;
   };

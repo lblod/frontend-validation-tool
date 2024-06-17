@@ -1,6 +1,4 @@
-import { action } from '@ember/object';
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
 
 interface ArgsInterface {
   index: number;
