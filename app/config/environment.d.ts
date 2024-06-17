@@ -9,6 +9,7 @@ declare const config: {
   locationType: 'history' | 'hash' | 'none' | 'auto';
   rootURL: string;
   APP: Record<string, unknown>;
+  CORS_PROXY_URL: string;
   EmberENV: Record<string, unknown>;
 };
 
