@@ -35,23 +35,13 @@ module.exports = function (environment) {
     EmberENV: {
       EXTEND_PROTOTYPES: false,
     },
+    CORS_PROXY_URL: process.env.CORS_PROXY_URL || 'https://corsproxy.io/?',
 
     APP: {
-      PROXY_URL: process.env.EMBER_APP_PROXY || 'http://localhost:3000',
-      CORS_PROXY_URL: process.env.CORS_PROXY_URL || 'https://corsproxy.io/?',
       // Here you can pass flags/options to your application instance
       // when it is created
     },
   };
-
-  if (environment === 'development') {
-    // ENV.APP.LOG_RESOLVER = true;
-    // ENV.APP.LOG_ACTIVE_GENERATION = true;
-    // ENV.APP.LOG_TRANSITIONS = true;
-    // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
-    // ENV.APP.LOG_VIEW_LOOKUPS = true;
-    ENV.APP.CORS_PROXY_URL = process.env.CORS_PROXY_URL || '';
-  }
 
   if (environment === 'test') {
     // Testem prefers this...
