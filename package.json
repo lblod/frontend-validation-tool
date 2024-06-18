@@ -14,7 +14,7 @@
     "test": "tests"
   },
   "scripts": {
-    "build-image": "docker buildx build -t lennybontenakel/frontend-validation .",
+    "build-image": "docker buildx build -t lblod/frontend-validation-tool .",
     "build": "ember build",
     "lint": "concurrently \"npm:lint:*(!fix)\" --names \"lint:\"",
     "start": "ember serve",
