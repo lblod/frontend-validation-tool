@@ -1,5 +1,5 @@
 import { action } from '@ember/object';
-import { service } from '@ember/service';
+import Service, { service } from '@ember/service';
 import Component from '@glimmer/component';
 
 interface ArgsInterface {
