@@ -29,6 +29,20 @@
       {{#if this.loading}}
         <AuLoader data-test-accordion-loader />
       {{else}}
+        {{#if this.isPdf}}
+          <AuAlert @skin="warning">
+            <section
+              class="au-u-1-1 accordion-title au-u-flex au-u-flex--between"
+            >
+              <p class="au-u-para">
+                Deze publicatie bevat een PDF-bestand, maar we raden aan om
+                HTML-bestanden te gebruiken.
+              </p>
+            </section>
+          </AuAlert>
+
+        {{/if}}
+
         {{#each @subject.properties as |property|}}
           <SubjectProperty @property={{property}} />
         {{/each}}
