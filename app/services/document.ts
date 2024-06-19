@@ -10,9 +10,7 @@ import {
   validatePublication,
   getExampleOfDocumentType,
 } from 'app-validation-tool/dist';
-import {
-  getBlueprintOfDocumentType,
-} from 'app-validation-tool/dist/queries';
+import { getBlueprintOfDocumentType } from 'app-validation-tool/dist/queries';
 import config from 'frontend-validation-tool/config/environment';
 
 export default class DocumentService extends Service {
@@ -34,7 +32,6 @@ export default class DocumentService extends Service {
     // Load data from local storage on initialization
     this.loadFromLocalStorage();
   }
-
 
   @action async getPublicationfilteredByValidity() {
     function filterRecursive(item) {
@@ -92,8 +89,8 @@ export default class DocumentService extends Service {
       this.document = await fetchDocument(this.documentURL, this.corsProxy);
     }
     const result = await validatePublication(this.document, blueprint, example);
-    console.log(result)
-    return result
+    console.log(result);
+    return result;
   }
 
   clearData() {

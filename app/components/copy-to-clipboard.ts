@@ -6,26 +6,27 @@ interface ArgsInterface {
   value: string;
 }
 
+interface ToasterService {
+  success(message: string): void;
+}
+
 export default class CopyToClipboard extends Component<ArgsInterface> {
-  @service toaster: any;
-  @action async handleClick(e: Event) {
+  @service declare toaster: ToasterService;
+
+  @action
+  async handleClick(e: Event) {
     e.stopPropagation();
     try {
-      await navigator.clipboard
-        .writeText(this.args.value)
-        .then(() => {
-          console.log('copied to clipboard');
-          this.onSuccess();
-        })
-        .catch((err) => {
-          console.error('Failed to copy: ', err);
-        });
+      await navigator.clipboard.writeText(this.args.value);
+      console.log('Copied to clipboard');
+      this.onSuccess();
     } catch (err) {
       console.error('Failed to copy: ', err);
     }
   }
 
-  @action onSuccess() {
+  @action
+  onSuccess() {
     this.toaster.success('Gecopieerd naar klembord');
   }
 }

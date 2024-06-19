@@ -1,4 +1,3 @@
-
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
@@ -36,7 +35,7 @@ export default class SubjectProperty extends Component<ArgsInterface> {
     else return '';
   }
   get displayIcon() {
-    return this.isOpen? "nav-down" : "nav-up"
+    return this.isOpen ? 'nav-down' : 'nav-up';
   }
 
   get iconOpen() {
