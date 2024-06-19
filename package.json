@@ -26,7 +26,7 @@
     "lint:hbs:fix": "ember-template-lint . --fix",
     "start": "ember serve",
     "dev": "ember serve --environment development",
-    "watch-module": "tsc -w ./validation-monitoring-module/src/index.ts",
+    "watch-module": "tsc -w ./validation-monitoring-module/src/index.ts"
   },
   "devDependencies": {
     "@appuniversum/ember-appuniversum": "^3.0.0",
