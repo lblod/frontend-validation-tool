@@ -27,6 +27,10 @@ export default class RecursiveEntry extends Component<ArgsInterface> {
       : 'default';
   }
 
+  get isPdf() {
+    return this.args.subject.uri.endsWith('.pdf');
+  }
+
   get classNames() {
     const { validCount, totalCount } = this.args.subject;
     return validCount === totalCount && 'au-c-pill--whole' && !this.isCorrect;
