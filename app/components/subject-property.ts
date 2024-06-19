@@ -24,6 +24,11 @@ interface ArgsInterface {
   alertSkin?: string;
 }
 
+interface ValidatedProperty {
+  actualCount: number;
+  totalCount: number;
+}
+
 export default class SubjectProperty extends Component<ArgsInterface> {
   get skin() {
     const { valid, actualCount, minCount } = this.args.property;
@@ -70,7 +75,9 @@ export default class SubjectProperty extends Component<ArgsInterface> {
     return value
       ? minCount === undefined && maxCount === undefined
         ? true
-        : value.every((v: any) => v.totalCount === v.actualCount)
+        : (value as ValidatedProperty[]).every(
+            (v: ValidatedProperty) => v.totalCount === v.actualCount,
+          )
       : true;
   }
 

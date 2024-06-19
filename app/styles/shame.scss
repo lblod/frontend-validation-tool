@@ -43,6 +43,7 @@
     pointer-events: none;
   }
 }
+
 .publication-link {
   display: flex;
   justify-content: center;
@@ -67,12 +68,10 @@
   position: relative;
   display: flex;
   margin: auto 0;
-  justify-self: center;
-  align-self: center;
+  place-self: center center;
 }
 
 .tooltip .tooltip-text {
-  position: absolute;
   cursor: pointer;
   bottom: 0;
   left: 0;
@@ -90,7 +89,6 @@
   font-family: var(--au-font);
   font-weight: var(--au-medium);
   border: 0.1rem solid var(--vl-grey-50);
-  padding: 0.1rem 0.6rem 0;
   border-radius: 0.6rem;
   min-height: 2.55rem;
   padding: 5px 0;

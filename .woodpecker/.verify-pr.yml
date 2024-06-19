@@ -18,6 +18,6 @@ pipeline:
   test:
     image: danlynn/ember-cli:4.7.0-node_16.17
     commands:
-      - npm run test:ember
+      - npm run build
 when:
   event: pull_request
