@@ -21,6 +21,12 @@ interface ArgsInterface {
   alertSkin?: string;
 }
 
+// TODO import types from lib-decision-validation
+interface ValidatedSubject {
+  validCount: number;
+  totalCount: number;
+}
+
 export default class RootSubject extends Component<ArgsInterface> {
   get skin() {
     const { validCount, totalCount } = this.args.subject;
@@ -51,7 +57,9 @@ export default class RootSubject extends Component<ArgsInterface> {
     const { objects } = this.args.subject;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return objects
-      ? objects.every((v: any) => v.validCount === v.totalCount)
+      ? (objects as ValidatedSubject[]).every(
+          (v: ValidatedSubject) => v.validCount === v.totalCount,
+        )
       : true;
   }
 

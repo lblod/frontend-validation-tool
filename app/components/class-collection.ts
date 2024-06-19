@@ -10,15 +10,15 @@ interface ArgsInterface {
 
   publication: {
     maturity: string;
-    classes: Object[]
-  }
+    classes: object[];
+  };
 
   // subject arguments
   collection: {
     classURI: string;
     className: string;
     count: number;
-    objects: Object[];
+    objects: object[];
   };
 }
 
@@ -26,6 +26,6 @@ export default class SubjectProperty extends Component<ArgsInterface> {
   // AUAccordion settings
   get tooManyDocuments() {
     const { className, objects } = this.args.collection;
-    return (className === "Document") && (objects.length > 1)
+    return className === 'Document' && objects.length > 1;
   }
 }
