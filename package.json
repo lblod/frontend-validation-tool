@@ -14,14 +14,19 @@
     "test": "tests"
   },
   "scripts": {
-    "build-image": "docker buildx build -t lennybontenakel/frontend-validation .",
+    "build-image": "docker buildx build -t lblod/frontend-validation-tool .",
     "build": "ember build",
     "lint": "concurrently \"npm:lint:*(!fix)\" --names \"lint:\"",
+    "lint:js": "eslint . --cache",
+    "lint:js:fix": "eslint . --fix",
+    "lint:css": "stylelint \"**/*.scss\"",
+    "lint:css:fix": "concurrently \"npm:lint:css -- --fix\"",
+    "lint:fix": "concurrently \"npm:lint:*:fix\" --names \"fix:\"",
+    "lint:hbs": "ember-template-lint .",
+    "lint:hbs:fix": "ember-template-lint . --fix",
     "start": "ember serve",
     "dev": "ember serve --environment development",
-    "watch-module": "tsc -w ./validation-monitoring-module/src/index.ts",
-    "test": "concurrently \"npm:lint\" \"npm:test:*\" --names \"lint,test:\"",
-    "test:ember": "ember test"
+    "watch-module": "tsc -w ./validation-monitoring-module/src/index.ts"
   },
   "devDependencies": {
     "@appuniversum/ember-appuniversum": "^3.0.0",
@@ -31,6 +36,8 @@
     "@ember/optional-features": "^2.0.0",
     "@ember/string": "^3.1.1",
     "@ember/test-helpers": "^3.2.1",
+    "@eslint/eslintrc": "^3.1.0",
+    "@eslint/js": "^9.5.0",
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
     "@glint/environment-ember-loose": "^1.1.0",
@@ -106,6 +113,7 @@
     "eslint-plugin-n": "^16.0.1",
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-qunit": "^8.0.0",
+    "globals": "^15.6.0",
     "loader.js": "^4.7.0",
     "nodemon": "^3.0.2",
     "onchange": "^7.1.0",

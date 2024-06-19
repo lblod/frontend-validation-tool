@@ -6,7 +6,6 @@ import type Transition from '@ember/routing/transition';
 import type DocumentService from 'frontend-validation-tool/services/document';
 import { getDocumentTypes } from 'app-validation-tool/dist/queries';
 
-
 export default class ValidationResultsRoute extends Route {
   @service declare router: RouterService;
   @service declare toaster: any;
