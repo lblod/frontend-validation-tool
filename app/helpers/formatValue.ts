@@ -7,6 +7,10 @@ export default helper(function formatValue([str] /*, named*/) {
   if (typeof str !== 'string') {
     return str; // Return the input as-is if it's not a string.
   }
+  // if it contains only digits don't format it
+  if (str.match(/^\d+$/)) {
+    return str;
+  }
   const formatString = 'D MMMM YYYY, HH:mm';
   const date = dayjs(str);
   return date.isValid() ? date.format(formatString) : str;
