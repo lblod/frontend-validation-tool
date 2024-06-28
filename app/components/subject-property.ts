@@ -54,18 +54,6 @@ export default class SubjectProperty extends Component<ArgsInterface> {
     return valid ? 'Volledig' : 'Onvolledig';
   }
 
-  get isValidCount() {
-    const { actualCount, minCount, maxCount } = this.args.property;
-    if (minCount === undefined && maxCount === undefined) {
-      return true;
-    }
-    return (
-      actualCount !== undefined &&
-      (minCount === undefined || actualCount >= minCount) &&
-      (maxCount === undefined || actualCount <= maxCount)
-    );
-  }
-
   get isCorrect() {
     const { value, minCount, maxCount } = this.args.property;
     if (value.length === 0) {
