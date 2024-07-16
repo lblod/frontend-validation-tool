@@ -94,15 +94,9 @@ In order to properly validate an agenda item exists in a publication, we need to
 
 ### CORS
 
-Due to issues with CORS for publications published by vendors other than Gelinkt Notuleren changes needed to be made to the way the app proxies. Either we host a CORS-anywhere service alongside the app or we resort to using a third party. We currently chose the latter and are using [CORS proxy](https://corsproxy.io/). In the future we might want to host our own CORS-anywhere service to avoid the need for a third party.
+Due to issues with CORS for publications published by vendors other than Gelinkt Notuleren changes needed to be made to the way the app proxies. We added a CORS-anywhere service in our stack to handle these request.
 
-To change the default proxy, configure the `CORS_PROXY_URL` environment variable in the `.ENV` file. For example, to not use a proxy leave the variable empty:
-```
-ENVIRONMENT=development
-CORS_PROXY_URL=
-```
-
-Don't forget to rebuild by running `npm run dev`.
+In our app we added a new path in the dispatcher. When this endpoint is called it will forward the url to the [cors service](https://github.com/lblod/simple-cors-service).
 
 ### Testing
 
