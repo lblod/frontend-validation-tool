@@ -11,10 +11,9 @@ import {
   getExampleOfDocumentType,
 } from 'app-validation-tool/dist';
 import { getBlueprintOfDocumentType } from 'app-validation-tool/dist/queries';
-import config from 'frontend-validation-tool/config/environment';
 
 export default class DocumentService extends Service {
-  corsProxy = <string>config.APP['CORS_PROXY_URL'];
+  corsProxy: string = '';
 
   @tracked document: Bindings[] = [];
   @tracked documentURL: string = '';
@@ -31,6 +30,11 @@ export default class DocumentService extends Service {
 
     // Load data from local storage on initialization
     this.loadFromLocalStorage();
+  }
+
+  setCorsProxy(proxy: string) {
+    this.corsProxy = proxy;
+    console.log(`Proxy set to: ${this.corsProxy}`);
   }
 
   @action async getPublicationfilteredByValidity() {
