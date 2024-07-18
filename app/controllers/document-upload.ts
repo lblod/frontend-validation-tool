@@ -5,7 +5,7 @@ import type RouterService from '@ember/routing/router-service';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import type { UploadFile } from 'ember-file-upload/upload-file';
-import { fetchDocument } from 'app-validation-tool/dist';
+import { fetchDocument } from '@lblod/lib-decision-validation';
 import type DocumentService from 'frontend-validation-tool/services/document';
 
 export default class DocumentUploadController extends Controller {

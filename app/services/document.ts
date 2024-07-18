@@ -9,8 +9,8 @@ import {
   getPublicationFromFileContent,
   validatePublication,
   getExampleOfDocumentType,
-} from 'app-validation-tool/dist';
-import { getBlueprintOfDocumentType } from 'app-validation-tool/dist/queries';
+} from '@lblod/lib-decision-validation';
+import { getBlueprintOfDocumentType } from '@lblod/lib-decision-validation/dist/queries';
 
 export default class DocumentService extends Service {
   corsProxy: string = '';

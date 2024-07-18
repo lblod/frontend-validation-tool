@@ -140,7 +140,7 @@
     "ember-file-upload": "^8.4.0"
   },
   "dependencies": {
-    "app-validation-tool": "^1.0.28",
+    "@lblod/lib-decision-validation": "^1.0.33",
     "dayjs": "^1.11.11",
     "node-libs-browser": "^2.2.1",
     "pretty": "^2.0.0",

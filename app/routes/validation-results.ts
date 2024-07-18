@@ -4,7 +4,7 @@ import type RouterService from '@ember/routing/router-service';
 import { service } from '@ember/service';
 import type Transition from '@ember/routing/transition';
 import type DocumentService from 'frontend-validation-tool/services/document';
-import { getDocumentTypes } from 'app-validation-tool/dist/queries';
+import { getDocumentTypes } from '@lblod/lib-decision-validation/dist/queries';
 
 export default class ValidationResultsRoute extends Route {
   @service declare router: RouterService;
