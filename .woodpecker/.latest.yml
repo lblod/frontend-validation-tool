@@ -6,6 +6,5 @@ pipeline:
       tags: latest
     secrets: [ docker_username, docker_password ]
 when:
-when:
-  event: tag
-  ref: refs/tags/v*
+  branch: master
+  event: push

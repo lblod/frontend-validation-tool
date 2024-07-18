@@ -7,4 +7,4 @@ pipeline:
     secrets: [ docker_username, docker_password ]
 when:
   event: tag
-  ref: refs/tags/v*
+  tag: v*
