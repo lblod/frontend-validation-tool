@@ -31,8 +31,6 @@
   "devDependencies": {
     "@appuniversum/ember-appuniversum": "^3.0.0",
     "@babel/core": "^7.22.10",
-    "@comunica/query-sparql": "^2.10.2",
-    "@comunica/types": "^2.10.0",
     "@ember/optional-features": "^2.0.0",
     "@ember/string": "^3.1.1",
     "@ember/test-helpers": "^3.2.1",
