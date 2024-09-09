@@ -11,6 +11,7 @@ import {
   getExampleOfDocumentType,
 } from '@lblod/lib-decision-validation';
 import { getBlueprintOfDocumentType } from '@lblod/lib-decision-validation/dist/queries';
+import { task } from 'ember-concurrency';
 
 export default class DocumentService extends Service {
   corsProxy: string = '';
@@ -37,7 +38,7 @@ export default class DocumentService extends Service {
     console.log(`Proxy set to: ${this.corsProxy}`);
   }
 
-  @action async getPublicationfilteredByValidity() {
+  getPublicationfilteredByValidity = task({ drop: true }, async () => {
     function filterRecursive(item) {
       if (Array.isArray(item.objects) && item.objects.length > 0) {
         item.objects = item.objects
@@ -64,7 +65,7 @@ export default class DocumentService extends Service {
       return item;
     }
 
-    const document = await this.validateDocument();
+    const document = await this.validateDocument.perform();
 
     document
       .map(filterRecursive)
@@ -79,13 +80,13 @@ export default class DocumentService extends Service {
     console.log(document);
     this.validatedDocument = document;
     return document;
-  }
+  });
 
   @action updateValidatedDocument(newValidatedDocument: object) {
     this.validatedDocument = newValidatedDocument;
   }
 
-  @action async validateDocument(): Promise<any> {
+  validateDocument = task({ drop: true }, async () => {
     const blueprint = await getBlueprintOfDocumentType(this.documentType);
     const example = await getExampleOfDocumentType(this.documentType);
 
@@ -95,7 +96,7 @@ export default class DocumentService extends Service {
     const result = await validatePublication(this.document, blueprint, example);
     console.log(result);
     return result;
-  }
+  });
 
   clearData() {
     this.document = [];

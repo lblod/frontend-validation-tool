@@ -8,5 +8,21 @@ export default class ValidationResultsController extends Controller {
   @service declare document: DocumentService;
   pillLegend = STATUS_PILL_TYPES;
 
-  @tracked isLoading = false;
+  @tracked declare model: {
+    validatedPublication: {
+      isRunning: boolean;
+      isFinished: boolean;
+      value: unknown;
+    };
+  };
+
+  get isLoading() {
+    return this.model?.validatedPublication.isRunning;
+  }
+
+  get validatedPublication() {
+    return this.model?.validatedPublication.isFinished
+      ? this.model?.validatedPublication.value
+      : [];
+  }
 }
