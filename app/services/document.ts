@@ -9,7 +9,7 @@ import {
   getPublicationFromFileContent,
   validatePublication,
   getExampleOfDocumentType,
-  getBlueprintOfDocumentType
+  getBlueprintOfDocumentType,
 } from '@lblod/lib-decision-validation';
 import { task } from 'ember-concurrency';
 

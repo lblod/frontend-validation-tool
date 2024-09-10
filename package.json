@@ -1,6 +1,6 @@
 {
   "name": "frontend-validation-tool",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "private": true,
   "description": "This tool is used to validate publications in the context of the Flemish government.",
   "repository": "https://github.com/lblod/frontend-validation-tool",
