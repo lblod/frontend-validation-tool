@@ -9,8 +9,8 @@ import {
   getPublicationFromFileContent,
   validatePublication,
   getExampleOfDocumentType,
+  getBlueprintOfDocumentType
 } from '@lblod/lib-decision-validation';
-import { getBlueprintOfDocumentType } from '@lblod/lib-decision-validation/dist/queries';
 import { task } from 'ember-concurrency';
 
 export default class DocumentService extends Service {

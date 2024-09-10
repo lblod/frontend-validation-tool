@@ -141,7 +141,7 @@
     "ember-file-upload": "^8.4.0"
   },
   "dependencies": {
-    "@lblod/lib-decision-validation": "^1.0.33",
+    "@lblod/lib-decision-validation": "1.0.34-pre-release",
     "dayjs": "^1.11.11",
     "node-libs-browser": "^2.2.1",
     "pretty": "^2.0.0",
