@@ -54,7 +54,6 @@ export default class StatusPill extends Component<Args> {
 
   get classNames() {
     const pillMessage = this.pillMessage;
-    console.log('Volledig');
     if (pillMessage === 'Volledig') {
       return 'au-c-pill--whole';
     }
@@ -64,7 +63,6 @@ export default class StatusPill extends Component<Args> {
     const { valid, validCount, totalCount } =
       this.args.subject || this.args.property || {};
     const { actualCount, minCount } = this.args.property || {};
-
     if (actualCount === 0 && minCount === 0) return 'Optioneel';
     if (validCount !== undefined && totalCount !== undefined) {
       return validCount === totalCount
