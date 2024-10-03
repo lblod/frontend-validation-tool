@@ -43,6 +43,18 @@
 
         {{/if}}
 
+        {{#each @subject.sparqlValidationResults as |sparqlValidationResult|}}
+          <AuAlert @skin="warning">
+            <section class="au-u-1-1 accordion-title au-u-flex au-u-flex--between">
+              <ul>
+                <li>{{sparqlValidationResult.resultMessage}}</li>
+                <li>Eigenschap: {{sparqlValidationResult.resultPath}}</li>
+                <li>Waarde: {{sparqlValidationResult.value}}</li>
+              </ul>
+            </section>
+          </AuAlert>
+        {{/each}}
+
         {{#each @subject.properties as |property|}}
           <SubjectProperty @property={{property}} />
         {{/each}}

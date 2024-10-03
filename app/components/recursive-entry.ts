@@ -10,9 +10,18 @@ interface ArgsInterface {
     usedShape?: string;
     shapeName?: string;
     totalCount: number;
+    sparqlValidationResults?: ValidationResult[];
     properties: Array<object>;
     validCount?: number;
   };
+}
+
+interface ValidationResult {
+  resultSeverity?: string;
+  focusNode?: string;
+  resultPath?: string;
+  value?: string;
+  resultMessage: string;
 }
 
 export default class RecursiveEntry extends Component<ArgsInterface> {
