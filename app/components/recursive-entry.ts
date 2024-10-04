@@ -72,7 +72,13 @@ export default class RecursiveEntry extends Component<ArgsInterface> {
   }
 
   get displayIndex() {
-    if (this.args.index === undefined) return '';
+    // Don't show index with Bestuursorgaan, because multiple shapes lead to multiple occurences of the same instance
+    if (
+      this.args.subject.class ===
+      'http://data.vlaanderen.be/ns/besluit#Bestuursorgaan'
+    ) {
+      return '';
+    } else if (this.args.index === undefined) return '';
     return this.args.index + 1;
   }
 
