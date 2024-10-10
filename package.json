@@ -1,6 +1,6 @@
 {
   "name": "frontend-validation-tool",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "private": true,
   "description": "This tool is used to validate publications in the context of the Flemish government.",
   "repository": "https://github.com/lblod/frontend-validation-tool",
@@ -141,7 +141,7 @@
     "ember-file-upload": "^8.4.0"
   },
   "dependencies": {
-    "@lblod/lib-decision-validation": "^1.0.35",
+    "@lblod/lib-decision-validation": "^1.0.36",
     "dayjs": "^1.11.11",
     "node-libs-browser": "^2.2.1",
     "pretty": "^2.0.0",
