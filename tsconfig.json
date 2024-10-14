@@ -12,6 +12,8 @@
       "frontend-validation-tool/tests/*": ["tests/*"],
       "frontend-validation-tool/*": ["app/*"],
       "*": ["types/*"]
-    }
+    },
+    "inlineSourceMap": true,
+    "inlineSources": true,
   }
 }

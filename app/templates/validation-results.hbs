@@ -22,8 +22,8 @@
 
       <h4 class="au-u-bold au-u-h4">Maturiteit:
         {{#unless this.isLoading}}
-          {{#if this.model.maturity}}
-            {{this.model.maturity}}
+          {{#if this.validatedPublication.maturity}}
+            {{this.validatedPublication.maturity}}
           {{else}}
             Onbekend
           {{/if}}
@@ -62,7 +62,7 @@
   <div
     class="entry-container au-u-flex au-u-flex--column au-u-flex--center au-u-1-1"
   >
-    {{#each this.model.classes as |collection|}}
+    {{#each this.validatedPublication.classes as |collection|}}
       {{#if (eq (get collection "count") 1)}}
         <RootSubject @subject={{get collection.objects 0}} />
       {{else}}
