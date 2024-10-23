@@ -9,12 +9,12 @@ module.exports = function (defaults) {
     },
     babel: {
       plugins: [
-        require.resolve("ember-concurrency/async-arrow-task-transform"),
-  
+        require.resolve('ember-concurrency/async-arrow-task-transform'),
+
         // NOTE: put any code coverage plugins last, after the transform.
       ],
-      sourceMaps: 'inline'
-    }
+      sourceMaps: 'inline',
+    },
   });
   return app.toTree();
 };
