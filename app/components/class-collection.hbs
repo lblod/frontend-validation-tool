@@ -1,12 +1,6 @@
 <CustomAccordion @defaultOpen="true">
   <:toolbar>
     {{@collection.className}}
-    <span class="au-u-para-tiny au-u-flex au-u-margin-top-tiny">
-      <p class="au-u-margin-tiny au-u-margin-left-none au-u-word-nowrap">
-        Gevonden URI:
-      </p>
-      <CopyToClipboard @value={{@collection.classURI}} />
-    </span>
   </:toolbar>
   <:counts>{{@collection.count}}</:counts>
   <:content>

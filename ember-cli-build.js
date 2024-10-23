@@ -7,6 +7,14 @@ module.exports = function (defaults) {
     'ember-cli-babel': {
       enableTypeScriptTransform: true,
     },
+    babel: {
+      plugins: [
+        require.resolve('ember-concurrency/async-arrow-task-transform'),
+
+        // NOTE: put any code coverage plugins last, after the transform.
+      ],
+      sourceMaps: 'inline',
+    },
   });
   return app.toTree();
 };

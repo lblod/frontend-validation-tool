@@ -18,6 +18,7 @@ interface ArgsInterface {
     maturityLevel: string;
     example?: string;
     encodedExample?: string;
+    sparqlValidationResults?: ValidationResult[];
   };
 
   // entry arguments
@@ -27,6 +28,14 @@ interface ArgsInterface {
 interface ValidatedProperty {
   actualCount: number;
   totalCount: number;
+}
+
+interface ValidationResult {
+  resultSeverity?: string;
+  focusNode?: string;
+  resultPath?: string;
+  value?: string;
+  resultMessage: string;
 }
 
 export default class SubjectProperty extends Component<ArgsInterface> {
