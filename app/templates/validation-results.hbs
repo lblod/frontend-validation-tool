@@ -21,13 +21,15 @@
     <section>
 
       <h4 class="au-u-bold au-u-h4">Maturiteit:
-        {{#unless this.isLoading}}
+        {{#if this.isLoading}}
+          aan het laden..
+        {{else}}
           {{#if this.validatedPublication.maturity}}
             {{this.validatedPublication.maturity}}
           {{else}}
             Onbekend
           {{/if}}
-        {{/unless}}
+        {{/if}}
       </h4>
 
     </section>
@@ -56,7 +58,7 @@
 {{! Validation Results }}
 {{#if this.isLoading}}
   <AuLoader @centered={{true}}>
-    Valideren van publicatie...
+    {{this.document.loadingStatus}}
   </AuLoader>
 {{else}}
   <div
