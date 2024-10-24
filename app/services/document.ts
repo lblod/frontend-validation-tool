@@ -29,9 +29,6 @@ export default class DocumentService extends Service {
   constructor() {
     // eslint-disable-next-line prefer-rest-params
     super(...arguments);
-
-    // Load data from local storage on initialization
-    this.loadFromLocalStorage();
   }
 
   setCorsProxy(proxy: string) {
@@ -114,29 +111,11 @@ export default class DocumentService extends Service {
     this.isProcessingFile = false;
     this.maturity = '';
     this.validatedDocument = [];
-    // Optionally clear local storage as well if you don't want to persist data at all
-    localStorage.removeItem('documentServiceData');
   }
 
   @action async handleDocumentTypeChange(event: Event) {
     const target = event.target as HTMLInputElement;
     this.documentType = target.value;
-
-    // Save to local storage
-    this.saveToLocalStorage();
-  }
-
-  @action async processPublication({ fileUrl }: { fileUrl: string }) {
-    const document: any = await fetchDocument(fileUrl, this.corsProxy).then(
-      (resp) => {
-        return resp;
-      },
-    );
-    const documentType = determineDocumentType(document);
-    this.document = document;
-    this.saveToLocalStorage();
-
-    return documentType;
   }
 
   // Function to process a document file (as uploaded by the user in route: document-upload)
@@ -149,7 +128,6 @@ export default class DocumentService extends Service {
     this.documentType = await determineDocumentType(document);
 
     if (this.documentType && this.documentType !== 'unknown document type') {
-      this.saveToLocalStorage();
       return true;
     } else {
       this.documentType = '';
@@ -164,12 +142,14 @@ export default class DocumentService extends Service {
   // Function to process a document URL (as entered by the user in route: document-upload)
   @action async processDocumentURL(fileUrl: string) {
     this.documentURL = fileUrl;
-    this.documentType =
-      (await this.processPublication({ fileUrl: fileUrl })) || '';
+    const document: any = await fetchDocument(fileUrl, this.corsProxy).then(
+      (resp) => {
+        return resp;
+      },
+    );
+    this.documentType = determineDocumentType(document);
 
     if (this.documentType && this.documentType !== 'unknown document type') {
-      // Save to local storage
-      this.saveToLocalStorage();
       return true;
     } else {
       this.documentType = '';
@@ -180,43 +160,8 @@ export default class DocumentService extends Service {
       return false;
     }
   }
-
-  // Function to save data to local storage
-  saveToLocalStorage() {
-    localStorage.setItem(
-      'documentServiceData',
-      JSON.stringify({
-        document: this.document,
-        documentURL: this.documentURL,
-        documentType: this.documentType,
-        documentFile: this.documentFile,
-        maturity: this.maturity,
-        validatedDocument: this.validatedDocument,
-      }),
-    );
-  }
-
-  // Function to load data from local storage
-  loadFromLocalStorage() {
-    const data = localStorage.getItem('documentServiceData');
-    if (data) {
-      const {
-        document,
-        documentURL,
-        documentType,
-        documentFile,
-        maturity,
-        validatedDocument,
-      } = JSON.parse(data); // Add maturity here
-      this.document = document;
-      this.documentURL = documentURL;
-      this.documentType = documentType;
-      this.documentFile = documentFile;
-      this.validatedDocument = validatedDocument;
-      this.maturity = maturity; // And add this line
-    }
-  }
 }
+
 declare module '@ember/service' {
   interface Registry {
     document: DocumentService;
