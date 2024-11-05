@@ -68,11 +68,14 @@
 
         <AuButton
           class="au-u-1-3 au-u-flex--center"
-          @disabled={{not this.document.documentType}}
+          @disabled={{and
+            (not this.document.documentType)
+            (not this.uploadedFile)
+          }}
           {{on "click" this.handleValidation}}
         >
           {{! TODO: Add functionality }}
-          Validatie Starten
+          Validatie starten
         </AuButton>
       </AuButtonGroup>
     </AuFormRow>
