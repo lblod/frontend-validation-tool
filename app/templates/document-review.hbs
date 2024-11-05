@@ -25,12 +25,6 @@
         placeholder="Documenttype"
         class="au-c-input au-u-1-1"
       >
-        {{#unless this.document.documentType}}
-          <option value="" selected disabled hidden>
-            Selecteer een documenttype
-          </option>
-        {{/unless}}
-
         {{#each this.selectOptions as |documentType|}}
           {{#if (eq documentType.label this.document.documentType)}}
             <option value={{documentType.label}} selected>
@@ -42,6 +36,12 @@
             </option>
           {{/if}}
         {{/each}}
+
+        {{#if this.document.documentType}}
+          <option value="">Kies eigen blauwdruk ...</option>
+        {{else}}
+          <option value="" selected>Kies eigen blauwdruk ...</option>
+        {{/if}}
       </select>
     </AuFormRow>
 

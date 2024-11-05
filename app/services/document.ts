@@ -117,18 +117,10 @@ export default class DocumentService extends Service {
     const html = await file.text();
     const document = await getPublicationFromFileContent(html);
     this.document = document;
-    this.documentType = await determineDocumentType(document);
 
-    if (this.documentType && this.documentType !== 'unknown document type') {
-      return true;
-    } else {
-      this.documentType = '';
-      this.toaster.error(
-        'Deze publicatie heeft geen documenttype',
-        'Kies een type uit de lijst',
-      );
-      return false;
-    }
+    const determinedType = await determineDocumentType(document);
+    this.documentType =
+      determinedType === 'unknown document type' ? '' : determinedType;
   }
 
   // Function to process a document URL (as entered by the user in route: document-upload)
