@@ -20,6 +20,7 @@ export default class DocumentService extends Service {
   @tracked documentURL: string = '';
   @tracked documentType: string = '';
   @tracked documentFile: File | null = null;
+  @tracked customBlueprint: File | null = null;
   @tracked maturity: string = '';
   @tracked validatedDocument: any = [];
   @tracked isProcessingFile: boolean = false;

@@ -15,7 +15,7 @@ export default class DocumentReviewController extends Controller {
   @tracked uploadedFile: File | null = null;
 
   @action onFinishUpload(uploadedFile: UploadFile) {
-    this.uploadedFile = uploadedFile.file;
+    this.document.customBlueprint = uploadedFile.file;
   }
 
   @action handleValidation() {

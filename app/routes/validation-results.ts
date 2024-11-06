@@ -29,14 +29,22 @@ export default class ValidationResultsRoute extends Route {
         this.document.isProcessingFile &&
         this.document.documentType &&
         !params['url']
-      ) {
+      )
         return;
-      }
+
+      if (
+        this.document.isProcessingFile &&
+        this.document.customBlueprint &&
+        !params['url']
+      )
+        return;
+
       this.document.isProcessingFile = false;
       if (!params['url']) {
         this.router.transitionTo('document-upload');
         return;
       }
+
       // Check if the document type is valid and if not, redirect to the document upload page
       if (
         !params['documentType'] &&
