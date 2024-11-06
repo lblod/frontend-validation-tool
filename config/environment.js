@@ -34,7 +34,7 @@ module.exports = function (environment) {
     locationType: 'history',
     EmberENV: {
       EXTEND_PROTOTYPES: false,
-    },
+    },  
     CORS_PROXY_URL: process.env.CORS_PROXY_URL,
     APP: {
       // Here you can pass flags/options to your application instance

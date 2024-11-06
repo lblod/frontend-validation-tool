@@ -10,6 +10,4 @@ Router.map(function () {
   this.route('document-upload', { path: '/' });
   this.route('document-review');
   this.route('validation-results');
-
-  this.route('example-notulen');
 });
