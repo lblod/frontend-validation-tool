@@ -10,6 +10,8 @@ import {
   validatePublication,
   getExampleOfDocumentType,
   getBlueprintOfDocumentType,
+  getBindingsFromTurtleContent,
+  validateDocument,
 } from '@lblod/lib-decision-validation';
 import { task } from 'ember-concurrency';
 
@@ -85,15 +87,23 @@ export default class DocumentService extends Service {
   }
 
   validateDocument = task({ drop: true }, async () => {
-    const blueprint = await getBlueprintOfDocumentType(this.documentType);
-    const example = await getExampleOfDocumentType(this.documentType);
+    if (this.documentType) {
+      const blueprint = await getBlueprintOfDocumentType(this.documentType);
+      const example = await getExampleOfDocumentType(this.documentType);
 
-    if (!this.isProcessingFile) {
-      this.document = await fetchDocument(this.documentURL, this.corsProxy);
+      if (!this.isProcessingFile) {
+        this.document = await fetchDocument(this.documentURL, this.corsProxy);
+      }
+
+      return await validatePublication(this.document, blueprint, example);
     }
-    const result = await validatePublication(this.document, blueprint, example);
-    console.log(result);
-    return result;
+
+    if (this.customBlueprint) {
+      const rawBlueprint = await this.customBlueprint.text();
+      const blueprint = await getBindingsFromTurtleContent(rawBlueprint);
+
+      return await validateDocument(this.document, blueprint);
+    }
   });
 
   clearData() {
