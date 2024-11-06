@@ -1,43 +1,47 @@
-<span class="au-u-text-center">
-  <h2>Validatie van een agenda, besluitenlijst of notulen</h2>
-  <p class="au-u-margin-top-tiny">Hieronder kunt u de link naar het document
-    plakken of een HTML-bestand uploaden.</p>
-</span>
+<section data-test-document-upload>
+  <span class="au-u-text-center">
+    <h2>Validatie van een agenda, besluitenlijst of notulen</h2>
+    <p class="au-u-margin-top-tiny">Hieronder kunt u de link naar het document
+      plakken of een HTML-bestand uploaden.</p>
+  </span>
 
-<form class="au-c-form" {{on "submit" this.handleSubmit}}>
-  <AuFormRow @alignment="default">
-    {{! template-lint-disable no-autofocus-attribute }}
-    <AuInput
-      placeholder="Link naar het document"
-      value={{this.publicationURL}}
-      {{on "input" this.handleChange}}
-      @disabled={{this.inputDisabled}}
-      id="input"
+  <form class="au-c-form" {{on "submit" this.handleSubmit}}>
+    <AuFormRow @alignment="default">
+      {{! template-lint-disable no-autofocus-attribute }}
+      <AuInput
+        placeholder="Link naar het document"
+        value={{this.publicationURL}}
+        {{on "input" this.handleChange}}
+        @disabled={{this.inputDisabled}}
+        id="input"
+        @width="block"
+        autofocus
+        data-test-field="publication-link"
+      />
+    </AuFormRow>
+    <h4 class="au-u-text-center">OF</h4>
+    <AuFormRow>
+      <FileInput
+        @disabled={{this.fileInputDisabled}}
+        class="au-u-1-1"
+        @accept={{"text/html"}}
+        @title={{"Upload een HTML-bestand"}}
+        @endPoint={{"/file-handling"}}
+        @helpTextDragDrop={{"Sleep het bestand naar hier om toe te voegen"}}
+        @helpTextFileNotSupported={{"Dit bestandstype wordt niet ondersteund"}}
+        @onFinishUpload={{this.onFinishUpload}}
+      />
+    </AuFormRow>
+
+    <AuButton
+      type="submit"
+      @loading={{this.loading}}
+      @loadingMessage={{this.loadingMessage}}
+      @disabled={{this.buttonDisabled}}
       @width="block"
-      autofocus
-    />
-  </AuFormRow>
-  <h4 class="au-u-text-center">OF</h4>
-  <AuFormRow>
-    <FileInput
-      @disabled={{this.fileInputDisabled}}
-      class="au-u-1-1"
-      @accept={{"text/html"}}
-      @title={{"Upload een HTML-bestand"}}
-      @endPoint={{"/file-handling"}}
-      @helpTextDragDrop={{"Sleep het bestand naar hier om toe te voegen"}}
-      @helpTextFileNotSupported={{"Dit bestandstype wordt niet ondersteund"}}
-      @onFinishUpload={{this.onFinishUpload}}
-    />
-  </AuFormRow>
-
-  <AuButton
-    type="submit"
-    @loading={{this.loading}}
-    @loadingMessage={{this.loadingMessage}}
-    @disabled={{this.buttonDisabled}}
-    @width="block"
-    @variant="primary"
-  >Volgende</AuButton>
-  <AuFormRow />
-</form>
+      @variant="primary"
+      data-test-button="volgende"
+    >Volgende</AuButton>
+    <AuFormRow />
+  </form>
+</section>

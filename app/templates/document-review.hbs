@@ -1,75 +1,79 @@
 {{page-title "Document Review"}}
 
-<span class="au-u-text-center">
-  <h2>Documenttype selecteren</h2>
-  <p class="au-u-margin-top-tiny">Hieronder kunt u de link naar het document
-    Indien het automatisch toegewezen documenttype niet overeenkomt met uw
-    verwachtingen, kunt u dit aanpassen door een andere keuze te maken
-    hieronder.
-  </p>
-  <AuLinkExternal
-    class="publication-link"
-    @href={{this.document.documentURL}}
-  >{{this.document.documentURL}}</AuLinkExternal>
-</span>
-<div class="au-u-flex au-u-flex--center">
-  <form class="au-c-form au-u-2-3">
-    <AuFormRow class="au-u-flex">
-      <AuLabel
-        class="au-u-hidden-visually"
-        @for="documentTypeSelect"
-      >Documenttype</AuLabel>
-      <select
-        id="documentTypeSelect"
-        {{on "change" this.document.handleDocumentTypeChange}}
-        placeholder="Documenttype"
-        class="au-c-input au-u-1-1"
-      >
-        {{#unless this.document.documentType}}
-          <option value="" selected disabled hidden>
-            Selecteer een documenttype
-          </option>
-        {{/unless}}
-
-        {{#each this.selectOptions as |documentType|}}
-          {{#if (eq documentType.label this.document.documentType)}}
-            <option value={{documentType.label}} selected>
-              {{documentType.label}}
-            </option>
-          {{else}}
-            <option value={{documentType.label}}>
-              {{documentType.label}}
-            </option>
-          {{/if}}
-        {{/each}}
-      </select>
-    </AuFormRow>
-    <AuFormRow>
-      <AuButtonGroup class="au-u-1-1 au-u-flex--between au-u-flex--no-wrap">
-        <AuButton class="au-u-1-3" @skin="secondary">
-          <AuLink @route="document-upload">
-            Terug
-          </AuLink>
-        </AuButton>
-
-        <AuButton
-          class="au-u-1-3 au-u-flex--center"
-          @disabled={{not this.document.documentType}}
-          {{on "click" this.handleValidation}}
+<section data-test-document-review>
+  <span class="au-u-text-center">
+    <h2>Documenttype selecteren</h2>
+    <p class="au-u-margin-top-tiny">Hieronder kunt u de link naar het document
+      Indien het automatisch toegewezen documenttype niet overeenkomt met uw
+      verwachtingen, kunt u dit aanpassen door een andere keuze te maken
+      hieronder.
+    </p>
+    <AuLinkExternal
+      class="publication-link"
+      @href={{this.document.documentURL}}
+    >{{this.document.documentURL}}</AuLinkExternal>
+  </span>
+  <div class="au-u-flex au-u-flex--center">
+    <form class="au-c-form au-u-2-3">
+      <AuFormRow class="au-u-flex">
+        <AuLabel
+          class="au-u-hidden-visually"
+          @for="documentTypeSelect"
+        >Documenttype</AuLabel>
+        <select
+          id="documentTypeSelect"
+          {{on "change" this.document.handleDocumentTypeChange}}
+          placeholder="Documenttype"
+          class="au-c-input au-u-1-1"
+          data-test-field="documentTypeSelect"
         >
-          {{! TODO: Add functionality }}
-          Validatie Starten
-        </AuButton>
-      </AuButtonGroup>
-    </AuFormRow>
-    {{!-- <div>
-    <h2>{{this.amountOfRelevantPublications}} relevant publications</h2>
-    {{#each this.resolvedPublication as |publication|}}
-      <p>
-        {{publication}}
-      </p>
-    {{/each}}
-  </div> --}}
+          {{#unless this.document.documentType}}
+            <option value="" selected disabled hidden>
+              Selecteer een documenttype
+            </option>
+          {{/unless}}
 
-  </form>
-</div>
+          {{#each this.selectOptions as |documentType|}}
+            {{#if (eq documentType.label this.document.documentType)}}
+              <option value={{documentType.label}} selected>
+                {{documentType.label}}
+              </option>
+            {{else}}
+              <option value={{documentType.label}}>
+                {{documentType.label}}
+              </option>
+            {{/if}}
+          {{/each}}
+        </select>
+      </AuFormRow>
+      <AuFormRow>
+        <AuButtonGroup class="au-u-1-1 au-u-flex--between au-u-flex--no-wrap">
+          <AuButton class="au-u-1-3" @skin="secondary">
+            <AuLink @route="document-upload">
+              Terug
+            </AuLink>
+          </AuButton>
+
+          <AuButton
+            class="au-u-1-3 au-u-flex--center"
+            @disabled={{not this.document.documentType}}
+            {{on "click" this.handleValidation}}
+            data-test-button="validatieStarten"
+          >
+            {{! TODO: Add functionality }}
+            Validatie Starten
+          </AuButton>
+        </AuButtonGroup>
+      </AuFormRow>
+      {{!-- <div>
+      <h2>{{this.amountOfRelevantPublications}} relevant publications</h2>
+      {{#each this.resolvedPublication as |publication|}}
+        <p>
+          {{publication}}
+        </p>
+      {{/each}}
+    </div> --}}
+
+    </form>
+  </div>
+</section>
