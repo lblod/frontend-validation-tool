@@ -5,8 +5,6 @@ import {
   waitUntil,
   fillIn,
   click,
-  pauseTest,
-  settled,
   waitFor,
 } from '@ember/test-helpers';
 import { module, test } from 'qunit';
