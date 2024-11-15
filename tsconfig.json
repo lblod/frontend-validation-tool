@@ -1,5 +1,5 @@
 {
-  "include": ["app", "server"],
+  "include": ["app", "server", "tests"],
   "extends": "@tsconfig/ember/tsconfig.json",
   "compilerOptions": {
     "skipLibCheck": true,
