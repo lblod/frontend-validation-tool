@@ -1,75 +1,78 @@
 {{page-title "Validatieresultaten"}}
 
-<div class="au-u-text-center">
-  <h2>Validatie resultaten</h2>
+<section data-test-validation-results>
+  <div class="au-u-text-center">
+    <h2>Validatie resultaten</h2>
 
-  <span class="au-u-margin-top-tiny publication-link">
-    <p>Resultaat van de validatie van het document met type
-      <p class="au-u-medium">
-        {{this.document.documentType}}
+    <span class="au-u-margin-top-tiny publication-link">
+      <p>Resultaat van de validatie van het document met type
+        <p class="au-u-medium">
+          {{this.document.documentType}}
+        </p>
       </p>
-    </p>
-  </span>
+    </span>
 
-  <AuLinkExternal
-    class="publication-link"
-    href={{this.document.documentURL}}
-  >{{this.document.documentURL}}</AuLinkExternal>
-  <div
-    class="au-u-flex au-u-flex--between au-u-1-1 au-u-flex--column@medium au-u-margin-top"
-  >
-    <section>
-
-      <h4 class="au-u-bold au-u-h4">Maturiteit:
-        {{#if this.isLoading}}
-          aan het laden..
-        {{else}}
-          {{#if this.validatedPublication.maturity}}
-            {{this.validatedPublication.maturity}}
-          {{else}}
-            Onbekend
-          {{/if}}
-        {{/if}}
-      </h4>
-
-    </section>
-
-    <section
-      class="au-u-flex gutter au-u-flex--vertical-center au-u-flex--center"
+    <AuLinkExternal
+      class="publication-link"
+      href={{this.document.documentURL}}
+      data-test-field="publication-link"
+    >{{this.document.documentURL}}</AuLinkExternal>
+    <div
+      class="au-u-flex au-u-flex--between au-u-1-1 au-u-flex--column@medium au-u-margin-top"
     >
-      <p class="au-u-para-small">Legende:</p>
+      <section>
 
-      {{#each-in this.pillLegend as |key value|}}
-        <div class="tooltip">
-          <AuPill
-            class={{value.class}}
-            @skin={{value.skin}}
-          >{{value.name}}</AuPill>
-          <span class="tooltip-text">
-            {{value.description}}
-          </span>
-        </div>
-      {{/each-in}}
+        <h4 class="au-u-bold au-u-h4">Maturiteit:
+          {{#if this.isLoading}}
+            aan het laden..
+          {{else}}
+            {{#if this.validatedPublication.maturity}}
+              {{this.validatedPublication.maturity}}
+            {{else}}
+              Onbekend
+            {{/if}}
+          {{/if}}
+        </h4>
 
-    </section>
+      </section>
+
+      <section
+        class="au-u-flex gutter au-u-flex--vertical-center au-u-flex--center"
+      >
+        <p class="au-u-para-small">Legende:</p>
+
+        {{#each-in this.pillLegend as |key value|}}
+          <div class="tooltip">
+            <AuPill
+              class={{value.class}}
+              @skin={{value.skin}}
+            >{{value.name}}</AuPill>
+            <span class="tooltip-text">
+              {{value.description}}
+            </span>
+          </div>
+        {{/each-in}}
+
+      </section>
+    </div>
   </div>
-</div>
 
-{{! Validation Results }}
-{{#if this.isLoading}}
-  <AuLoader @centered={{true}}>
-    {{this.document.loadingStatus}}
-  </AuLoader>
-{{else}}
-  <div
-    class="entry-container au-u-flex au-u-flex--column au-u-flex--center au-u-1-1"
-  >
-    {{#each this.validatedPublication.classes as |collection|}}
-      {{#if (eq (get collection "count") 1)}}
-        <RootSubject @subject={{get collection.objects 0}} />
-      {{else}}
-        <ClassCollection @collection={{collection}} />
-      {{/if}}
-    {{/each}}
-  </div>
-{{/if}}
+  {{! Validation Results }}
+  {{#if this.isLoading}}
+    <AuLoader @centered={{true}}>
+      {{this.document.loadingStatus}}
+    </AuLoader>
+  {{else}}
+    <div
+      class="entry-container au-u-flex au-u-flex--column au-u-flex--center au-u-1-1"
+    >
+      {{#each this.validatedPublication.classes as |collection|}}
+        {{#if (eq (get collection "count") 1)}}
+          <RootSubject @subject={{get collection.objects 0}} />
+        {{else}}
+          <ClassCollection @collection={{collection}} />
+        {{/if}}
+      {{/each}}
+    </div>
+  {{/if}}
+</section>
