@@ -18,6 +18,7 @@ import { task } from 'ember-concurrency';
 export default class DocumentService extends Service {
   corsProxy: string = '';
 
+  @tracked loadingStatus: string = 'We starten het validatieproces';
   @tracked document: Bindings[] = [];
   @tracked documentURL: string = '';
   @tracked documentType: string = '';
@@ -95,7 +96,16 @@ export default class DocumentService extends Service {
         this.document = await fetchDocument(this.documentURL, this.corsProxy);
       }
 
-      return await validatePublication(this.document, blueprint, example);
+      const onProgress = (message: string) => {
+        this.loadingStatus = `${message}`;
+      };
+
+      return await validatePublication(
+        this.document,
+        blueprint,
+        example,
+        onProgress,
+      );
     }
 
     if (this.customBlueprint) {
