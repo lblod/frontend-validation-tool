@@ -1,4 +1,5 @@
 import Component from '@glimmer/component';
+import { service } from '@ember/service';
 
 interface ArgsInterface {
   index: number;
@@ -25,6 +26,8 @@ interface ValidationResult {
 }
 
 export default class RecursiveEntry extends Component<ArgsInterface> {
+  @service document;
+
   get skin() {
     const { validCount, totalCount } = this.args.subject;
     return validCount !== undefined
@@ -78,7 +81,8 @@ export default class RecursiveEntry extends Component<ArgsInterface> {
       'http://data.vlaanderen.be/ns/besluit#Bestuursorgaan'
     ) {
       return '';
-    } else if (this.args.index === undefined) return '';
+    } else if (this.document.indexOfUri.has(this.args.subject.uri)) return this.document.indexOfUri.get(this.args.subject.uri);
+    else if (this.args.index === undefined) return '';
     return this.args.index + 1;
   }
 
