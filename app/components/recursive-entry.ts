@@ -81,7 +81,8 @@ export default class RecursiveEntry extends Component<ArgsInterface> {
       'http://data.vlaanderen.be/ns/besluit#Bestuursorgaan'
     ) {
       return '';
-    } else if (this.document.indexOfUri.has(this.args.subject.uri)) return this.document.indexOfUri.get(this.args.subject.uri);
+    } else if (this.document.indexOfUri.has(this.args.subject.uri))
+      return this.document.indexOfUri.get(this.args.subject.uri);
     else if (this.args.index === undefined) return '';
     return this.args.index + 1;
   }
