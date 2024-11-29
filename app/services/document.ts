@@ -12,6 +12,7 @@ import {
   getBlueprintOfDocumentType,
 } from '@lblod/lib-decision-validation';
 import { task } from 'ember-concurrency';
+import type { ValidatedPublication } from '@lblod/lib-decision-validation/dist/types';
 
 export default class DocumentService extends Service {
   corsProxy: string = '';
@@ -25,6 +26,7 @@ export default class DocumentService extends Service {
   @tracked validatedDocument: any = [];
   @tracked isProcessingFile: boolean = false;
   @service declare toaster: any;
+  @tracked indexOfUri: Map<string, number> = new Map();
 
   constructor() {
     // eslint-disable-next-line prefer-rest-params
@@ -100,6 +102,7 @@ export default class DocumentService extends Service {
       onProgress,
     );
     console.log(result);
+    this.indexOfUri = createIndexOfUri(result);
     return result;
   });
 
@@ -166,4 +169,16 @@ declare module '@ember/service' {
   interface Registry {
     document: DocumentService;
   }
+}
+function createIndexOfUri(result: ValidatedPublication): Map<string, number> {
+  const indexOfUri: Map<string, number> = new Map();
+  for (const c of result.classes) {
+    for (const o of c.objects) {
+      let indexOfObj = c.objects.indexOf(o);
+      // start index from 1
+      indexOfObj = indexOfObj + 1;
+      indexOfUri.set(o.uri, indexOfObj);
+    }
+  }
+  return indexOfUri;
 }
