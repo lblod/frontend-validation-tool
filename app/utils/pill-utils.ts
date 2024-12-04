@@ -24,7 +24,7 @@ export function isCorrectForProperty(
   minCount: number | undefined,
   maxCount: number | undefined,
 ): boolean {
-  if (value.length === 0) {
+  if (value.length === 0 || value[0] === 'Waarde niet gevonden') {
     return minCount === 0;
   }
   return value
