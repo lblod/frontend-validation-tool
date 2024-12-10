@@ -158,10 +158,6 @@ export default class DocumentService extends Service {
       return true;
     } else {
       this.documentType = '';
-      this.toaster.error(
-        'Deze publicatie heeft geen documenttype',
-        'Kies een type uit de lijst',
-      );
       return false;
     }
   }
