@@ -24,52 +24,54 @@ export default class ValidationResultsRoute extends Route {
 
   async beforeModel(transition: Transition): Promise<void> {
     const params = transition.to?.queryParams;
-    if (params) {
-      if (
-        this.document.isProcessingFile &&
-        this.document.documentType &&
-        !params['url']
-      )
-        return;
-
-      if (
-        this.document.isProcessingFile &&
-        this.document.customBlueprint &&
-        !params['url']
-      )
-        return;
-
-      this.document.isProcessingFile = false;
-      if (!params['url']) {
-        this.router.transitionTo('document-upload');
-        return;
-      }
-
-      // Check if the document type is valid and if not, redirect to the document upload page
-      if (
-        !params['documentType'] &&
-        (await this.document.processDocumentURL(params['url']))
-      ) {
-        return;
-      } else if (
-        !params['documentType'] ||
-        !getDocumentTypes().find(
-          (type) => type.label === params['documentType'],
-        )
-      ) {
-        this.toaster.error(
-          'Documenttype niet gevonden.',
-          'Selecteer een documenttype uit de lijst.',
-        );
-        this.router.transitionTo('document-upload');
-        return;
-      } else if (params['documentType'] && params['url']) {
-        this.document.documentType = params['documentType'];
-        this.document.documentURL = params['url'];
-      }
+    if (!params) {
+      this.router.transitionTo('document-upload');
       return;
     }
+
+    this.document.documentType = params['documentType'] ?? '';
+    this.document.documentURL = params['url'] ?? '';
+
+    // Document type needs to be empty or valid
+    if (
+      this.document.documentType &&
+      !getDocumentTypes().find(
+        (type) => type.label === this.document.documentType,
+      )
+    ) {
+      this.toaster.error(
+        'Documenttype niet gevonden.',
+        'Selecteer een documenttype uit de lijst.',
+      );
+      this.router.transitionTo('document-upload');
+      return;
+    }
+
+    if (this.document.documentURL) {
+      this.document.isProcessingFile = false;
+
+      // Proceed if data is available through URL and document type is present
+      if (this.document.documentType) return;
+
+      // Proceed if data is available through URL and custom blueprint is present
+      if (this.document.customBlueprint) return;
+
+      // Proceed if data is available through URL and document type can be determined
+      if (await this.document.processDocumentURL(this.document.documentURL))
+        return;
+    }
+
+    if (this.document.isProcessingFile) {
+      // Proceed if data is available as file and document type is present
+      if (this.document.documentType) return;
+
+      // Proceed if data is available as file and custom blueprint is present
+      if (this.document.customBlueprint) return;
+    }
+
+    this.router.transitionTo('document-upload');
   }
+
   async model(params: {
     url: string;
     documentType: string;
