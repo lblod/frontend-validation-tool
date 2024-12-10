@@ -88,13 +88,13 @@ export default class DocumentService extends Service {
   }
 
   validateDocument = task({ drop: true }, async () => {
+    if (!this.isProcessingFile) {
+      this.document = await fetchDocument(this.documentURL, this.corsProxy);
+    }
+
     if (this.documentType) {
       const blueprint = await getBlueprintOfDocumentType(this.documentType);
       const example = await getExampleOfDocumentType(this.documentType);
-
-      if (!this.isProcessingFile) {
-        this.document = await fetchDocument(this.documentURL, this.corsProxy);
-      }
 
       const onProgress = (message: string) => {
         this.loadingStatus = `${message}`;
