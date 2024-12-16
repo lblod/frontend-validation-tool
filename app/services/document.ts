@@ -93,7 +93,6 @@ export default class DocumentService extends Service {
     if (!this.isProcessingFile) {
       this.document = await fetchDocument(this.documentURL, this.corsProxy);
     }
-    
     if (this.documentType) {
       const blueprint = await getBlueprintOfDocumentType(this.documentType);
       const example = await getExampleOfDocumentType(this.documentType);
