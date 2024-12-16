@@ -10,6 +10,8 @@ import {
   validatePublication,
   getExampleOfDocumentType,
   getBlueprintOfDocumentType,
+  getBindingsFromTurtleContent,
+  validateDocument,
 } from '@lblod/lib-decision-validation';
 import { task } from 'ember-concurrency';
 import type { ValidatedPublication } from '@lblod/lib-decision-validation/dist/types';
@@ -22,6 +24,7 @@ export default class DocumentService extends Service {
   @tracked documentURL: string = '';
   @tracked documentType: string = '';
   @tracked documentFile: File | null = null;
+  @tracked customBlueprint: File | null = null;
   @tracked maturity: string = '';
   @tracked validatedDocument: any = [];
   @tracked isProcessingFile: boolean = false;
@@ -87,23 +90,35 @@ export default class DocumentService extends Service {
   }
 
   validateDocument = task({ drop: true }, async () => {
-    const blueprint = await getBlueprintOfDocumentType(this.documentType);
-    const example = await getExampleOfDocumentType(this.documentType);
     if (!this.isProcessingFile) {
       this.document = await fetchDocument(this.documentURL, this.corsProxy);
     }
-    const onProgress = (message: string) => {
-      this.loadingStatus = `${message}`;
-    };
-    const result = await validatePublication(
-      this.document,
-      blueprint,
-      example,
-      onProgress,
-    );
-    console.log(result);
-    this.indexOfUri = createIndexOfUri(result);
-    return result;
+    
+    if (this.documentType) {
+      const blueprint = await getBlueprintOfDocumentType(this.documentType);
+      const example = await getExampleOfDocumentType(this.documentType);
+
+      const onProgress = (message: string) => {
+        this.loadingStatus = `${message}`;
+      };
+
+      const result = await validatePublication(
+        this.document,
+        blueprint,
+        example,
+        onProgress,
+      );
+      console.log(result);
+      this.indexOfUri = createIndexOfUri(result);
+      return result;
+    }
+
+    if (this.customBlueprint) {
+      const rawBlueprint = await this.customBlueprint.text();
+      const blueprint = await getBindingsFromTurtleContent(rawBlueprint);
+
+      return await validateDocument(this.document, blueprint);
+    }
   });
 
   clearData() {
@@ -128,18 +143,10 @@ export default class DocumentService extends Service {
     const html = await file.text();
     const document = await getPublicationFromFileContent(html);
     this.document = document;
-    this.documentType = await determineDocumentType(document);
 
-    if (this.documentType && this.documentType !== 'unknown document type') {
-      return true;
-    } else {
-      this.documentType = '';
-      this.toaster.error(
-        'Deze publicatie heeft geen documenttype',
-        'Kies een type uit de lijst',
-      );
-      return false;
-    }
+    const determinedType = await determineDocumentType(document);
+    this.documentType =
+      determinedType === 'unknown document type' ? '' : determinedType;
   }
 
   // Function to process a document URL (as entered by the user in route: document-upload)
@@ -156,10 +163,6 @@ export default class DocumentService extends Service {
       return true;
     } else {
       this.documentType = '';
-      this.toaster.error(
-        'Deze publicatie heeft geen documenttype',
-        'Kies een type uit de lijst',
-      );
       return false;
     }
   }
