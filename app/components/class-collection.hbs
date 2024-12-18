@@ -1,6 +1,25 @@
-<CustomAccordion data-test-class-collection @defaultOpen="true">
+<CustomAccordion
+  data-test-class-collection
+  @defaultOpen={{if (current-url-hash @validationId) true false}}
+  id="validationBlock-{{@validationId}}"
+>
   <:toolbar>
-    {{@collection.className}}
+    <span class="au-u-flex--vertical-center au-u-flex">
+      <p
+        class="au-u-margin-right-tiny au-u-margin-left-none au-u-margin-bottom-none"
+      >
+        <CopyToClipboard
+          @hideValue="true"
+          @icon="paperclip"
+          @value="{{concat
+            (current-url-without-hash)
+            '#validationBlock-'
+            @validationId
+          }}"
+        />
+        {{@collection.className}}
+      </p>
+    </span>
   </:toolbar>
   <:counts>{{@collection.count}}</:counts>
   <:content>
@@ -14,7 +33,10 @@
       </AuAlert>
     {{/if}}
     {{#each @collection.objects as |object index|}}
-      <RecursiveEntry @subject={{object}} @index={{index}} />
+      <RecursiveEntry
+        @subject={{object}}
+        @validationId={{join-with-dash @validationId index}}
+      />
     {{/each}}
   </:content>
 </CustomAccordion>

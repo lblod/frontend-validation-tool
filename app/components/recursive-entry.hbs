@@ -1,10 +1,22 @@
 <AuAlert class="au-c-alert--neutral">
-  <CustomAccordion>
+  <CustomAccordion
+    id="validationBlock-{{@validationId}}"
+    @defaultOpen={{if (current-url-hash @validationId) true false}}
+  >
     <:toolbar>
       <span class="au-u-flex--vertical-center au-u-flex">
         <p
           class="truncate-url au-u-h4 au-u-margin-tiny au-u-margin-top-none au-u-margin-left-none au-u-margin-bottom-none"
         >
+          <CopyToClipboard
+            @hideValue="true"
+            @icon="paperclip"
+            @value="{{concat
+              (current-url-without-hash)
+              '#validationBlock-'
+              @validationId
+            }}"
+          />
           {{@subject.className}}
           {{this.displayIndex}}
         </p>
@@ -45,7 +57,9 @@
 
         {{#each @subject.sparqlValidationResults as |sparqlValidationResult|}}
           <AuAlert @skin="warning">
-            <section class="au-u-1-1 accordion-title au-u-flex au-u-flex--between">
+            <section
+              class="au-u-1-1 accordion-title au-u-flex au-u-flex--between"
+            >
               <ul>
                 <li>{{sparqlValidationResult.resultMessage}}</li>
                 <li>Eigenschap: {{sparqlValidationResult.resultPath}}</li>
@@ -55,8 +69,11 @@
           </AuAlert>
         {{/each}}
 
-        {{#each @subject.properties as |property|}}
-          <SubjectProperty @property={{property}} />
+        {{#each @subject.properties as |property index|}}
+          <SubjectProperty
+            @property={{property}}
+            @validationId={{join-with-dash @validationId index}}
+          />
         {{/each}}
       {{/if}}
     </:content>
