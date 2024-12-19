@@ -1,16 +1,21 @@
 import { helper } from '@ember/component/helper';
 
-export default helper(function currentUrlHash([validationId]: [
-  string,
-  string,
-]) {
+export default helper(function currentUrlHash([validationId]: [string]) {
   const hash = window.location.href.split('#')[1];
-  if (hash && validationId) {
-    const parts = hash.split('-');
-    const id = validationId.toString().split('-')[0];
-    if (parts[1] === id) {
-      return true;
-    }
+
+  if (!hash || !validationId) {
+    return false;
   }
-  return false;
+
+  const [, parentIdHash, childIdHash] = hash.split('-');
+  const [parentId, childId] = validationId.toString().split('-');
+  if (parentId && parentId.toString() !== parentIdHash) {
+    return false;
+  }
+
+  if (childId) {
+    return childId.toString() === childIdHash;
+  }
+
+  return true;
 });

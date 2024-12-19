@@ -68,17 +68,19 @@
         class="entry-container au-u-flex au-u-flex--column au-u-flex--center au-u-1-1"
       >
         {{#each this.validatedPublication.classes as |collection index|}}
-          {{#if (eq (get collection "count") 1)}}
-            <RootSubject
-              @subject={{get collection.objects 0}}
-              @validationId={{index}}
-            />
-          {{else}}
-            <ClassCollection
-              @collection={{collection}}
-              @validationId={{index}}
-            />
-          {{/if}}
+          {{#let (add index 1) as |newIndex|}}
+            {{#if (eq (get collection "count") 1)}}
+              <RootSubject
+                @subject={{get collection.objects 0}}
+                @validationId={{newIndex}}
+              />
+            {{else}}
+              <ClassCollection
+                @collection={{collection}}
+                @validationId={{newIndex}}
+              />
+            {{/if}}
+          {{/let}}
         {{/each}}
       </div>
     {{/if}}

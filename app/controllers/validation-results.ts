@@ -29,19 +29,15 @@ export default class ValidationResultsController extends Controller {
 
   @action
   scrollToTarget() {
-    console.log('scrolling');
     const fragment = window.location.hash.slice(1);
     if (!fragment) {
-      console.log('No fragment found in URL');
       return;
     }
     console.log(fragment);
     const offset = 50;
     const observer = new MutationObserver(() => {
       const childElement = document.getElementById(fragment);
-      console.log(childElement);
       if (childElement) {
-        console.log('Element found. Scrolling to target...');
         const rect = childElement.getBoundingClientRect();
         window.scrollTo({
           top: window.scrollY + rect.top - offset,

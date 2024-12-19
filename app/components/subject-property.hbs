@@ -83,14 +83,16 @@
         <p>Geen waarde gevonden</p>
       {{else}}
         {{#each @property.value as |value index|}}
-          {{#if value.uri}}
-            <RecursiveEntry
-              @subject={{value}}
-              @validationId={{join-with-dash @validationId index}}
-            />
-          {{else}}
-            <p>{{value}}</p>
-          {{/if}}
+          {{#let (add index 1) as |newIndex|}}
+            {{#if value.uri}}
+              <RecursiveEntry
+                @subject={{value}}
+                @validationId={{join-with-dash @validationId newIndex}}
+              />
+            {{else}}
+              <p>{{value}}</p>
+            {{/if}}
+          {{/let}}
         {{/each}}
       {{/if}}
     </:content>
