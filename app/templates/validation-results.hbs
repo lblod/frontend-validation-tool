@@ -40,7 +40,6 @@
         class="au-u-flex gutter au-u-flex--vertical-center au-u-flex--center"
       >
         <p class="au-u-para-small">Legende:</p>
-
         {{#each-in this.pillLegend as |key value|}}
           <div class="tooltip">
             <AuPill
@@ -52,7 +51,6 @@
             </span>
           </div>
         {{/each-in}}
-
       </section>
     </div>
   </div>
@@ -63,26 +61,42 @@
         {{this.document.loadingStatus}}
       </AuLoader>
     {{else}}
-      <div
-        {{did-insert this.scrollToTarget}}
-        class="entry-container au-u-flex au-u-flex--column au-u-flex--center au-u-1-1"
-      >
-        {{#each this.validatedPublication.classes as |collection index|}}
-          {{#let (add index 1) as |newIndex|}}
-            {{#if (eq (get collection "count") 1)}}
-              <RootSubject
-                @subject={{get collection.objects 0}}
-                @validationId={{newIndex}}
-              />
-            {{else}}
-              <ClassCollection
-                @collection={{collection}}
-                @validationId={{newIndex}}
-              />
-            {{/if}}
-          {{/let}}
-        {{/each}}
-      </div>
+      {{#if this.validatedPublication}}
+        <Errors::ValidationErrors
+          @errors={{this.validatedPublicationErrors}}
+          @handleScroll={{this.scrollToTarget}}
+        />
+        <div
+          {{did-insert this.scrollToTarget}}
+          class="entry-container au-u-flex au-u-flex--column au-u-flex--center au-u-1-1"
+        >
+          {{#each this.validatedPublication.classes as |collection index|}}
+            {{#let (add index 1) as |newIndex|}}
+              {{#if (eq (get collection "count") 1)}}
+                <RootSubject
+                  @subject={{get collection.objects 0}}
+                  @validationId={{newIndex}}
+                />
+              {{else}}
+                <ClassCollection
+                  @collection={{collection}}
+                  @validationId={{newIndex}}
+                />
+              {{/if}}
+            {{/let}}
+          {{/each}}
+        </div>
+      {{else}}
+        <AuAlert @skin="info" @icon="circle-info" @size="small">
+          <p>Geen resultaten,<AuButton
+              @skin="link"
+              {{on "click" this.reloadPage}}
+            >probeer opnieuw</AuButton>
+          </p>
+        </AuAlert>
+      {{/if}}
     {{/if}}
   </div>
 </section>
+
+<ScrollToTopButton />

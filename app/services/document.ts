@@ -14,7 +14,11 @@ import {
   validateDocument,
 } from '@lblod/lib-decision-validation';
 import { task } from 'ember-concurrency';
-import type { ValidatedPublication } from '@lblod/lib-decision-validation/dist/types';
+import type {
+  ValidatedProperty,
+  ValidatedPublication,
+  ValidationErrors,
+} from '@lblod/lib-decision-validation/dist/types';
 
 export default class DocumentService extends Service {
   corsProxy: string = '';
@@ -68,9 +72,9 @@ export default class DocumentService extends Service {
       return item;
     }
 
-    const document = await this.validateDocument.perform();
+    const { res } = await this.validateDocument.perform();
 
-    document
+    res?.classes
       .map(filterRecursive)
       .filter(
         (entry) =>
@@ -93,31 +97,62 @@ export default class DocumentService extends Service {
     if (!this.isProcessingFile) {
       this.document = await fetchDocument(this.documentURL, this.corsProxy);
     }
+    let res;
     if (this.documentType) {
       const blueprint = await getBlueprintOfDocumentType(this.documentType);
       const example = await getExampleOfDocumentType(this.documentType);
-
       const onProgress = (message: string) => {
         this.loadingStatus = `${message}`;
       };
-
       const result = await validatePublication(
         this.document,
         blueprint,
         example,
         onProgress,
       );
-      console.log(result);
       this.indexOfUri = createIndexOfUri(result);
-      return result;
-    }
-
-    if (this.customBlueprint) {
+      res = result;
+    } else if (this.customBlueprint) {
       const rawBlueprint = await this.customBlueprint.text();
       const blueprint = await getBindingsFromTurtleContent(rawBlueprint);
-
-      return await validateDocument(this.document, blueprint);
+      res = await validateDocument(this.document, blueprint);
     }
+    console.log(res);
+    const errors: ValidationErrors[] = [];
+
+    res?.classes.forEach((obj, classIndex) => {
+      obj.objects.forEach((object, objectIndex) => {
+        if (object.sparqlValidationResults) {
+          object.sparqlValidationResults.forEach((sparqlResult) => {
+            errors.push({
+              url: `#validationBlock-${classIndex + 1}-${objectIndex + 1}`,
+              path: `${object.className} ${this.indexOfUri.get(object.uri)}`,
+              messages: sparqlResult.resultMessage,
+            });
+          });
+        }
+        object.properties.forEach((property, propertyIndex) => {
+          const newProperty = property as ValidatedProperty;
+          if (!newProperty.valid) {
+            errors.push({
+              url: `#validationBlock-${classIndex + 1}-${objectIndex + 1}-${propertyIndex + 1}`,
+              path: `${object.className} ${this.indexOfUri.get(object.uri)} > ${property.name}`,
+              messages: property.value,
+            });
+          }
+          if (object.sparqlValidationResults) {
+            object.sparqlValidationResults.forEach((sparqlResult) => {
+              errors.push({
+                url: `#validationBlock-${classIndex + 1}-${objectIndex + 1}-${propertyIndex + 1}`,
+                path: `${object.className} ${this.indexOfUri.get(object.uri)} > ${property.name}`,
+                messages: sparqlResult.resultMessage,
+              });
+            });
+          }
+        });
+      });
+    });
+    return { res, errors };
   });
 
   clearData() {

@@ -145,3 +145,32 @@ button {
   font: inherit;
   cursor: pointer;
 }
+
+.au-u-block {
+  display: block;
+}
+
+.au-u-pointer {
+  cursor: pointer !important;
+}
+
+.scroll-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  padding: 10px 15px;
+  font-size: 14px;
+  color: white;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0055cc;
+}
+
+.scroll-to-top:hover {
+  background-color: #003b8e;
+}
