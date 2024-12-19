@@ -1,5 +1,8 @@
 <AuAlert data-test-subject-property class="au-c-alert--neutral">
-  <CustomAccordion @defaultOpen="true">
+  <CustomAccordion
+    @defaultOpen={{if (current-url-hash @validationId) true false}}
+    id="validationBlock-{{@validationId}}"
+  >
     <:toolbar>
       <span class="au-u-para-tiny au-u-flex--vertical-center au-u-flex">
         <div class="tooltip">
@@ -7,17 +10,26 @@
             {{! au-u-margin-tiny }}
             class="au-u-h4 au-u-margin-right-tiny au-u-margin-bottom-none au-u-italic"
           >
+            <CopyToClipboard
+              @hideValue="true"
+              @icon="paperclip"
+              @value="{{concat
+                (current-url-without-hash)
+                '#validationBlock-'
+                @validationId
+              }}"
+            />
             {{@property.name}}
           </p>
           {{! <AuIcon @icon="info-circle" class="au-u-margin-right-tiny" /> }}
-          <span class="tooltip-text">De vorm '{{@property.name}}' wordt gebruikt
-            om een huidige of actieve handeling aan te duiden, waarbij één
-            entiteit een andere beïnvloedt.
+          <span class="tooltip-text au-u-padding-small">De vorm '{{@property.name}}'
+            wordt gebruikt om een huidige of actieve handeling aan te duiden,
+            waarbij één entiteit een andere beïnvloedt.
           </span>
         </div>
         <StatusPill @property={{@property}} />
         {{#if @property.maturityLevel}}
-          <AuPill class="au-u-margin-left-tiny" @skin='default'>
+          <AuPill class="au-u-margin-left-tiny" @skin="default">
             {{@property.maturityLevel}}
           </AuPill>
         {{/if}}
@@ -55,25 +67,32 @@
     </:toolbar>
     <:counts>{{this.countText}}</:counts>
     <:content>
-    {{#each @property.sparqlValidationResults as |sparqlValidationResult|}}
-      <AuAlert @skin="warning">
-        <section class="au-u-1-1 accordion-title au-u-flex au-u-flex--between">
-          <ul>
-            <li>{{sparqlValidationResult.resultMessage}}</li>
-            <li>Waarde: {{sparqlValidationResult.value}}</li>
-          </ul>
-        </section>
-      </AuAlert>
+      {{#each @property.sparqlValidationResults as |sparqlValidationResult|}}
+        <AuAlert @skin="warning">
+          <section
+            class="au-u-1-1 accordion-title au-u-flex au-u-flex--between"
+          >
+            <ul>
+              <li>{{sparqlValidationResult.resultMessage}}</li>
+              <li>Waarde: {{sparqlValidationResult.value}}</li>
+            </ul>
+          </section>
+        </AuAlert>
       {{/each}}
       {{#if this.hasNoValues}}
         <p>Geen waarde gevonden</p>
       {{else}}
         {{#each @property.value as |value index|}}
-          {{#if value.uri}}
-            <RecursiveEntry @subject={{value}} @index={{index}} />
-          {{else}}
-            <p>{{value}}</p>
-          {{/if}}
+          {{#let (add index 1) as |newIndex|}}
+            {{#if value.uri}}
+              <RecursiveEntry
+                @subject={{value}}
+                @validationId={{join-with-dash @validationId newIndex}}
+              />
+            {{else}}
+              <p>{{value}}</p>
+            {{/if}}
+          {{/let}}
         {{/each}}
       {{/if}}
     </:content>

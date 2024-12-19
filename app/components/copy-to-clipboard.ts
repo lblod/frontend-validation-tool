@@ -7,7 +7,13 @@ interface ArgsInterface {
 }
 
 interface ToasterService {
-  success(message: string): void;
+  success(message: string, title: string, options?: ToastOptions): void;
+}
+interface ToastOptions {
+  type?: 'info' | 'success' | 'warning' | 'error';
+  icon?: string;
+  timeOut?: number;
+  closable?: boolean;
 }
 
 export default class CopyToClipboard extends Component<ArgsInterface> {
@@ -27,6 +33,8 @@ export default class CopyToClipboard extends Component<ArgsInterface> {
 
   @action
   onSuccess() {
-    this.toaster.success('Gecopieerd naar klembord');
+    this.toaster.success('Gekopieerd naar klembord', '', {
+      timeOut: 2000,
+    });
   }
 }
