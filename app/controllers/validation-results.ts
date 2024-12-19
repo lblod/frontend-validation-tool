@@ -33,7 +33,6 @@ export default class ValidationResultsController extends Controller {
     if (!fragment) {
       return;
     }
-    console.log(fragment);
     const offset = 50;
     const observer = new MutationObserver(() => {
       const childElement = document.getElementById(fragment);
