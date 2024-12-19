@@ -1,9 +1,14 @@
-<p
-  id="url"
-  class="au-c-link truncate-url au-u-margin-tiny au-u-margin-left-none"
->
-  {{@value}}
-</p>
+{{#unless @hideValue}}
+  <p
+    id="url"
+    class="au-c-link truncate-url au-u-margin-tiny au-u-margin-left-none"
+  >
+    {{@value}}
+  </p>
+{{/unless}}
 <button type="button" {{on "click" this.handleClick}}>
-  <AuIcon @icon="copy" class="au-c-icon au-c-icon--small au-c-icon--primary" />
+  <AuIcon
+    @icon="{{if @icon @icon 'copy'}}"
+    class="au-c-icon au-c-icon--small au-c-icon--primary"
+  />
 </button>

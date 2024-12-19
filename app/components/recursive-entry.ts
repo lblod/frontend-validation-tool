@@ -1,5 +1,6 @@
 import Component from '@glimmer/component';
 import { service } from '@ember/service';
+import type DocumentService from 'frontend-validation-tool/services/document';
 
 interface ArgsInterface {
   index: number;
@@ -26,8 +27,7 @@ interface ValidationResult {
 }
 
 export default class RecursiveEntry extends Component<ArgsInterface> {
-  @service document;
-
+  @service declare document: DocumentService;
   get skin() {
     const { validCount, totalCount } = this.args.subject;
     return validCount !== undefined

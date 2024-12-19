@@ -1,7 +1,22 @@
-<CustomAccordion data-test-root-subject @defaultOpen="true">
+<CustomAccordion
+  data-test-root-subject
+  @defaultOpen={{if (current-url-hash @validationId) true false}}
+  id="validationBlock-{{@validationId}}"
+>
   <:toolbar>
     <span class="au-u-flex--vertical-center au-u-flex">
-      <p class="au-u-margin-tiny au-u-margin-left-none au-u-margin-bottom-none">
+      <p
+        class="au-u-margin-right-tiny au-u-margin-left-none au-u-margin-bottom-none"
+      >
+        <CopyToClipboard
+          @hideValue="true"
+          @icon="paperclip"
+          @value="{{concat
+            (current-url-without-hash)
+            '#validationBlock-'
+            @validationId
+          }}"
+        />
         {{@subject.className}}
       </p>
       <StatusPill @subject={{@subject}} />
@@ -22,8 +37,13 @@
     {{#if this.loading}}
       <AuLoader data-test-accordion-loader />
     {{else}}
-      {{#each @subject.properties as |property|}}
-        <SubjectProperty @property={{property}} />
+      {{#each @subject.properties as |property index|}}
+        {{#let (add index 1) as |newIndex|}}
+          <SubjectProperty
+            @property={{property}}
+            @validationId={{join-with-dash @validationId newIndex}}
+          />
+        {{/let}}
       {{/each}}
     {{/if}}
   </:content>
