@@ -34,20 +34,29 @@ export default class ValidationResultsController extends Controller {
       return;
     }
     const offset = 50;
-    const observer = new MutationObserver(() => {
-      const childElement = document.getElementById(fragment);
-      if (childElement) {
-        const rect = childElement.getBoundingClientRect();
-        window.scrollTo({
-          top: window.scrollY + rect.top - offset,
-          behavior: 'auto',
-        });
-        observer.disconnect();
-      } else {
-        console.log('Element not found. ' + fragment);
-      }
-    });
+    const element = document.getElementById(fragment);
+    if (element) {
+      const rect = element.getBoundingClientRect();
+      window.scrollTo({
+        top: window.scrollY + rect.top - offset,
+        behavior: 'auto',
+      });
+    } else {
+      const observer = new MutationObserver(() => {
+        const element = document.getElementById(fragment);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          window.scrollTo({
+            top: window.scrollY + rect.top - offset,
+            behavior: 'auto',
+          });
+          observer.disconnect();
+        } else {
+          console.log('Element not found. ' + fragment);
+        }
+      });
 
-    observer.observe(document.body, { childList: true, subtree: true });
+      observer.observe(document.body, { childList: true, subtree: true });
+    }
   }
 }
