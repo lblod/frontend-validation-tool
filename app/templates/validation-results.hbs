@@ -56,23 +56,33 @@
       </section>
     </div>
   </div>
-
-  {{! Validation Results }}
-  {{#if this.isLoading}}
-    <AuLoader @centered={{true}}>
-      {{this.document.loadingStatus}}
-    </AuLoader>
-  {{else}}
-    <div
-      class="entry-container au-u-flex au-u-flex--column au-u-flex--center au-u-1-1"
-    >
-      {{#each this.validatedPublication.classes as |collection|}}
-        {{#if (eq (get collection "count") 1)}}
-          <RootSubject @subject={{get collection.objects 0}} />
-        {{else}}
-          <ClassCollection @collection={{collection}} />
-        {{/if}}
-      {{/each}}
-    </div>
-  {{/if}}
+  <div class="au-u-margin-top-large">
+    {{! Validation Results }}
+    {{#if this.isLoading}}
+      <AuLoader @centered={{true}}>
+        {{this.document.loadingStatus}}
+      </AuLoader>
+    {{else}}
+      <div
+        {{did-insert this.scrollToTarget}}
+        class="entry-container au-u-flex au-u-flex--column au-u-flex--center au-u-1-1"
+      >
+        {{#each this.validatedPublication.classes as |collection index|}}
+          {{#let (add index 1) as |newIndex|}}
+            {{#if (eq (get collection "count") 1)}}
+              <RootSubject
+                @subject={{get collection.objects 0}}
+                @validationId={{newIndex}}
+              />
+            {{else}}
+              <ClassCollection
+                @collection={{collection}}
+                @validationId={{newIndex}}
+              />
+            {{/if}}
+          {{/let}}
+        {{/each}}
+      </div>
+    {{/if}}
+  </div>
 </section>

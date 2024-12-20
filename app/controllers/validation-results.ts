@@ -3,6 +3,7 @@ import { service } from '@ember/service';
 import { tracked } from 'tracked-built-ins';
 import type DocumentService from 'frontend-validation-tool/services/document';
 import { STATUS_PILL_TYPES } from 'frontend-validation-tool/constants/status-pills';
+import { action } from '@ember/object';
 
 export default class ValidationResultsController extends Controller {
   @service declare document: DocumentService;
@@ -24,5 +25,38 @@ export default class ValidationResultsController extends Controller {
     return this.model?.validatedPublication.isFinished
       ? this.model?.validatedPublication.value
       : [];
+  }
+
+  @action
+  scrollToTarget() {
+    const fragment = window.location.hash.slice(1);
+    if (!fragment) {
+      return;
+    }
+    const offset = 50;
+    const element = document.getElementById(fragment);
+    if (element) {
+      const rect = element.getBoundingClientRect();
+      window.scrollTo({
+        top: window.scrollY + rect.top - offset,
+        behavior: 'auto',
+      });
+    } else {
+      const observer = new MutationObserver(() => {
+        const element = document.getElementById(fragment);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          window.scrollTo({
+            top: window.scrollY + rect.top - offset,
+            behavior: 'auto',
+          });
+          observer.disconnect();
+        } else {
+          console.log('Element not found. ' + fragment);
+        }
+      });
+
+      observer.observe(document.body, { childList: true, subtree: true });
+    }
   }
 }

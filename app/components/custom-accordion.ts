@@ -13,6 +13,7 @@ interface ArgsInterface {
 
 export default class SubjectProperty extends Component<ArgsInterface> {
   // AUAccordion settings
+  @tracked isOpen = this.args.defaultOpen ?? false;
 
   get reverse() {
     if (this.args.reverse) return 'au-c-accordion--reverse';
@@ -23,12 +24,6 @@ export default class SubjectProperty extends Component<ArgsInterface> {
   toggleAccordion() {
     this.isOpen = !this.isOpen;
   }
-
-  get defaultOpen() {
-    return this.args.defaultOpen ?? false;
-  }
-
-  @tracked isOpen = this.defaultOpen;
 
   get loading() {
     if (this.args.loading) return 'is-loading';
