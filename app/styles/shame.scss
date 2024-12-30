@@ -164,11 +164,11 @@ button {
   color: white;
   border: none;
   cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px #0000001a;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #0055cc;
+  background-color: #05c;
 }
 
 .scroll-to-top:hover {
