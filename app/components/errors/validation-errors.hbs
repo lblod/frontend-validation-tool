@@ -1,0 +1,40 @@
+<CustomAccordion
+  class="au-u-1-1 au-u-padding-bottom-none au-u-padding-right-none au-u-padding-left-small au-u-padding-top-small au-c-alert au-c-alert--error au-u-block"
+>
+  <:toolbar>
+    <p
+      class="au-u-h4 au-u-margin-right-tiny au-u-margin-left-none au-u-margin-bottom-none au-u-flex au-u-flex--vertical-center"
+    ><AuIcon @icon="circle-x" @size="large" class="au-u-margin-right-tiny" />
+      Volgende items zijn onvolledig of incorrect.
+    </p>
+    <span class="au-u-para-tiny au-u-flex au-u-margin-top-tiny">
+      <AuPill @skin="error">
+        Aantal fouten:
+        {{@errors.length}}
+      </AuPill>
+    </span>
+  </:toolbar>
+  <:counts>{{@errors.length}}</:counts>
+  <:content>
+    <ul class="au-u-padding-bottom">
+      {{#each @errors as |error|}}
+        <li>
+          <AuButton
+            class="au-u-pointer"
+            @skin="link"
+            {{on "click" (fn @handleScroll error.url)}}
+          >
+            {{error.path}}
+            {{#each error.messages as |message index|}}
+              {{#if (and (eq index 0) (is-string message))}}
+                :
+                {{message}}
+              {{/if}}
+            {{/each}}
+
+          </AuButton>
+        </li>
+      {{/each}}
+    </ul>
+  </:content>
+</CustomAccordion>

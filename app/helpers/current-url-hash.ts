@@ -7,14 +7,16 @@ export default helper(function currentUrlHash([validationId]: [string]) {
     return false;
   }
 
-  const [, parentIdHash, childIdHash] = hash.split('-');
-  const [parentId, childId] = validationId.toString().split('-');
-  if (parentId && parentId.toString() !== parentIdHash) {
+  const hashParts = hash.replace('validationBlock-', '').split('-');
+  const validationParts = validationId.toString().split('-');
+  if (!hashParts.length || !validationParts.length) {
     return false;
   }
 
-  if (childId) {
-    return childId.toString() === childIdHash;
+  for (let i = 0; i < validationParts.length; i++) {
+    if (validationParts[i]?.toString() !== hashParts[i]?.toString()) {
+      return false;
+    }
   }
 
   return true;
