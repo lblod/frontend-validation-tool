@@ -133,17 +133,21 @@ export default class DocumentService extends Service {
         }
         object.properties.forEach((property, propertyIndex) => {
           const newProperty = property as ValidatedProperty;
+          let url = `#validationBlock-${classIndex + 1}-${objectIndex + 1}-${propertyIndex + 1}`;
           if (!newProperty.valid) {
+            if (obj.count === 1) {
+              url = `#validationBlock-${classIndex + 1}-${propertyIndex + 1}`;
+            }
             errors.push({
-              url: `#validationBlock-${classIndex + 1}-${objectIndex + 1}-${propertyIndex + 1}`,
+              url: url,
               path: `${object.className} ${this.indexOfUri.get(object.uri)} > ${property.name}`,
               messages: property.value,
             });
           }
-          if (object.sparqlValidationResults) {
-            object.sparqlValidationResults.forEach((sparqlResult) => {
+          if (newProperty.sparqlValidationResults) {
+            newProperty.sparqlValidationResults.forEach((sparqlResult) => {
               errors.push({
-                url: `#validationBlock-${classIndex + 1}-${objectIndex + 1}-${propertyIndex + 1}`,
+                url,
                 path: `${object.className} ${this.indexOfUri.get(object.uri)} > ${property.name}`,
                 messages: sparqlResult.resultMessage,
               });
