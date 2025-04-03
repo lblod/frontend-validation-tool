@@ -137,9 +137,6 @@
   "ember": {
     "edition": "octane"
   },
-  "resolutions": {
-    "ember-file-upload": "^8.4.0"
-  },
   "dependencies": {
     "@lblod/lib-decision-validation": "^1.0.50",
     "dayjs": "^1.11.11",
