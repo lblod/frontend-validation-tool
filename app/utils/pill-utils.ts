@@ -13,6 +13,7 @@ export function getSkin(
     return STATUS_PILL_TYPES.optional.skin;
   if (validCount === undefined && valid === undefined)
     return STATUS_PILL_TYPES.unvalidated.skin;
+  if (valid !== undefined && !valid) return STATUS_PILL_TYPES.invalid.skin;
   if (isCorrect) return STATUS_PILL_TYPES.whole.skin;
   return validCount !== undefined && validCount === totalCount
     ? STATUS_PILL_TYPES.correct.skin
