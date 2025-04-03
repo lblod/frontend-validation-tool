@@ -14,10 +14,11 @@ import {
   validateDocument,
 } from '@lblod/lib-decision-validation';
 import { task } from 'ember-concurrency';
-import type {
-  ValidatedProperty,
-  ValidatedPublication,
-  ValidationErrors,
+import {
+  MaturityLevel,
+  type ValidatedProperty,
+  type ValidatedPublication,
+  type ValidationErrors,
 } from '@lblod/lib-decision-validation/dist/types';
 
 export default class DocumentService extends Service {
@@ -138,9 +139,12 @@ export default class DocumentService extends Service {
             if (obj.count === 1) {
               url = `#validationBlock-${classIndex + 1}-${propertyIndex + 1}`;
             }
+            const maturityLevelString = newProperty.maturityLevel
+              ? `(Maturiteit: ${newProperty.maturityLevel})`
+              : '';
             errors.push({
               url: url,
-              path: `${object.className} ${this.indexOfUri.get(object.uri)} > ${property.name}`,
+              path: `${object.className} ${this.indexOfUri.get(object.uri)} > ${property.name} ${maturityLevelString}`,
               messages: property.value,
             });
           }
@@ -156,6 +160,26 @@ export default class DocumentService extends Service {
         });
       });
     });
+    if (res?.maturityLevelReport) {
+      const report = res.maturityLevelReport;
+      report.maturityLevel1Report?.missingClasses.forEach((missingClass) => {
+        const classIndex = res.classes.findIndex(
+          (c) => c.classURI === missingClass,
+        );
+        if (classIndex != -1) {
+          const url = `#validationBlock-${classIndex + 1}`;
+          const missingClassName = res.classes[classIndex].className;
+          const maturityLevelString = report.maturityLevel1Report.maturityLevel
+            ? `(Maturiteit: ${report.maturityLevel1Report.maturityLevel})`
+            : '(Maturiteit: Niveau 1)';
+          errors.push({
+            url,
+            path: `${missingClassName} ${maturityLevelString}`,
+            messages: ['Klasse niet gevonden'],
+          });
+        }
+      });
+    }
     return { res, errors };
   });
 
