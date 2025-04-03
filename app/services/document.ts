@@ -16,6 +16,8 @@ import {
 import { task } from 'ember-concurrency';
 import {
   MaturityLevel,
+  type MaturityLevelReport,
+  type specificMaturityLevelReport,
   type ValidatedProperty,
   type ValidatedPublication,
   type ValidationErrors,
@@ -119,7 +121,7 @@ export default class DocumentService extends Service {
       res = await validateDocument(this.document, blueprint);
     }
     console.log(res);
-    const errors: ValidationErrors[] = [];
+    let errors: ValidationErrors[] = [];
 
     res?.classes.forEach((obj, classIndex) => {
       obj.objects.forEach((object, objectIndex) => {
@@ -160,25 +162,9 @@ export default class DocumentService extends Service {
         });
       });
     });
-    if (res?.maturityLevelReport) {
-      const report = res.maturityLevelReport;
-      report.maturityLevel1Report?.missingClasses.forEach((missingClass) => {
-        const classIndex = res.classes.findIndex(
-          (c) => c.classURI === missingClass,
-        );
-        if (classIndex != -1) {
-          const url = `#validationBlock-${classIndex + 1}`;
-          const missingClassName = res.classes[classIndex].className;
-          const maturityLevelString = report.maturityLevel1Report.maturityLevel
-            ? `(Maturiteit: ${report.maturityLevel1Report.maturityLevel})`
-            : '(Maturiteit: Niveau 1)';
-          errors.push({
-            url,
-            path: `${missingClassName} ${maturityLevelString}`,
-            messages: ['Klasse niet gevonden'],
-          });
-        }
-      });
+    if (res) {
+      const errorsFromMaturityLevelReport = getErrorsFromMaturityLevel(res);
+      errors = errors.concat(errorsFromMaturityLevelReport);
     }
     return { res, errors };
   });
@@ -246,4 +232,66 @@ function createIndexOfUri(result: ValidatedPublication): Map<string, number> {
     }
   }
   return indexOfUri;
+}
+
+function getErrorsFromMaturityLevel(res: ValidatedPublication) {
+  const errors: ValidationErrors = [];
+  Object.entries(res.maturityLevelReport ?? {}).forEach(([key, value]) => {
+    if (
+      key === 'maturityLevel1Report' ||
+      key === 'maturityLevel2Report' ||
+      key === 'maturityLevel3Report'
+    ) {
+      const specificMaturityLevelReport = value as specificMaturityLevelReport;
+      const maturityLevelString = `(Maturiteit: ${specificMaturityLevelReport.maturityLevel})`;
+
+      specificMaturityLevelReport.missingClasses.forEach((missingClass) => {
+        const classIndex = res.classes.findIndex(
+          (c) => c.classURI === missingClass,
+        );
+        if (classIndex != -1) {
+          const url = `#validationBlock-${classIndex + 1}`;
+          const missingClassName =
+            res.classes[classIndex]?.className ?? `${missingClass}`;
+          errors.push({
+            url,
+            path: `${missingClassName} ${maturityLevelString}`,
+            messages: ['Klasse niet gevonden'],
+          });
+        }
+      });
+      specificMaturityLevelReport.missingOptionalProperties.forEach(
+        (missingOptionalProperty) => {
+          const classIndex = res.classes.findIndex(
+            (c) => c.classURI === missingOptionalProperty.targetClass,
+          );
+          if (classIndex != -1) {
+            const url = `#validationBlock-${classIndex + 1}`;
+            const missingTargetClassName =
+              res.classes[classIndex]?.className ??
+              `${missingOptionalProperty.targetClass}`;
+            errors.push({
+              url,
+              path: `${missingTargetClassName} ${maturityLevelString}`,
+              messages: ['Optionele eigenschap werd nergens gebruikt.'],
+            });
+          }
+        },
+      );
+      specificMaturityLevelReport.mandatarissenThatAreNotDereferenced?.forEach(
+        (mandatarisThatIsNotDereferenced) => {
+          const url = ``; // no specific class currently for mandataris
+          errors.push({
+            url,
+            path: `Mandataris ${maturityLevelString}`,
+            messages: [
+              `${mandatarisThatIsNotDereferenced} is geen correcte URI uit de mandatendatabank.`,
+            ],
+          });
+        },
+      );
+    }
+  });
+
+  return errors;
 }
