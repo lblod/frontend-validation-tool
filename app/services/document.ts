@@ -14,10 +14,13 @@ import {
   validateDocument,
 } from '@lblod/lib-decision-validation';
 import { task } from 'ember-concurrency';
-import type {
-  ValidatedProperty,
-  ValidatedPublication,
-  ValidationErrors,
+import {
+  MaturityLevel,
+  type MaturityLevelReport,
+  type specificMaturityLevelReport,
+  type ValidatedProperty,
+  type ValidatedPublication,
+  type ValidationErrors,
 } from '@lblod/lib-decision-validation/dist/types';
 
 export default class DocumentService extends Service {
@@ -118,7 +121,7 @@ export default class DocumentService extends Service {
       res = await validateDocument(this.document, blueprint);
     }
     console.log(res);
-    const errors: ValidationErrors[] = [];
+    let errors: ValidationErrors[] = [];
 
     res?.classes.forEach((obj, classIndex) => {
       obj.objects.forEach((object, objectIndex) => {
@@ -138,9 +141,12 @@ export default class DocumentService extends Service {
             if (obj.count === 1) {
               url = `#validationBlock-${classIndex + 1}-${propertyIndex + 1}`;
             }
+            const maturityLevelString = newProperty.maturityLevel
+              ? `(Maturiteit: ${newProperty.maturityLevel})`
+              : '';
             errors.push({
               url: url,
-              path: `${object.className} ${this.indexOfUri.get(object.uri)} > ${property.name}`,
+              path: `${object.className} ${this.indexOfUri.get(object.uri)} > ${property.name} ${maturityLevelString}`,
               messages: property.value,
             });
           }
@@ -156,6 +162,10 @@ export default class DocumentService extends Service {
         });
       });
     });
+    if (res) {
+      const errorsFromMaturityLevelReport = getErrorsFromMaturityLevel(res);
+      errors = errors.concat(errorsFromMaturityLevelReport);
+    }
     return { res, errors };
   });
 
@@ -222,4 +232,66 @@ function createIndexOfUri(result: ValidatedPublication): Map<string, number> {
     }
   }
   return indexOfUri;
+}
+
+function getErrorsFromMaturityLevel(res: ValidatedPublication) {
+  const errors: ValidationErrors = [];
+  Object.entries(res.maturityLevelReport ?? {}).forEach(([key, value]) => {
+    if (
+      key === 'maturityLevel1Report' ||
+      key === 'maturityLevel2Report' ||
+      key === 'maturityLevel3Report'
+    ) {
+      const specificMaturityLevelReport = value as specificMaturityLevelReport;
+      const maturityLevelString = `(Maturiteit: ${specificMaturityLevelReport.maturityLevel})`;
+
+      specificMaturityLevelReport.missingClasses.forEach((missingClass) => {
+        const classIndex = res.classes.findIndex(
+          (c) => c.classURI === missingClass,
+        );
+        if (classIndex != -1) {
+          const url = `#validationBlock-${classIndex + 1}`;
+          const missingClassName =
+            res.classes[classIndex]?.className ?? `${missingClass}`;
+          errors.push({
+            url,
+            path: `${missingClassName} ${maturityLevelString}`,
+            messages: ['Klasse niet gevonden'],
+          });
+        }
+      });
+      specificMaturityLevelReport.missingOptionalProperties.forEach(
+        (missingOptionalProperty) => {
+          const classIndex = res.classes.findIndex(
+            (c) => c.classURI === missingOptionalProperty.targetClass,
+          );
+          if (classIndex != -1) {
+            const url = `#validationBlock-${classIndex + 1}`;
+            const missingTargetClassName =
+              res.classes[classIndex]?.className ??
+              `${missingOptionalProperty.targetClass}`;
+            errors.push({
+              url,
+              path: `${missingTargetClassName} ${maturityLevelString}`,
+              messages: ['Optionele eigenschap werd nergens gebruikt.'],
+            });
+          }
+        },
+      );
+      specificMaturityLevelReport.mandatarissenThatAreNotDereferenced?.forEach(
+        (mandatarisThatIsNotDereferenced) => {
+          const url = ``; // no specific class currently for mandataris
+          errors.push({
+            url,
+            path: `Mandataris ${maturityLevelString}`,
+            messages: [
+              `${mandatarisThatIsNotDereferenced} is geen correcte URI uit de mandatendatabank.`,
+            ],
+          });
+        },
+      );
+    }
+  });
+
+  return errors;
 }
