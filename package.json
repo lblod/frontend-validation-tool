@@ -138,7 +138,7 @@
     "edition": "octane"
   },
   "dependencies": {
-    "@lblod/lib-decision-validation": "^1.0.50",
+    "@lblod/lib-decision-validation": "^1.0.51",
     "dayjs": "^1.11.11",
     "node-libs-browser": "^2.2.1",
     "pretty": "^2.0.0",
