@@ -15,12 +15,9 @@ import {
 } from '@lblod/lib-decision-validation';
 import { task } from 'ember-concurrency';
 import {
-  MaturityLevel,
-  type MaturityLevelReport,
   type specificMaturityLevelReport,
   type ValidatedProperty,
   type ValidatedPublication,
-  type ValidationErrors,
 } from '@lblod/lib-decision-validation/dist/types';
 
 export default class DocumentService extends Service {
