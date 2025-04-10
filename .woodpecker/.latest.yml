@@ -1,8 +1,8 @@
-pipeline:
+steps:
   build:
-    image: plugins/docker
+    image: woodpeckerci/plugin-docker-buildx
     settings:
-      repo: ${CI_REPO}
+      repo: "${CI_REPO_OWNER}/${CI_REPO_NAME}"
       tags: latest
     secrets: [ docker_username, docker_password ]
 when:
