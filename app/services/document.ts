@@ -28,6 +28,11 @@ function getLocalName(uri?: string): string {
   return match ? match[1] : uri;
 }
 
+function getPropertyErrorMessages(value: string[] | object[]): string[] {
+  const isBlank = value.every((v) => typeof v === 'string' && !/[^\s]/.test(v));
+  return isBlank ? ['Waarde mag niet leeg zijn'] : (value as string[]);
+}
+
 export default class DocumentService extends Service {
   corsProxy: string = '';
 
@@ -156,7 +161,7 @@ export default class DocumentService extends Service {
             errors.push({
               url: url,
               path: `${object.className} ${this.indexOfUri.get(object.uri)} > ${property.name} ${maturityLevelString}`,
-              messages: property.value,
+              messages: getPropertyErrorMessages(property.value),
             });
           }
           if (newProperty.sparqlValidationResults) {
