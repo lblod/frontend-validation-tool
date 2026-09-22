@@ -28,7 +28,18 @@ function getLocalName(uri?: string): string {
   return match ? match[1] : uri;
 }
 
-function getPropertyErrorMessages(value: string[] | object[]): string[] {
+function getPropertyErrorMessages(
+  value: string[] | object[],
+  actualCount?: number,
+  maxCount?: number,
+): string[] {
+  if (
+    maxCount !== undefined &&
+    actualCount !== undefined &&
+    actualCount > maxCount
+  ) {
+    return ['Bevat te veel waardes.'];
+  }
   const isBlank = value.every((v) => typeof v === 'string' && !/[^\s]/.test(v));
   return isBlank ? ['Waarde mag niet leeg zijn'] : (value as string[]);
 }
@@ -161,7 +172,11 @@ export default class DocumentService extends Service {
             errors.push({
               url: url,
               path: `${object.className} ${this.indexOfUri.get(object.uri)} > ${property.name} ${maturityLevelString}`,
-              messages: getPropertyErrorMessages(property.value),
+              messages: getPropertyErrorMessages(
+                property.value,
+                newProperty.actualCount,
+                newProperty.maxCount,
+              ),
             });
           }
           if (newProperty.sparqlValidationResults) {
