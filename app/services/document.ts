@@ -25,7 +25,7 @@ function getLocalName(uri?: string): string {
     return '';
   }
   const match = uri.match(/[#/]([^#/]+)$/);
-  return match ? match[1] : uri;
+  return match?.[1] ?? uri;
 }
 
 function getPropertyErrorMessages(
