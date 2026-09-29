@@ -1,10 +1,10 @@
-FROM madnificent/ember:5.4.1 as builder
+FROM madnificent/ember:5.4.1 AS builder
 
 LABEL maintainer="sennebels@gmail.com"
 
 WORKDIR /app
-COPY package.json ./
-RUN npm install
+COPY package.json package-lock.json ./
+RUN npm ci
 COPY . .
 RUN ember build -prod
 
