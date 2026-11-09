@@ -21,6 +21,30 @@ import {
 } from '@lblod/lib-decision-validation/dist/types';
 import { hasCompliantDocument } from 'frontend-validation-tool/utils/document-utils';
 
+function getLocalName(uri?: string): string {
+  if (!uri) {
+    return '';
+  }
+  const match = uri.match(/[#/]([^#/]+)$/);
+  return match?.[1] ?? uri;
+}
+
+function getPropertyErrorMessages(
+  value: string[] | object[],
+  actualCount?: number,
+  maxCount?: number,
+): string[] {
+  if (
+    maxCount !== undefined &&
+    actualCount !== undefined &&
+    actualCount > maxCount
+  ) {
+    return ['Bevat te veel waardes.'];
+  }
+  const isBlank = value.every((v) => typeof v === 'string' && !/[^\s]/.test(v));
+  return isBlank ? ['Waarde mag niet leeg zijn'] : (value as string[]);
+}
+
 export default class DocumentService extends Service {
   corsProxy: string = '';
 
@@ -126,10 +150,14 @@ export default class DocumentService extends Service {
       obj.objects.forEach((object, objectIndex) => {
         if (object.sparqlValidationResults) {
           object.sparqlValidationResults.forEach((sparqlResult) => {
+            const localName = getLocalName(sparqlResult.resultPath);
+            const maturityLevelString = sparqlResult.maturityLevel
+              ? `(Maturiteit: ${sparqlResult.maturityLevel})`
+              : '';
             errors.push({
               url: `#validationBlock-${classIndex + 1}-${objectIndex + 1}`,
-              path: `${object.className} ${this.indexOfUri.get(object.uri)}`,
-              messages: sparqlResult.resultMessage,
+              path: `${object.className} ${this.indexOfUri.get(object.uri)} > ${localName} ${maturityLevelString}`,
+              messages: [sparqlResult.resultMessage],
             });
           });
         }
@@ -146,15 +174,22 @@ export default class DocumentService extends Service {
             errors.push({
               url: url,
               path: `${object.className} ${this.indexOfUri.get(object.uri)} > ${property.name} ${maturityLevelString}`,
-              messages: property.value,
+              messages: getPropertyErrorMessages(
+                property.value,
+                newProperty.actualCount,
+                newProperty.maxCount,
+              ),
             });
           }
           if (newProperty.sparqlValidationResults) {
             newProperty.sparqlValidationResults.forEach((sparqlResult) => {
+              const maturityLevelString = sparqlResult.maturityLevel
+                ? `(Maturiteit: ${sparqlResult.maturityLevel})`
+                : '';
               errors.push({
                 url,
-                path: `${object.className} ${this.indexOfUri.get(object.uri)} > ${property.name}`,
-                messages: sparqlResult.resultMessage,
+                path: `${object.className} ${this.indexOfUri.get(object.uri)} > ${property.name} ${maturityLevelString}`,
+                messages: [sparqlResult.resultMessage],
               });
             });
           }
