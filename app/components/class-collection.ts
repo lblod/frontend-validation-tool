@@ -24,13 +24,7 @@ interface ArgsInterface {
 }
 
 export default class SubjectProperty extends Component<ArgsInterface> {
-  // AUAccordion settings
-  get tooManyDocuments() {
-    const { className, objects } = this.args.collection;
-    return (
-      className === 'Document' &&
-      objects.length > 1 &&
-      !hasCompliantDocument(this.args.collection)
-    );
+  get hasCompliantDocument() {
+    return hasCompliantDocument(this.args.collection);
   }
 }

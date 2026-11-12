@@ -23,13 +23,11 @@
   </:toolbar>
   <:counts>{{@collection.count}}</:counts>
   <:content>
-    {{#if this.tooManyDocuments}}
-      <AuAlert @skin="warning">
-        <section class="au-u-1-1 accordion-title au-u-flex au-u-flex--between">
-          <p class="au-u-para">
-            Deze publicatie bevat te veel documenten!
-          </p>
-        </section>
+    {{#if this.hasCompliantDocument}}
+      <AuAlert @skin="success" @icon="check">
+        <p class="au-u-para">
+          Er is één conform document gevonden.
+        </p>
       </AuAlert>
     {{/if}}
     {{#each @collection.objects as |object index|}}
