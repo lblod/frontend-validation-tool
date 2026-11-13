@@ -19,6 +19,7 @@ import {
   type ValidatedProperty,
   type ValidatedPublication,
 } from '@lblod/lib-decision-validation/dist/types';
+import { hasCompliantDocument } from 'frontend-validation-tool/utils/document-utils';
 
 function getLocalName(uri?: string): string {
   if (!uri) {
@@ -145,6 +146,7 @@ export default class DocumentService extends Service {
     let errors: ValidationErrors[] = [];
 
     res?.classes.forEach((obj, classIndex) => {
+      if (hasCompliantDocument(obj)) return;
       obj.objects.forEach((object, objectIndex) => {
         if (object.sparqlValidationResults) {
           object.sparqlValidationResults.forEach((sparqlResult) => {
